@@ -4,7 +4,7 @@ export async function getAllCourses() {
     const supabase = await createClient();
 
 
-    const { data, error } = await supabase.from("courses").select("*");
+    const { data, error } = await supabase.from("courses").select("*").order("title", { ascending: false });
     if (error) {
         console.error(error);
         return [];
