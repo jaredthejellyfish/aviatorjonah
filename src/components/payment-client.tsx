@@ -37,10 +37,8 @@ function PaymentClient({
   const redirectToCheckout = async () => {
     try {
       const stripe = await loadStripe(
-        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
       );
-
-      console.log(stripe);
 
       if (!stripe) throw new Error("Stripe failed to initialize.");
 

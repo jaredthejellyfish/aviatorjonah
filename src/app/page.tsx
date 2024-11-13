@@ -28,8 +28,7 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-sky-50 to-indigo-100 dark:from-neutral-900 dark:to-indigo-950 text-neutral-800 dark:text-neutral-200 transition-colors duration-300">
-      <Navigation />
+    <>
       <main className="flex-1">
         <section className="w-full py-8 sm:py-12 md:py-16 lg:py-24">
           <motion.div
@@ -210,6 +209,6 @@ export default function LandingPage() {
           </nav>
         </div>
       </motion.footer>
-    </div>
+    </>
   );
 }

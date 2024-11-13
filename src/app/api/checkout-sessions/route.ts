@@ -1,28 +1,27 @@
-import { headers } from 'next/headers';
-import { NextRequest, NextResponse } from 'next/server';
+import { headers } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 
-import stripe from '@/utils/stripe';
+import stripe from "@/utils/stripe";
 
 export async function POST(req: NextRequest) {
   const headersList = await headers();
-  const { courseId, price, title, description, images, courseSlug } = await req.json();
-
-  console.log(courseId, price, title, description, images, courseSlug);
+  const { courseId, price, title, description, images, courseSlug } =
+    await req.json();
 
   if (!courseId || !price || !title || !description || !courseSlug) {
     return NextResponse.json(
-      { error: 'Missing required course information' },
+      { error: "Missing required course information" },
       { status: 400 },
     );
   }
 
   try {
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
+      payment_method_types: ["card"],
       line_items: [
         {
           price_data: {
-            currency: 'usd', // Assuming USD, adjust if necessary
+            currency: "usd", // Assuming USD, adjust if necessary
             product_data: {
               name: title,
               description: description,
@@ -33,17 +32,17 @@ export async function POST(req: NextRequest) {
           quantity: 1,
         },
       ],
-      mode: 'payment',
-      success_url: `${headersList.get('origin')}/courses/enroll/${courseSlug}/thank-you?session_id={CHECKOUT_SESSION_ID}`,
+      mode: "payment",
+      success_url: `${headersList.get("origin")}/courses/enroll/${courseSlug}/thank-you?session_id={CHECKOUT_SESSION_ID}`,
 
-      cancel_url: `${headersList.get('origin')}/courses/enroll/${courseSlug}/error`,
+      cancel_url: `${headersList.get("origin")}/courses/enroll/${courseSlug}/error`,
     });
 
     return NextResponse.json({ sessionId: session.id });
   } catch (err) {
     console.error(err);
     return NextResponse.json(
-      { error: 'Error creating checkout session' },
+      { error: "Error creating checkout session" },
       { status: 500 },
     );
   }

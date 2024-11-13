@@ -9,6 +9,7 @@ import React from "react";
 import { UserButton } from "@clerk/nextjs";
 import { SignedIn } from "@clerk/nextjs";
 import { ModeToggle } from "./ThemeToggle";
+import { Button } from "./ui/button";
 
 function Navigation() {
   return (
@@ -28,29 +29,28 @@ function Navigation() {
         <nav className="flex items-center gap-2 sm:gap-4 md:gap-6">
           <Link
             className="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors hidden sm:inline-block"
-            href="#"
+            href="/courses"
           >
-            Features
+            Courses
           </Link>
           <Link
             className="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors hidden sm:inline-block"
-            href="#"
+            href="/dashboard"
           >
-            Pricing
+            Dashboard
           </Link>
-          <Link
-            className="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors hidden sm:inline-block"
-            href="#"
-          >
-            About
-          </Link>
+
           <SignedIn>
             <UserButton />
           </SignedIn>
           <SignedOut>
-            <SignInButton />
+            <SignInButton>
+              <Button className="bg-indigo-600 text-white hover:bg-indigo-700">
+                Login
+              </Button>
+            </SignInButton>
           </SignedOut>
-          <ModeToggle/>
+          <ModeToggle />
         </nav>
       </div>
     </motion.header>

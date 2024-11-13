@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 async function enrollUserInCourse(
   courseId: string,
   sessionId: string,
-  userId: string
+  userId: string,
 ) {
   const stripeSession = await stripe.checkout.sessions.retrieve(sessionId);
   const isPaid =
@@ -56,7 +56,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import Navigation from "@/components/Navigation";
 import { getCourseBySlug } from "@/utils/helpers/getCourseBySlug";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
@@ -65,11 +64,12 @@ type Props = {
   searchParams: Promise<{ session_id: string }>;
 };
 
-export default async function EnrollmentSuccess({ params, searchParams }: Props) {
+export default async function EnrollmentSuccess({
+  params,
+  searchParams,
+}: Props) {
   const slug = (await params).slug;
   const sessionId = (await searchParams).session_id;
-
-  console.log(slug, sessionId);
 
   if (!slug || !sessionId) {
     return redirect(`/courses/enroll/${slug}/error`);
@@ -90,7 +90,7 @@ export default async function EnrollmentSuccess({ params, searchParams }: Props)
   const enrolled = await enrollUserInCourse(
     course.id,
     sessionId,
-    authData.userId
+    authData.userId,
   );
 
   if (!enrolled) {
@@ -98,137 +98,133 @@ export default async function EnrollmentSuccess({ params, searchParams }: Props)
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-900/40 text-neutral-800 dark:text-neutral-200">
-      <Navigation />
-
-      <main className="container mx-auto px-4 py-6">
+    <main className="container mx-auto px-4 py-6">
       <div className="flex items-center justify-start space-x-2 mb-5">
-          <Link href="/courses">
-            <span className="text-md text-neutral-600 dark:text-neutral-400">
-              All Courses
-            </span>
-          </Link>
-          <ChevronRight className="h-4 w-4 text-neutral-600 dark:text-neutral-400" />
-          <Link href={`/courses/view/${slug}`}>
-            <span className="text-md text-neutral-600 dark:text-neutral-400">
-              {course.title}
-            </span>
-          </Link>
-          <ChevronRight className="h-4 w-4 text-neutral-600 dark:text-neutral-400" />
-          <span className="text-md text-indigo-600 dark:text-indigo-400">
-            Enrollment Success
+        <Link href="/courses">
+          <span className="text-md text-neutral-600 dark:text-neutral-400">
+            All Courses
           </span>
-        </div>
+        </Link>
+        <ChevronRight className="h-4 w-4 text-neutral-600 dark:text-neutral-400" />
+        <Link href={`/courses/view/${slug}`}>
+          <span className="text-md text-neutral-600 dark:text-neutral-400">
+            {course.title}
+          </span>
+        </Link>
+        <ChevronRight className="h-4 w-4 text-neutral-600 dark:text-neutral-400" />
+        <span className="text-md text-indigo-600 dark:text-indigo-400">
+          Enrollment Success
+        </span>
+      </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
-            <Card className="bg-white dark:bg-neutral-900 shadow-xl mb-8 overflow-hidden">
-              <div className="bg-green-100 dark:bg-green-900 p-6 flex items-center space-x-4">
-                <CheckCircle className="h-12 w-12 text-green-600 dark:text-green-400" />
-                <div>
-                  <h1 className="text-3xl font-bold text-green-800 dark:text-green-200">
-                    Enrollment Successful!
-                  </h1>
-                  <p className="text-green-700 dark:text-green-300">
-                    You&apos;re now enrolled in {course.title}
-                  </p>
+      <div className="grid lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2">
+          <Card className="bg-white dark:bg-neutral-900 shadow-xl mb-8 overflow-hidden">
+            <div className="bg-green-100 dark:bg-green-900 p-6 flex items-center space-x-4">
+              <CheckCircle className="h-12 w-12 text-green-600 dark:text-green-400" />
+              <div>
+                <h1 className="text-3xl font-bold text-green-800 dark:text-green-200">
+                  Enrollment Successful!
+                </h1>
+                <p className="text-green-700 dark:text-green-300">
+                  You&apos;re now enrolled in {course.title}
+                </p>
+              </div>
+            </div>
+            <CardContent className="pt-6">
+              <h2 className="text-2xl font-semibold mb-4 text-indigo-600 dark:text-indigo-400">
+                Next Steps
+              </h2>
+              <ol className="space-y-4 mb-6">
+                <li className="flex items-start space-x-3">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold">
+                    1
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">
+                      Access Your Course Materials
+                    </h3>
+                    <p className="text-neutral-600 dark:text-neutral-400">
+                      Log in to your student dashboard to access all course
+                      materials and resources.
+                    </p>
+                  </div>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold">
+                    2
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">
+                      Review the Course Schedule
+                    </h3>
+                    <p className="text-neutral-600 dark:text-neutral-400">
+                      Familiarize yourself with the course timeline and upcoming
+                      deadlines.
+                    </p>
+                  </div>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold">
+                    3
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">Introduce Yourself</h3>
+                    <p className="text-neutral-600 dark:text-neutral-400">
+                      Join the course forum and introduce yourself to your
+                      instructor and fellow students.
+                    </p>
+                  </div>
+                </li>
+              </ol>
+              <div className="flex space-x-4">
+                <Button className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white">
+                  Go to Course
+                </Button>
+                <Button variant="outline" className="flex-1" asChild>
+                  <Link href="/courses">View All Courses</Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+        <div className="lg:block">
+          <Card className="sticky top-24 overflow-hidden bg-white dark:bg-neutral-900 shadow-xl">
+            <Image
+              src={course.image ?? ""}
+              alt={course.title}
+              width={600}
+              height={400}
+              className="w-full h-48 object-cover"
+            />
+            <CardContent className="pt-6">
+              <h3 className="text-xl font-semibold mb-4">{course.title}</h3>
+              <div className="space-y-3 mb-6">
+                <div className="flex items-center space-x-2 text-neutral-600 dark:text-neutral-400">
+                  <BookOpen className="h-5 w-5" />
+                  <span>Instructor: {course.instructor}</span>
+                </div>
+                <div className="flex items-center space-x-2 text-neutral-600 dark:text-neutral-400">
+                  <Clock className="h-5 w-5" />
+                  <span>
+                    Duration: {Math.ceil((course.completion_time ?? 0) / 60)}{" "}
+                    hours
+                  </span>
                 </div>
               </div>
-              <CardContent className="pt-6">
-                <h2 className="text-2xl font-semibold mb-4 text-indigo-600 dark:text-indigo-400">
-                  Next Steps
-                </h2>
-                <ol className="space-y-4 mb-6">
-                  <li className="flex items-start space-x-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold">
-                      1
-                    </div>
-                    <div>
-                      <h3 className="font-semibold">
-                        Access Your Course Materials
-                      </h3>
-                      <p className="text-neutral-600 dark:text-neutral-400">
-                        Log in to your student dashboard to access all course
-                        materials and resources.
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold">
-                      2
-                    </div>
-                    <div>
-                      <h3 className="font-semibold">
-                        Review the Course Schedule
-                      </h3>
-                      <p className="text-neutral-600 dark:text-neutral-400">
-                        Familiarize yourself with the course timeline and
-                        upcoming deadlines.
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold">
-                      3
-                    </div>
-                    <div>
-                      <h3 className="font-semibold">Introduce Yourself</h3>
-                      <p className="text-neutral-600 dark:text-neutral-400">
-                        Join the course forum and introduce yourself to your
-                        instructor and fellow students.
-                      </p>
-                    </div>
-                  </li>
-                </ol>
-                <div className="flex space-x-4">
-                  <Button className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white">
-                    Go to Course
-                  </Button>
-                  <Button variant="outline" className="flex-1" asChild>
-                    <Link href="/courses">View All Courses</Link>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-          <div className="lg:block">
-            <Card className="sticky top-24 overflow-hidden bg-white dark:bg-neutral-900 shadow-xl">
-              <Image
-                src={course.image ?? ""}
-                alt={course.title}
-                width={600}
-                height={400}
-                className="w-full h-48 object-cover"
-              />
-              <CardContent className="pt-6">
-                <h3 className="text-xl font-semibold mb-4">{course.title}</h3>
-                <div className="space-y-3 mb-6">
-                  <div className="flex items-center space-x-2 text-neutral-600 dark:text-neutral-400">
-                    <BookOpen className="h-5 w-5" />
-                    <span>Instructor: {course.instructor}</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-neutral-600 dark:text-neutral-400">
-                    <Clock className="h-5 w-5" />
-                    <span>
-                      Duration: {Math.ceil((course.completion_time ?? 0) / 60)}{" "}
-                      hours
-                    </span>
-                  </div>
-                </div>
-                <div className="mt-6">
-                  <Link
-                    href={`/courses/view/${course.slug}`}
-                    className="inline-flex items-center space-x-2 text-indigo-600 dark:text-indigo-400 hover:underline"
-                  >
-                    <span>View Course Outline</span>
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+              <div className="mt-6">
+                <Link
+                  href={`/courses/view/${course.slug}`}
+                  className="inline-flex items-center space-x-2 text-indigo-600 dark:text-indigo-400 hover:underline"
+                >
+                  <span>View Course Outline</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }

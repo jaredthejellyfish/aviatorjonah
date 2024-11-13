@@ -1,5 +1,5 @@
-import { CategoryFilters, LevelFilters } from '@/lib/types';
-import { atom } from 'nanostores'
+import { CategoryFilters, LevelFilters } from "@/lib/types";
+import { atom } from "nanostores";
 
 export const $searchTerm = atom("");
 export const $categoryFilter = atom<CategoryFilters>("All");

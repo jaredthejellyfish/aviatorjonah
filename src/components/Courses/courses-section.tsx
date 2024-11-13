@@ -12,7 +12,11 @@ import {
 } from "@/components/ui/card";
 import { BookOpen, Clock, BarChart } from "lucide-react";
 import Image from "next/image";
-import { $searchTerm, $categoryFilter, $levelFilter } from "@/stores/course-filters";
+import {
+  $searchTerm,
+  $categoryFilter,
+  $levelFilter,
+} from "@/stores/course-filters";
 import { useStore } from "@nanostores/react";
 import { Courses } from "@/utils/helpers/getAllCourses";
 
@@ -20,9 +24,7 @@ type Props = {
   courses: Courses;
 };
 
-function CoursesSection({
-  courses,
-}: Props) {
+function CoursesSection({ courses }: Props) {
   const searchTerm = useStore($searchTerm);
   const categoryFilter = useStore($categoryFilter);
   const levelFilter = useStore($levelFilter);
@@ -31,7 +33,7 @@ function CoursesSection({
     (course) =>
       course.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
       (categoryFilter === "All" || course.category === categoryFilter) &&
-      (levelFilter === "All" || course.level === levelFilter)
+      (levelFilter === "All" || course.level === levelFilter),
   );
 
   const containerVariants = {
@@ -72,14 +74,19 @@ function CoursesSection({
               <CardTitle>{course.title}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-neutral-600 dark:text-neutral-400 mb-4 line-clamp-2">{course.description}</p>
+              <p className="text-neutral-600 dark:text-neutral-400 mb-4 line-clamp-2">
+                {course.description}
+              </p>
               <div className="flex items-center space-x-2 text-sm text-neutral-600 dark:text-neutral-400">
                 <BookOpen className="h-4 w-4" />
                 <span>{course.category || "Unknown"}</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-neutral-600 dark:text-neutral-400 mt-2">
                 <Clock className="h-4 w-4" />
-                <span>{Math.ceil((course.completion_time ?? 0) / 60) + " hours" || "Unknown"}</span>
+                <span>
+                  {Math.ceil((course.completion_time ?? 0) / 60) + " hours" ||
+                    "Unknown"}
+                </span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-neutral-600 dark:text-neutral-400 mt-2">
                 <BarChart className="h-4 w-4" />
