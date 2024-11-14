@@ -35,20 +35,7 @@ function extractSections(content: string) {
 }
 
 const components = {
-  h2: ({ children }: { children: React.ReactNode }) => {
-    const id = children!
-      .toString()
-      .toLowerCase()
-      .trim()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "") // Remove diacritics
-      .replace(/[^a-z0-9\s-]/g, "") // Remove special characters
-      .replace(/\s+/g, "-") // Replace spaces with hyphens
-      .replace(/-+/g, "-") // Remove consecutive hyphens
-      .replace(/^-+|-+$/g, ""); // Remove leading/trailing hyphens
-    return <h2 id={id}>{children}</h2>;
-  },
-  h3: ({ children }: { children: React.ReactNode }) => {
+  h2: ({ children, ...props }: HeadingProps) => {
     const id = children!
       .toString()
       .toLowerCase()
@@ -59,7 +46,20 @@ const components = {
       .replace(/\s+/g, "-")
       .replace(/-+/g, "-")
       .replace(/^-+|-+$/g, "");
-    return <h3 id={id}>{children}</h3>;
+    return <h2 id={id} {...props}>{children}</h2>;
+  },
+  h3: ({ children, ...props }: HeadingProps) => {
+    const id = children!
+      .toString()
+      .toLowerCase()
+      .trim()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-+|-+$/g, "");
+    return <h3 id={id} {...props}>{children}</h3>;
   },
 };
 
