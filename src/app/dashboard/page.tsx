@@ -20,6 +20,8 @@ import { Progress } from "@/components/ui/progress";
 import CourseTable from "@/components/Dashboard/courses-table";
 import { getDashboardData } from "@/utils/helpers/getDashboardData";
 
+export const dynamic = "force-dynamic";
+
 export default async function CoursesDashboard() {
   const {
     enrolledCourses,

@@ -13,7 +13,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Drawer,
   DrawerContent,
-  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -24,6 +23,7 @@ import { cn } from "@/lib/utils";
 
 function ChapterLesson({
   lesson,
+  currentLessonTitle,
 }: {
   lesson: {
     title: string;
@@ -32,6 +32,7 @@ function ChapterLesson({
     moduleSlug: string;
     courseSlug: string;
   };
+  currentLessonTitle?: string;
 }) {
   return (
     <motion.div
@@ -39,10 +40,14 @@ function ChapterLesson({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.2 }}
+      className="mr-3"
     >
       <Link
         href={`/course/${lesson.courseSlug}/${lesson.moduleSlug}/${lesson.slug}`}
-        className="group flex items-center justify-between w-full px-4 py-2.5 rounded-md transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        className={cn(
+          "group flex items-center justify-between w-full px-4 py-2.5 rounded-md transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+          lesson.title === currentLessonTitle && "bg-primary/10"
+        )}
       >
         <TooltipProvider>
           <Tooltip>
@@ -75,6 +80,7 @@ function ChapterSection({
   chapterTitle,
   chapterNumber,
   defaultOpen,
+  currentLessonTitle,
 }: {
   lessons: {
     title: string;
@@ -86,6 +92,7 @@ function ChapterSection({
   chapterTitle: string;
   chapterNumber: number;
   defaultOpen?: boolean;
+  currentLessonTitle?: string;
 }) {
   const [isOpen, setIsOpen] = useState(defaultOpen ?? false);
 
@@ -137,7 +144,11 @@ function ChapterSection({
             className="mt-1 space-y-0.5 pl-4 overflow-hidden"
           >
             {lessons.map((lesson) => (
-              <ChapterLesson key={lesson.slug} lesson={lesson} />
+              <ChapterLesson
+                key={lesson.slug}
+                lesson={lesson}
+                currentLessonTitle={currentLessonTitle}
+              />
             ))}
           </motion.div>
         )}
@@ -151,6 +162,7 @@ export function SidebarContent({
   courseTitle,
   className,
   currentModuleTitle,
+  currentLessonTitle,
 }: {
   className?: string;
   courseTitle: string;
@@ -223,6 +235,7 @@ export function SidebarContent({
               lessons={moduleItem.lessons}
               chapterTitle={moduleItem.chapterTitle}
               chapterNumber={moduleItem.chapterNumber}
+              currentLessonTitle={currentLessonTitle}
               defaultOpen={
                 currentModuleTitle
                   ? currentModuleTitle === moduleItem.chapterTitle
@@ -283,7 +296,7 @@ export function DrawerSidebar({
           transition={{ duration: 0.5 }}
           className="fixed top-20 left-4 z-50"
         >
-          <Button variant="outline" className="w-10 h-10">
+          <Button variant="outline" className="w-10 h-10 md:hidden">
             <Menu className="w-full h-full" />
           </Button>
         </motion.div>
@@ -291,9 +304,6 @@ export function DrawerSidebar({
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>{courseTitle}</DrawerTitle>
-          <DrawerDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
-          </DrawerDescription>
         </DrawerHeader>
         <SidebarContent
           courseTitle={courseTitle}

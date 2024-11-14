@@ -19,8 +19,8 @@ export default function LeftSidebar({
 }: {
   course: Course;
   courseSlug: string;
-  moduleSlug: string;
-  lessonSlug: string;
+  moduleSlug?: string;
+  lessonSlug?: string;
 }) {
   const courseModules = course?.modules
     ?.map((moduleItem, index) => ({
@@ -58,14 +58,12 @@ export default function LeftSidebar({
         currentLessonTitle={currentLessonTitle}
       />
 
-      <div className="block md:hidden">
-        <DrawerSidebar
-          courseTitle={courseTitle}
-          courseModules={courseModules ?? []}
-          currentModuleTitle={currentModuleTitle}
-          currentLessonTitle={currentLessonTitle}
-        />
-      </div>
+      <DrawerSidebar
+        courseTitle={courseTitle}
+        courseModules={courseModules ?? []}
+        currentModuleTitle={currentModuleTitle}
+        currentLessonTitle={currentLessonTitle}
+      />
     </div>
   );
 }

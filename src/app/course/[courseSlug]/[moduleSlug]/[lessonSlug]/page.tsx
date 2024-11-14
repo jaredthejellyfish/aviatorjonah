@@ -93,7 +93,7 @@ async function CoursePage({ params }: Props) {
         moduleSlug={moduleSlug}
         lessonSlug={lessonSlug}
       />
-      <div className="w-full !max-w-none px-10 py-5 prose prose-headings:text-primary prose-strong:text-primary prose-a:text-primary prose-a:underline prose-a:decoration-primary prose-a:decoration-2 prose-a:underline-offset-4 prose-a:decoration-offset-4 prose-a:hover:text-primary/80 prose-a:hover:decoration-primary/80 prose-a:hover:no-underline prose-h1:font-bold dark:prose-p:text-white/80 dark:prose-li:text-white/80">
+      <div className="w-full !max-w-none md:px-10 px-4 py-5 prose prose-headings:text-primary prose-strong:text-primary prose-a:text-primary prose-a:underline prose-a:decoration-primary prose-a:decoration-2 prose-a:underline-offset-4 prose-a:decoration-offset-4 prose-a:hover:text-primary/80 prose-a:hover:decoration-primary/80 prose-a:hover:no-underline prose-h1:font-bold dark:prose-p:text-white/80 dark:prose-li:text-white/80">
         <h1 className="text-4xl font-bold">{lessonTitle}</h1>
         <MDXRemote source={content} components={components} />
       </div>

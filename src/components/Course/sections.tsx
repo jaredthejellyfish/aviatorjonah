@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { Button } from "../ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { TooltipProvider } from "../ui/tooltip";
 
 type Props = {
   sections: string[];
@@ -131,18 +133,18 @@ const Sections = ({ sections }: Props) => {
 
   const variants = {
     sections: {
-        open: { opacity: 1, x: 20 },
-        closed: { opacity: 1, x: 315 },
+      open: { opacity: 1, x: 20 },
+      closed: { opacity: 1, x: 272 },
     },
     button: {
-        open: { width: 0, opacity: 0 },
-        closed: { width: 25, opacity: 1 },
+      open: { width: 0, opacity: 0 },
+      closed: { width: 25, opacity: 1 },
     },
   };
 
   return (
     <motion.div
-      className="fixed top-16 right-2 p-4"
+      className="fixed top-16 right-2 p-4 max-w-[300px] hidden md:block"
       initial={isOpen ? "open" : "closed"}
       animate={isOpen ? "open" : "closed"}
       exit={isOpen ? "closed" : "open"}
@@ -158,7 +160,7 @@ const Sections = ({ sections }: Props) => {
             initial={isOpen ? "open" : "closed"}
             className="h-[calc(100vh-6rem)] flex flex-col items-center justify-center"
           >
-            <div className="w-1.5 bg-neutral-600 h-20 rounded-xl" />
+            <div className="w-1.5 bg-neutral-600 h-20 rounded-xl ml-1.5" />
           </motion.div>
           <div className="flex flex-col space-y-2 pb-4 px-4 py-2">
             <Button
@@ -173,20 +175,29 @@ const Sections = ({ sections }: Props) => {
               ON THIS PAGE
             </p>
             {sections.map((section, index) => (
-                <button
-                key={section + "-section" + index}
-                onClick={() => scrollToSection(section)}
-                className={cn(
-                  "text-sm px-3 py-1.5 text-left transition-colors rounded-md",
-                  "hover:bg-accent hover:text-accent-foreground",
-                  "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
-                  activeSection === createSectionId(section)
-                    ? "text-primary font-medium bg-accent"
-                    : "text-muted-foreground"
-                )}
-              >
-                {section}
-              </button>
+              <TooltipProvider key={section + "-section" + index}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      key={section + "-section" + index}
+                      onClick={() => scrollToSection(section)}
+                      className={cn(
+                        "text-sm px-3 py-1.5 text-left transition-colors rounded-md truncate max-w-[230px]",
+                        "hover:bg-accent hover:text-accent-foreground",
+                        "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
+                        activeSection === createSectionId(section)
+                          ? "text-primary font-medium bg-accent"
+                          : "text-muted-foreground"
+                      )}
+                    >
+                      {section}
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{section}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             ))}
           </div>
         </nav>
