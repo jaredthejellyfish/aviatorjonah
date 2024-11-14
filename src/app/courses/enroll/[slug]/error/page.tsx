@@ -19,7 +19,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import Navigation from "@/components/Navigation";
 import PaymentClient from "@/components/payment-client";
 import { getCourseBySlug } from "@/utils/helpers/getCourseBySlug";
 

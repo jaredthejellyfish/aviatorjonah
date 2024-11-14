@@ -1,17 +1,18 @@
 import { createClient } from "../supabase/server";
 
-export async function getCourseBySlug(slug: string) {
+export async function getCourseBySlugWithProgress(slug: string) {
   const supabase = await createClient();
-  const { data, error } = 
- await supabase
+  const { data, error } =
+    await supabase
       .from("courses")
       .select(
         ` *,
             instructor:instructor_id,
             modules:modules (
               *,
-              lessons:lessons_public (
-                id, title, description, reading_time, slug, order_index
+              lessons:lessons (
+                id, title, description, reading_time, slug, order_index, content,
+                progress:progress (*)
               )
             ),
             enrollments:enrollments (
@@ -23,7 +24,7 @@ export async function getCourseBySlug(slug: string) {
               submissions:submissions (*)
             )`)
       .eq("slug", slug)
-      .maybeSingle()
+      .maybeSingle();
   if (error) {
     console.error(error);
     return null;
@@ -31,4 +32,4 @@ export async function getCourseBySlug(slug: string) {
   return data;
 }
 
-export type Course = Awaited<ReturnType<typeof getCourseBySlug>>;
+export type Course = Awaited<ReturnType<typeof getCourseBySlugWithProgress>>;

@@ -9,7 +9,6 @@ import {
   Calendar,
   ChevronRight,
 } from "lucide-react";
-import Navigation from "@/components/Navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Accordion,

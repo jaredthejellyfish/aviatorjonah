@@ -1,4 +1,4 @@
-import Navigation from "@/components/Navigation";
+
 import CoursesSection from "@/components/Courses/courses-section";
 import FiltersSection from "@/components/Courses/filters-section";
 import { getAllCourses } from "@/utils/helpers/getAllCourses";

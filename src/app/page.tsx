@@ -4,7 +4,6 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import Navigation from "@/components/Navigation";
 import { Award, BookOpen, Users } from "lucide-react";
 
 export default function LandingPage() {

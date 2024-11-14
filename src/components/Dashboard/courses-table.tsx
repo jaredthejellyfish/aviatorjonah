@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
 import { PlayCircle, Book, Clock, BookOpen, BarChart } from "lucide-react";
+import Link from "next/link";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -109,8 +110,6 @@ const CourseTable = ({
                     custom={index}
                     initial="initial"
                     animate="animate"
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
                   >
                     <TableCell className="py-4">
                       <div className="flex items-center space-x-4">
@@ -138,7 +137,7 @@ const CourseTable = ({
                               <BookOpen className="w-4 h-4 mr-1" />
                               {enrolledCourse.progressItems.reduce(
                                 (acc, item) => acc + item.total_lessons,
-                                0,
+                                0
                               )}{" "}
                               lessons
                             </div>
@@ -156,13 +155,13 @@ const CourseTable = ({
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{
-                            width: `${enrolledCourse.totalProgress}%`,
+                            width: `66%`,
                           }}
                           transition={{ duration: 1, delay: index * 0.2 }}
                         >
                           <Progress
                             value={enrolledCourse.totalProgress}
-                            className="h-2.5 bg-neutral-100 dark:bg-neutral-700"
+                            className="h-2.5 bg-neutral-100 dark:bg-neutral-700 w-full"
                           />
                         </motion.div>
                       </div>
@@ -178,9 +177,9 @@ const CourseTable = ({
                               Last accessed{" "}
                               {formatDistanceToNow(
                                 new Date(
-                                  enrolledCourse.lastCompletedLessonDate,
+                                  enrolledCourse.lastCompletedLessonDate
                                 ),
-                                { addSuffix: true },
+                                { addSuffix: true }
                               )}
                             </div>
                           </>
@@ -193,8 +192,6 @@ const CourseTable = ({
                     </TableCell>
                     <TableCell className="text-right">
                       <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
                       >
                         <Button
                           size="sm"
@@ -203,13 +200,16 @@ const CourseTable = ({
                               ? "bg-indigo-600 hover:bg-indigo-700"
                               : "bg-green-600 hover:bg-green-700"
                           } text-white space-x-2 min-w-[120px]`}
+                           asChild
                         >
-                          <PlayCircle className="w-4 h-4" />
-                          <span>
-                            {enrolledCourse.totalProgress === 0
-                              ? "Start Course"
-                              : "Continue"}
-                          </span>
+                          <Link href={`/course/${enrolledCourse.course.slug}`}>
+                            <PlayCircle className="w-4 h-4" />
+                            <span>
+                              {enrolledCourse.totalProgress === 0
+                                ? "Start Course"
+                                : "Continue"}
+                            </span>
+                          </Link>
                         </Button>
                       </motion.div>
                     </TableCell>
@@ -229,8 +229,6 @@ const CourseTable = ({
                 key={course.id}
                 variants={fadeInUp}
                 custom={index}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
               >
                 <CardHeader>
                   <Image
@@ -263,10 +261,10 @@ const CourseTable = ({
                     </div>
                     <motion.div
                       initial={{ width: 0 }}
-                      animate={{ width: `${course.totalProgress}%` }}
+                      animate={{ width: `100%` }}
                       transition={{ duration: 1, delay: index * 0.2 }}
                     >
-                      <Progress value={course.totalProgress} className="h-2" />
+                      <Progress value={course.totalProgress} className="h-2 w-full" />
                     </motion.div>
                   </div>
                   <p className="text-sm text-muted-foreground">
@@ -276,7 +274,7 @@ const CourseTable = ({
                           new Date(course.lastCompletedLessonDate),
                           {
                             addSuffix: true,
-                          },
+                          }
                         )
                       : "Not started"}
                   </p>
@@ -287,8 +285,6 @@ const CourseTable = ({
                 <CardFooter>
                   <motion.div
                     className="w-full"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
                   >
                     <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
                       <PlayCircle className="mr-2 h-4 w-4" />
@@ -319,8 +315,6 @@ const CourseTable = ({
               key={course.id}
               variants={fadeInUp}
               custom={index}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
             >
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
@@ -349,8 +343,6 @@ const CourseTable = ({
                   </div>
                 </div>
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
                 >
                   <Button className="w-full">Enroll Now</Button>
                 </motion.div>

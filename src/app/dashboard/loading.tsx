@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Search, BookOpen, Clock, Award } from "lucide-react";
-import Navigation from "@/components/Navigation";
 
 export default function DashboardLoading() {
   return (

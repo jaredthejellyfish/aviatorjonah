@@ -17,7 +17,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import Navigation from "@/components/Navigation";
 import CourseTable from "@/components/Dashboard/courses-table";
 import { getDashboardData } from "@/utils/helpers/getDashboardData";
 
