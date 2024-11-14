@@ -2,6 +2,8 @@ import Sections from "@/components/Course/sections";
 import LeftSidebar from "@/components/Course/sidebar";
 import { getCourseBySlugWithProgress } from "@/utils/helpers/getCourseBySlugWithProgress";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import type { HTMLAttributes, DetailedHTMLProps } from 'react';
+
 type Props = {
   params: Promise<{
     courseSlug: string;
@@ -16,25 +18,21 @@ type HeadingProps = DetailedHTMLProps<
 >;
 
 function extractSections(content: string) {
-  // If content is empty or undefined, return empty array
   if (!content) {
     console.log("Content is empty");
     return [];
   }
 
-  console.log("Content:", content); // Debug log
+  console.log("Content:", content);
 
-  // Match all level 2 headings (##) in the markdown content
-  // Modified regex to be more flexible with spaces and newlines
   const h2Regex = /##\s*(.*?)(?:\n|$)/g;
   const matches = Array.from(content.matchAll(h2Regex));
 
-  console.log("Matches found:", matches); // Debug log
+  console.log("Matches found:", matches);
 
-  // Extract just the heading text (without the ##)
   const sections = matches.map((match) => match[1].trim().replace(/^#+/, ""));
 
-  console.log("Extracted sections:", sections); // Debug log
+  console.log("Extracted sections:", sections);
 
   return sections;
 }
