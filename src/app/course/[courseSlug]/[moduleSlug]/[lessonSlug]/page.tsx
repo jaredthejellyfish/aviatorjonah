@@ -10,6 +10,11 @@ type Props = {
   }>;
 };
 
+type HeadingProps = DetailedHTMLProps<
+  HTMLAttributes<HTMLHeadingElement>,
+  HTMLHeadingElement
+>;
+
 function extractSections(content: string) {
   // If content is empty or undefined, return empty array
   if (!content) {
