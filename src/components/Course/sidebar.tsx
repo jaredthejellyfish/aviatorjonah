@@ -8,7 +8,7 @@ const DrawerSidebar = dynamic(
   () => import("./sidebar-client").then((mod) => mod.DrawerSidebar),
   {
     ssr: false,
-  }
+  },
 );
 
 export default function LeftSidebar({
@@ -22,20 +22,19 @@ export default function LeftSidebar({
   moduleSlug?: string;
   lessonSlug?: string;
 }) {
-  const courseModulesUnsorted = course?.modules
-    ?.map((moduleItem) => ({
-      lessons: moduleItem.lessons.map((lesson) => ({
-        title: lesson.title ?? "",
-        completed:
-          lesson.progress?.some((progressEntry) => progressEntry.completed) ??
-          false,
-        slug: lesson.slug ?? "",
-        moduleSlug: moduleItem.slug ?? "",
-        courseSlug: courseSlug ?? "",
-      })),
-      chapterTitle: moduleItem.title ?? "",
-      chapterNumber: moduleItem.order_index, // assuming the order is sequential by index
-    }))
+  const courseModulesUnsorted = course?.modules?.map((moduleItem) => ({
+    lessons: moduleItem.lessons.map((lesson) => ({
+      title: lesson.title ?? "",
+      completed:
+        lesson.progress?.some((progressEntry) => progressEntry.completed) ??
+        false,
+      slug: lesson.slug ?? "",
+      moduleSlug: moduleItem.slug ?? "",
+      courseSlug: courseSlug ?? "",
+    })),
+    chapterTitle: moduleItem.title ?? "",
+    chapterNumber: moduleItem.order_index, // assuming the order is sequential by index
+  }));
 
   const currentModuleTitle =
     course?.modules?.find((module) => module.slug === moduleSlug)?.title ?? "";
@@ -48,7 +47,7 @@ export default function LeftSidebar({
   const courseTitle = course?.title ?? "";
 
   const courseModules = courseModulesUnsorted?.sort(
-    (a, b) => (a.chapterNumber ?? 0) - (b.chapterNumber ?? 0)
+    (a, b) => (a.chapterNumber ?? 0) - (b.chapterNumber ?? 0),
   );
 
   return (

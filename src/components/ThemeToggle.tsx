@@ -15,8 +15,6 @@ export function ModeToggle() {
 
   const theme = themeOverride === "system" ? systemTheme : themeOverride;
 
-  console.log(theme);
-
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };

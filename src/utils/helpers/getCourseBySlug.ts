@@ -2,11 +2,10 @@ import { createClient } from "../supabase/server";
 
 export async function getCourseBySlug(slug: string) {
   const supabase = await createClient();
-  const { data, error } = 
- await supabase
-      .from("courses")
-      .select(
-        ` *,
+  const { data, error } = await supabase
+    .from("courses")
+    .select(
+      ` *,
             instructor:instructor_id,
             modules:modules (
               *,
@@ -21,9 +20,10 @@ export async function getCourseBySlug(slug: string) {
             assignments:assignments (
               *,
               submissions:submissions (*)
-            )`)
-      .eq("slug", slug)
-      .maybeSingle()
+            )`,
+    )
+    .eq("slug", slug)
+    .maybeSingle();
   if (error) {
     console.error(error);
     return null;

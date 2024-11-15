@@ -137,7 +137,7 @@ const CourseTable = ({
                               <BookOpen className="w-4 h-4 mr-1" />
                               {enrolledCourse.progressItems.reduce(
                                 (acc, item) => acc + item.total_lessons,
-                                0
+                                0,
                               )}{" "}
                               lessons
                             </div>
@@ -177,9 +177,9 @@ const CourseTable = ({
                               Last accessed{" "}
                               {formatDistanceToNow(
                                 new Date(
-                                  enrolledCourse.lastCompletedLessonDate
+                                  enrolledCourse.lastCompletedLessonDate,
                                 ),
-                                { addSuffix: true }
+                                { addSuffix: true },
                               )}
                             </div>
                           </>
@@ -191,8 +191,7 @@ const CourseTable = ({
                       </div>
                     </TableCell>
                     <TableCell className="text-right">
-                      <motion.div
-                      >
+                      <motion.div>
                         <Button
                           size="sm"
                           className={`transition-all duration-200 ${
@@ -200,7 +199,7 @@ const CourseTable = ({
                               ? "bg-indigo-600 hover:bg-indigo-700"
                               : "bg-green-600 hover:bg-green-700"
                           } text-white space-x-2 min-w-[120px]`}
-                           asChild
+                          asChild
                         >
                           <Link href={`/course/${enrolledCourse.course.slug}`}>
                             <PlayCircle className="w-4 h-4" />
@@ -225,11 +224,7 @@ const CourseTable = ({
             variants={stagger}
           >
             {enrolledCourses.map((course, index) => (
-              <MotionCard
-                key={course.id}
-                variants={fadeInUp}
-                custom={index}
-              >
+              <MotionCard key={course.id} variants={fadeInUp} custom={index}>
                 <CardHeader>
                   <Image
                     src={course.course.image ?? PlaceholderImage}
@@ -264,7 +259,10 @@ const CourseTable = ({
                       animate={{ width: `100%` }}
                       transition={{ duration: 1, delay: index * 0.2 }}
                     >
-                      <Progress value={course.totalProgress} className="h-2 w-full" />
+                      <Progress
+                        value={course.totalProgress}
+                        className="h-2 w-full"
+                      />
                     </motion.div>
                   </div>
                   <p className="text-sm text-muted-foreground">
@@ -274,7 +272,7 @@ const CourseTable = ({
                           new Date(course.lastCompletedLessonDate),
                           {
                             addSuffix: true,
-                          }
+                          },
                         )
                       : "Not started"}
                   </p>
@@ -283,9 +281,7 @@ const CourseTable = ({
                   </p>
                 </CardContent>
                 <CardFooter>
-                  <motion.div
-                    className="w-full"
-                  >
+                  <motion.div className="w-full">
                     <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
                       <PlayCircle className="mr-2 h-4 w-4" />
                       {course.totalProgress === 0 ? "Start Course" : "Continue"}
@@ -311,11 +307,7 @@ const CourseTable = ({
           animate="animate"
         >
           {recommendedCourses?.map((course, index) => (
-            <MotionCard
-              key={course.id}
-              variants={fadeInUp}
-              custom={index}
-            >
+            <MotionCard key={course.id} variants={fadeInUp} custom={index}>
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
                   <Image
@@ -342,8 +334,7 @@ const CourseTable = ({
                     {course.completion_time} min
                   </div>
                 </div>
-                <motion.div
-                >
+                <motion.div>
                   <Button className="w-full">Enroll Now</Button>
                 </motion.div>
               </CardContent>

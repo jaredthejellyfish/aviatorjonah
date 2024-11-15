@@ -2,12 +2,12 @@ import Sections from "@/components/Course/sections";
 import LeftSidebar from "@/components/Course/sidebar";
 import { getCourseBySlugWithProgress } from "@/utils/helpers/getCourseBySlugWithProgress";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import type { HTMLAttributes, DetailedHTMLProps } from 'react';
+import { notFound } from "next/navigation";
+import type { HTMLAttributes, DetailedHTMLProps } from "react";
 
 type Props = {
   params: Promise<{
     courseSlug: string;
-    moduleSlug: string;
     lessonSlug: string;
   }>;
 };
@@ -19,20 +19,13 @@ type HeadingProps = DetailedHTMLProps<
 
 function extractSections(content: string) {
   if (!content) {
-    console.log("Content is empty");
     return [];
   }
-
-  console.log("Content:", content);
 
   const h2Regex = /##\s*(.*?)(?:\n|$)/g;
   const matches = Array.from(content.matchAll(h2Regex));
 
-  console.log("Matches found:", matches);
-
   const sections = matches.map((match) => match[1].trim().replace(/^#+/, ""));
-
-  console.log("Extracted sections:", sections);
 
   return sections;
 }
@@ -49,7 +42,11 @@ const components = {
       .replace(/\s+/g, "-")
       .replace(/-+/g, "-")
       .replace(/^-+|-+$/g, "");
-    return <h2 id={id} {...props}>{children}</h2>;
+    return (
+      <h2 id={id} {...props}>
+        {children}
+      </h2>
+    );
   },
   h3: ({ children, ...props }: HeadingProps) => {
     const id = children!
@@ -62,16 +59,27 @@ const components = {
       .replace(/\s+/g, "-")
       .replace(/-+/g, "-")
       .replace(/^-+|-+$/g, "");
-    return <h3 id={id} {...props}>{children}</h3>;
+    return (
+      <h3 id={id} {...props}>
+        {children}
+      </h3>
+    );
   },
 };
 
 async function CoursePage({ params }: Props) {
   const courseSlug = (await params).courseSlug;
-  const moduleSlug = (await params).moduleSlug;
   const lessonSlug = (await params).lessonSlug;
 
   const course = await getCourseBySlugWithProgress(courseSlug);
+
+  if (!course) {
+    return notFound();
+  }
+
+  const moduleSlug = course?.modules?.find((module) =>
+    module.lessons?.some((lesson) => lesson.slug === lessonSlug),
+  )?.slug as string | undefined;
 
   const lessonTitle =
     course?.modules

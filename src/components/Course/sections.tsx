@@ -51,7 +51,7 @@ const Sections = ({ sections }: Props) => {
 
           // Get all visible sections
           const visibleSections = entries.filter(
-            (entry) => entry.isIntersecting
+            (entry) => entry.isIntersecting,
           );
 
           if (visibleSections.length > 0) {
@@ -63,10 +63,10 @@ const Sections = ({ sections }: Props) => {
               const viewportCenter = viewportHeight / 2;
 
               const prevDistanceToCenter = Math.abs(
-                prevBounds.top + prevBounds.height / 2 - viewportCenter
+                prevBounds.top + prevBounds.height / 2 - viewportCenter,
               );
               const currentDistanceToCenter = Math.abs(
-                currentBounds.top + currentBounds.height / 2 - viewportCenter
+                currentBounds.top + currentBounds.height / 2 - viewportCenter,
               );
 
               return currentDistanceToCenter < prevDistanceToCenter
@@ -86,7 +86,7 @@ const Sections = ({ sections }: Props) => {
         {
           rootMargin: "-20% 0px -35% 0px",
           threshold: [0, 0.25, 0.5, 0.75, 1],
-        }
+        },
       );
 
       sections.forEach((section) => {
@@ -144,7 +144,7 @@ const Sections = ({ sections }: Props) => {
 
   return (
     <motion.div
-      className="fixed top-16 right-2 p-4 max-w-[300px] hidden md:block"
+      className="fixed top-16 right-2 p-4 w-[300px] hidden lg:block"
       initial={isOpen ? "open" : "closed"}
       animate={isOpen ? "open" : "closed"}
       exit={isOpen ? "closed" : "open"}
@@ -187,7 +187,7 @@ const Sections = ({ sections }: Props) => {
                         "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
                         activeSection === createSectionId(section)
                           ? "text-primary font-medium bg-accent"
-                          : "text-muted-foreground"
+                          : "text-muted-foreground",
                       )}
                     >
                       {section}
