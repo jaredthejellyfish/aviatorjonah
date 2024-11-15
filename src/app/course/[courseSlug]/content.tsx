@@ -30,6 +30,13 @@ interface CourseProps {
   modules: NonNullable<Course>["modules"];
 }
 
+const formatDuration = (duration: number) => {
+  if (duration >= 60) {
+    return `${Math.ceil(duration / 60)} hr`;
+  }
+  return `${Math.ceil(duration / 60)} min`;
+};
+
 export default function Content({
   title,
   instructor,
@@ -46,13 +53,13 @@ export default function Content({
 
   const totalLessons = modules.reduce(
     (sum, module) => sum + module.lessons.length,
-    0,
+    0
   );
   const completedLessons = modules.reduce(
     (sum, module) =>
       sum +
       module.lessons.filter((lesson) => lesson.progress.length > 0).length,
-    0,
+    0
   );
   const progressPercentage = (completedLessons / totalLessons) * 100;
 
@@ -60,7 +67,7 @@ export default function Content({
     setOpenModules((prev) =>
       prev.includes(moduleId)
         ? prev.filter((id) => id !== moduleId)
-        : [...prev, moduleId],
+        : [...prev, moduleId]
     );
   };
 
@@ -109,16 +116,17 @@ export default function Content({
               <div>
                 <p className="text-sm text-muted-foreground">Total Duration</p>
                 <p className="text-2xl font-bold">
-                  {modules.reduce(
-                    (sum, module) =>
-                      sum +
-                      module.lessons.reduce(
-                        (sum, lesson) => sum + (lesson.reading_time ?? 0),
-                        0,
-                      ),
-                    0,
-                  )}{" "}
-                  min
+                  {formatDuration(
+                    modules.reduce(
+                      (sum, module) =>
+                        sum +
+                        module.lessons.reduce(
+                          (sum, lesson) => sum + (lesson.reading_time ?? 0),
+                          0
+                        ),
+                      0
+                    )
+                  )}
                 </p>
               </div>
             </CardContent>
