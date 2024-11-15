@@ -1,8 +1,18 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    ppr: 'incremental',
+  },
   images: {
-    domains: ["picsum.photos", "fzcjkdmvxbkoyipztets.supabase.co"],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'fzcjkdmvxbkoyipztets.supabase.co',
+
+      },
+
+    ],
   },
 };
 

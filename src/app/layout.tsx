@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import Navigation from "@/components/Navigation";
 import ClerkProviderWrapper from "@/components/ClerkProvider";
 
+export const experimental_ppr = true;
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
