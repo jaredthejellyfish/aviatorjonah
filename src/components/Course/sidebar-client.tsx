@@ -163,6 +163,7 @@ export function SidebarContent({
   className,
   currentModuleTitle,
   currentLessonTitle,
+  courseSlug,
 }: {
   className?: string;
   courseTitle: string;
@@ -179,6 +180,7 @@ export function SidebarContent({
     chapterTitle: string;
     chapterNumber: number;
   }[];
+  courseSlug: string;
 }) {
   return (
     <Tabs
@@ -197,9 +199,11 @@ export function SidebarContent({
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <h1 className="text-xl font-bold w-full max-w-[250px] truncate">
-                {courseTitle}
-              </h1>
+              <Link href={`/course/${courseSlug}`}>
+                <h1 className="text-xl font-bold w-full max-w-[250px] truncate">
+                  {courseTitle}
+                </h1>
+              </Link>
             </TooltipTrigger>
             <TooltipContent side="right" sideOffset={10}>
               <p className="text-sm">{courseTitle}</p>
@@ -259,6 +263,7 @@ export function DrawerSidebar({
   courseModules,
   currentModuleTitle,
   currentLessonTitle,
+  courseSlug,
 }: {
   courseTitle: string;
   currentModuleTitle?: string;
@@ -274,6 +279,7 @@ export function DrawerSidebar({
     chapterTitle: string;
     chapterNumber: number;
   }[];
+  courseSlug: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -303,9 +309,12 @@ export function DrawerSidebar({
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>{courseTitle}</DrawerTitle>
+          <Link href={`/course/${courseSlug}`}>
+            <DrawerTitle>{courseTitle}</DrawerTitle>
+          </Link>
         </DrawerHeader>
         <SidebarContent
+          courseSlug={courseSlug}
           courseTitle={courseTitle}
           courseModules={courseModules}
           currentModuleTitle={currentModuleTitle}

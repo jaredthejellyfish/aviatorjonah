@@ -6,12 +6,16 @@ import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 
 export function ModeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { theme: themeOverride, setTheme, systemTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
     setMounted(true);
   }, []);
+
+  const theme = themeOverride === "system" ? systemTheme : themeOverride;
+
+  console.log(theme);
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
@@ -30,29 +34,30 @@ export function ModeToggle() {
       onClick={toggleTheme}
       className="relative inline-flex h-5 w-5 items-center justify-center rounded-full transition-colors"
       whileTap={{ scale: 0.95 }}
-      whileHover={{ scale: 1.05 }}
+      whileHover={{ scale: 1.1 }}
     >
       <motion.div
         animate={{
-          scale: theme !== "light" ? 1 : 0,
-          rotate: theme !== "light" ? 0 : 180,
+          scale: theme === "dark" ? 1 : 0,
+          rotate: theme === "dark" ? 0 : 180,
+          opacity: theme === "dark" ? 1 : 0,
         }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
+        transition={{ duration: 0.4, ease: "easeInOut" }}
         className="absolute"
       >
         <Sun className="h-5 w-5 text-yellow-500" />
       </motion.div>
       <motion.div
         animate={{
-          scale: theme !== "dark" ? 1 : 0,
-          rotate: theme !== "dark" ? 0 : -180,
+          scale: theme === "light" ? 1 : 0,
+          rotate: theme === "light" ? 0 : -180,
+          opacity: theme === "light" ? 1 : 0,
         }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
+        transition={{ duration: 0.4, ease: "easeInOut" }}
         className="absolute"
       >
         <Moon className="h-5 w-5 text-blue-500" />
       </motion.div>
-      <span className="sr-only">Toggle theme</span>
     </motion.button>
   );
 }

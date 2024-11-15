@@ -22,8 +22,8 @@ export default function LeftSidebar({
   moduleSlug?: string;
   lessonSlug?: string;
 }) {
-  const courseModules = course?.modules
-    ?.map((moduleItem, index) => ({
+  const courseModulesUnsorted = course?.modules
+    ?.map((moduleItem) => ({
       lessons: moduleItem.lessons.map((lesson) => ({
         title: lesson.title ?? "",
         completed:
@@ -34,9 +34,8 @@ export default function LeftSidebar({
         courseSlug: courseSlug ?? "",
       })),
       chapterTitle: moduleItem.title ?? "",
-      chapterNumber: index + 1, // assuming the order is sequential by index
+      chapterNumber: moduleItem.order_index, // assuming the order is sequential by index
     }))
-    .sort((a, b) => (a.chapterNumber ?? 0) - (b.chapterNumber ?? 0));
 
   const currentModuleTitle =
     course?.modules?.find((module) => module.slug === moduleSlug)?.title ?? "";
@@ -48,6 +47,10 @@ export default function LeftSidebar({
 
   const courseTitle = course?.title ?? "";
 
+  const courseModules = courseModulesUnsorted?.sort(
+    (a, b) => (a.chapterNumber ?? 0) - (b.chapterNumber ?? 0)
+  );
+
   return (
     <div>
       <SidebarContent
@@ -56,6 +59,7 @@ export default function LeftSidebar({
         courseModules={courseModules ?? []}
         currentModuleTitle={currentModuleTitle}
         currentLessonTitle={currentLessonTitle}
+        courseSlug={courseSlug}
       />
 
       <DrawerSidebar
@@ -63,6 +67,7 @@ export default function LeftSidebar({
         courseModules={courseModules ?? []}
         currentModuleTitle={currentModuleTitle}
         currentLessonTitle={currentLessonTitle}
+        courseSlug={courseSlug}
       />
     </div>
   );
