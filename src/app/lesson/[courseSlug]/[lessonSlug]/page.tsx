@@ -71,6 +71,10 @@ async function CoursePage({ params }: Props) {
   const courseSlug = (await params).courseSlug;
   const lessonSlug = (await params).lessonSlug;
 
+  if (!courseSlug || !lessonSlug) {
+    return notFound();
+  }
+
   const course = await getCourseBySlugWithProgress(courseSlug);
 
   if (!course) {

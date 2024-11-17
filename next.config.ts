@@ -11,7 +11,6 @@ const nextConfig: NextConfig = {
         hostname: 'fzcjkdmvxbkoyipztets.supabase.co',
 
       },
-
     ],
   },
 };
