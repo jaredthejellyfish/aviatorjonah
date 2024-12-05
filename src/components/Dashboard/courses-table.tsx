@@ -30,10 +30,10 @@ import {
   RecommendedCourses,
 } from "@/utils/helpers/getDashboardData";
 import PlaceholderImage from "@/public/placeholder.svg";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
-const MotionCard = motion(Card);
-const MotionTableRow = motion(TableRow);
+const MotionCard = motion.create(Card);
+const MotionTableRow = motion.create(TableRow);
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
