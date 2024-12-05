@@ -160,7 +160,7 @@ const Sections = ({ sections }: Props) => {
             initial={isOpen ? "open" : "closed"}
             className="h-[calc(100vh-6rem)] flex flex-col items-center justify-center"
           >
-            <div className="w-1.5 bg-neutral-600 h-20 rounded-xl ml-1.5" />
+            <div className="w-1.5 bg-neutral-600 h-20 rounded-xl" />
           </motion.div>
           <div className="flex flex-col space-y-2 pb-4 px-4 py-2">
             <Button

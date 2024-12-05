@@ -47,7 +47,13 @@ export default function Content({
   const [currentLessonIndex, setCurrentLessonIndex] = useState(0);
   const [openModules, setOpenModules] = useState<string[]>([]);
 
-  const modules = unsortedModules.sort((a, b) => a.order_index - b.order_index);
+  const modules = unsortedModules
+    .sort((a, b) => a.order_index - b.order_index)
+    .map((module) => ({
+      ...module,
+      lessons: module.lessons.sort((a, b) => a.order_index - b.order_index),
+    }));
+
   const currentModule = modules[currentModuleIndex];
   const currentLesson = currentModule.lessons[currentLessonIndex];
 
@@ -170,7 +176,7 @@ export default function Content({
                     >
                       <CollapsibleTrigger className="flex justify-between items-center w-full p-2 rounded-md hover:bg-muted text-start">
                         <h3 className="text-lg font-semibold">
-                          {module.title}
+                          {module.title} ({module.order_index})
                         </h3>
                         {openModules.includes(module.id) ? (
                           <ChevronUp className="h-4 w-4" />

@@ -1,9 +1,11 @@
 import Sections from "@/components/Course/sections";
 import LeftSidebar from "@/components/Course/sidebar";
+import { Button } from "@/components/ui/button";
 import { getCourseBySlugWithProgress } from "@/utils/helpers/getCourseBySlugWithProgress";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
 import type { HTMLAttributes, DetailedHTMLProps } from "react";
+import Link from "next/link";
 
 type Props = {
   params: Promise<{
@@ -82,7 +84,7 @@ async function CoursePage({ params }: Props) {
   }
 
   const moduleSlug = course?.modules?.find((module) =>
-    module.lessons?.some((lesson) => lesson.slug === lessonSlug),
+    module.lessons?.some((lesson) => lesson.slug === lessonSlug)
   )?.slug as string | undefined;
 
   const lessonTitle =
@@ -97,6 +99,39 @@ async function CoursePage({ params }: Props) {
 
   const sections = extractSections(content);
 
+  const currentModuleIndex = course?.modules?.findIndex(
+    (module) => module.slug === moduleSlug
+  );
+
+  const currentLessonIndex = course?.modules?.[
+    currentModuleIndex
+  ]?.lessons?.findIndex((lesson) => lesson.slug === lessonSlug);
+
+  const nextLesson =
+    course?.modules?.[currentModuleIndex]?.lessons?.[currentLessonIndex + 1];
+  const nextModule = course?.modules?.[currentModuleIndex + 1];
+
+  const getNextDestination = () => {
+    if (nextLesson) {
+      return {
+        href: `/lesson/${courseSlug}/${nextLesson.slug}`,
+        text: `Next: ${nextLesson.title}`,
+      };
+    }
+    if (nextModule?.lessons?.[0]) {
+      return {
+        href: `/lesson/${courseSlug}/${nextModule.lessons[0].slug}`,
+        text: `Next Module: ${nextModule.title}`,
+      };
+    }
+    return {
+      href: `/course/${courseSlug}`,
+      text: "Course Complete! 🎉",
+    };
+  };
+
+  const nextDestination = getNextDestination();
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] lg:grid-cols-[300px_1fr_250px] ">
       <LeftSidebar
@@ -108,6 +143,20 @@ async function CoursePage({ params }: Props) {
       <div className="w-full !max-w-none md:px-10 px-4 py-5 prose prose-headings:text-primary prose-strong:text-primary prose-a:text-primary prose-a:underline prose-a:decoration-primary prose-a:decoration-2 prose-a:underline-offset-4 prose-a:decoration-offset-4 prose-a:hover:text-primary/80 prose-a:hover:decoration-primary/80 prose-a:hover:no-underline prose-h1:font-bold dark:prose-p:text-white/80 dark:prose-li:text-white/80">
         <h1 className="text-4xl font-bold">{lessonTitle}</h1>
         <MDXRemote source={content} components={components} />
+        <div className="mt-10 bg-black/5 dark:bg-black/20 p-6 w-full rounded-lg flex flex-col items-start gap-2">
+          <p className="text-sm text-muted-foreground">
+            {nextDestination.text === "Course Complete! 🎉"
+              ? "Congratulations! You've completed all lessons."
+              : "Continue your learning journey"}
+          </p>
+          <Button
+            size="lg"
+            className="w-full sm:w-auto dark:text-black text-white"
+            asChild
+          >
+            <Link href={nextDestination.href}>{nextDestination.text}</Link>
+          </Button>
+        </div>
       </div>
 
       <Sections sections={sections} />
