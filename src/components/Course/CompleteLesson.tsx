@@ -190,7 +190,7 @@ function CompleteLesson({
           <Button
             size="lg"
             className="w-full sm:w-auto dark:text-black text-white"
-            onClick={() => createComment(takeaway, currentLesson.id, course.id)}
+            onClick={() => createComment(takeaway)}
           >
             Complete Lesson
           </Button>

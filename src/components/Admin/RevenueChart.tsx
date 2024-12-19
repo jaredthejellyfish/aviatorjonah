@@ -1,38 +1,63 @@
-'use client'
+import stripe from "@/utils/stripe";
+import RevenueChartContent from "./RevenueChartContent";
+import { Skeleton } from "../ui/skeleton";
 
-import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+async function getMonthlyRevenue(year: number, month: number) {
+  const startDate = Math.floor(new Date(year, month - 1, 1).getTime() / 1000);
+  const endDate = Math.floor(new Date(year, month, 1).getTime() / 1000);
 
-const data = [
-  { name: "Jan", total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: "Feb", total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: "Mar", total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: "Apr", total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: "May", total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: "Jun", total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: "Jul", total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: "Aug", total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: "Sep", total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: "Oct", total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: "Nov", total: Math.floor(Math.random() * 5000) + 1000 },
-  { name: "Dec", total: Math.floor(Math.random() * 5000) + 1000 },
-]
+  let total = 0;
+  const charges = stripe.charges.list({
+    created: {
+      gte: startDate,
+      lt: endDate,
+    },
+    limit: 1000,
+  });
 
-export default function RevenueChart() {
-  return (
-    <ResponsiveContainer width="100%" height={390}>
-      <LineChart data={data}>
-        <XAxis dataKey="name" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-        <YAxis
-          stroke="#888888"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-          tickFormatter={(value) => `$${value}`}
-        />
-        <Tooltip />
-        <Line type="monotone" dataKey="total" stroke="#8884d8" strokeWidth={2} />
-      </LineChart>
-    </ResponsiveContainer>
-  )
+  await charges.autoPagingEach((charge) => {
+    total += charge.amount;
+  });
+
+  return total / 100;
 }
 
+export default async function RevenueChart() {
+  // Dynamically determine the current year:
+  const currentYear = new Date().getFullYear();
+
+  // Dynamically generate month data:
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  // If you want data for all 12 months of the current year:
+  const months = monthNames.map((name, index) => ({ name, month: index + 1 }));
+
+  // Fetch revenue for each month in parallel
+  const data = await Promise.all(
+    months.map(async ({ name, month }) => {
+      const total = await getMonthlyRevenue(currentYear, month);
+      return { name, total };
+    })
+  );
+
+  return <RevenueChartContent monthlyRevenue={data} />;
+}
+
+export const RevenueChartSkeleton = () => {
+  return (
+    <Skeleton className="h-[370px] w-full" />
+  );
+};

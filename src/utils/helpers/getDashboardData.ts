@@ -21,10 +21,9 @@ export async function getDashboardData() {
       supabase
         .from("enrollments")
         .select(
-          `
-                    *,
-                    course:course_id(*)
-                `,
+          `*,
+            course:course_id(*)
+          `,
         )
         .eq("user_id", authData.userId),
       supabase
