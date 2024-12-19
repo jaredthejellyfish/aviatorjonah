@@ -2,16 +2,21 @@ import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 import stripe from "@/utils/stripe";
+import { currentUser } from "@clerk/nextjs/server";
 
 export async function POST(req: NextRequest) {
   const headersList = await headers();
+  const user = await currentUser()
+
+
+  console.log(user)
   const { courseId, price, title, description, images, courseSlug } =
     await req.json();
 
   if (!courseId || !price || !title || !description || !courseSlug) {
     return NextResponse.json(
       { error: "Missing required course information" },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
@@ -33,9 +38,13 @@ export async function POST(req: NextRequest) {
         },
       ],
       mode: "payment",
-      success_url: `${headersList.get("origin")}/courses/enroll/${courseSlug}/thank-you?session_id={CHECKOUT_SESSION_ID}`,
-
-      cancel_url: `${headersList.get("origin")}/courses/enroll/${courseSlug}/error`,
+      success_url: `${headersList.get(
+        "origin"
+      )}/courses/enroll/${courseSlug}/thank-you?session_id={CHECKOUT_SESSION_ID}`,
+      customer_email: user?.emailAddresses[0]?.emailAddress,
+      cancel_url: `${headersList.get(
+        "origin"
+      )}/courses/enroll/${courseSlug}/error`,
     });
 
     return NextResponse.json({ sessionId: session.id });
@@ -43,7 +52,7 @@ export async function POST(req: NextRequest) {
     console.error(err);
     return NextResponse.json(
       { error: "Error creating checkout session" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

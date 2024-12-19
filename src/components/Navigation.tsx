@@ -28,9 +28,7 @@ function Navigation() {
         </Link>
         <nav className="flex items-center gap-2 sm:gap-4 md:gap-6">
           <SignedIn>
-            <Protect
-              permission="org:content_creator:access"
-            >
+            <Protect permission="org:content_creator:access">
               <Link
                 className="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors hidden sm:inline-block"
                 href="/admin"
@@ -40,15 +38,15 @@ function Navigation() {
             </Protect>
             <Link
               className="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors hidden sm:inline-block"
-              href="/courses"
-            >
-              Courses
-            </Link>
-            <Link
-              className="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors hidden sm:inline-block"
               href="/dashboard"
             >
               Dashboard
+            </Link>
+            <Link
+              className="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors hidden sm:inline-block"
+              href="/courses"
+            >
+              Courses
             </Link>
             <UserButton />
           </SignedIn>
