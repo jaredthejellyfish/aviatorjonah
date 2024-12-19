@@ -11,6 +11,9 @@ export default {
   ],
   theme: {
     extend: {
+      height: {
+        "screen-bar": "calc(100vh - 64px)",
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

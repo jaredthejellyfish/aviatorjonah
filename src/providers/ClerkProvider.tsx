@@ -12,6 +12,7 @@ export default function ClerkProviderWrapper({
   const { theme } = useTheme();
   return (
     <ClerkProvider
+      dynamic
       appearance={{ baseTheme: theme === "dark" ? dark : undefined }}
     >
       {children}

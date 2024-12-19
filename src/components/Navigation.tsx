@@ -1,6 +1,6 @@
 "use client";
 
-import { SignInButton } from "@clerk/nextjs";
+import { Protect, SignInButton } from "@clerk/nextjs";
 import { SignedOut } from "@clerk/nextjs";
 import { Plane } from "lucide-react";
 import { motion } from "motion/react";
@@ -27,20 +27,29 @@ function Navigation() {
           </span>
         </Link>
         <nav className="flex items-center gap-2 sm:gap-4 md:gap-6">
-          <Link
-            className="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors hidden sm:inline-block"
-            href="/courses"
-          >
-            Courses
-          </Link>
-          <Link
-            className="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors hidden sm:inline-block"
-            href="/dashboard"
-          >
-            Dashboard
-          </Link>
-
           <SignedIn>
+            <Protect
+              permission="org:content_creator:access"
+            >
+              <Link
+                className="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors hidden sm:inline-block"
+                href="/admin"
+              >
+                Admin
+              </Link>
+            </Protect>
+            <Link
+              className="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors hidden sm:inline-block"
+              href="/courses"
+            >
+              Courses
+            </Link>
+            <Link
+              className="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors hidden sm:inline-block"
+              href="/dashboard"
+            >
+              Dashboard
+            </Link>
             <UserButton />
           </SignedIn>
           <SignedOut>
