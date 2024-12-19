@@ -1,6 +1,9 @@
 import stripe from "@/utils/stripe";
-import RevenueChartContent from "./RevenueChartContent";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+
+const RevenueChartContent = dynamic(() => import("./RevenueChartContent"));
 
 async function getMonthlyRevenue(year: number, month: number) {
   const startDate = Math.floor(new Date(year, month - 1, 1).getTime() / 1000);
@@ -53,11 +56,13 @@ export default async function RevenueChart() {
     })
   );
 
-  return <RevenueChartContent monthlyRevenue={data} />;
+  return (
+    <Suspense fallback={<RevenueChartSkeleton />}>
+      <RevenueChartContent monthlyRevenue={data} />
+    </Suspense>
+  );
 }
 
 export const RevenueChartSkeleton = () => {
-  return (
-    <Skeleton className="h-[370px] w-full" />
-  );
+  return <Skeleton className="h-[370px] w-full" />;
 };

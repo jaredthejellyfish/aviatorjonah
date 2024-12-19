@@ -4,9 +4,9 @@ import React, { useEffect, useState, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { X } from "lucide-react";
-import { Button } from "../ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { TooltipProvider } from "../ui/tooltip";
+import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 type Props = {
   sections: string[];

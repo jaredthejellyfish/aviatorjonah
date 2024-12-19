@@ -420,6 +420,10 @@ export type Database = {
         }
         Returns: number
       }
+      get_popular_courses: {
+        Args: Record<PropertyKey, never>
+        Returns: Json[]
+      }
       get_user_percentile: {
         Args: {
           p_user_id: string

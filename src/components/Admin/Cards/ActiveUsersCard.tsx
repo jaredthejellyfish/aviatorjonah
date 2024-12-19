@@ -18,6 +18,8 @@ export async function ActiveUsersCard() {
     ((activeUsersThisMonth - activeUsersLastMonth) / activeUsersLastMonth) *
     100;
 
+  const percentageChangeRounded = percentageChange.toFixed(0);
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -27,7 +29,7 @@ export async function ActiveUsersCard() {
       <CardContent>
         <div className="text-2xl font-bold">{data?.activeUsersThisMonth}</div>
         <p className="text-xs text-muted-foreground">
-          {percentageChange.toFixed(2)}% from last month
+          {percentageChangeRounded}% from last month
         </p>
       </CardContent>
     </Card>

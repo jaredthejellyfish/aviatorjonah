@@ -1,14 +1,14 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import stripe from "@/utils/stripe";
 import { UserIcon } from "lucide-react";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "../ui/hover-card";
+} from "@/components/ui/hover-card";
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 export default async function RecentSalesWidget() {
   const getMostRecentSales = async () => {
