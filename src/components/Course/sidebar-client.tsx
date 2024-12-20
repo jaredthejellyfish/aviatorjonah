@@ -300,7 +300,7 @@ export function DrawerSidebar({
           initial={{ opacity: 0, scale: 0, rotate: -360 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
           transition={{ duration: 0.5 }}
-          className="fixed top-20 left-4 z-50"
+          className="fixed top-20 left-4 z-30"
         >
           <Button variant="outline" className="w-10 h-10 md:hidden">
             <Menu className="w-full h-full" />
