@@ -101,6 +101,13 @@ function CoursesSection({ courses }: Props) {
           </Card>
         </motion.div>
       ))}
+      {filteredCourses.length === 0 && (
+        <div className="col-span-full text-center py-10">
+          <p className="text-neutral-600 dark:text-neutral-400">
+            No courses found.
+          </p>
+        </div>
+      )}
     </motion.div>
   );
 }
