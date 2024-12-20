@@ -1,6 +1,12 @@
 import CoursesSection from "@/components/Courses/courses-section";
 import FiltersSection from "@/components/Courses/filters-section";
 import { getAllCourses } from "@/utils/helpers/getAllCourses";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "AviatorJonah | Courses",
+  description: "All courses available on AviatorJonah.",
+};
 
 export default async function AllCoursesPage() {
   const courses = await getAllCourses(true);

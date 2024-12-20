@@ -19,8 +19,14 @@ import {
 import { Progress } from "@/components/ui/progress";
 import CourseTable from "@/components/Dashboard/courses-table";
 import { getDashboardData } from "@/utils/helpers/getDashboardData";
+import { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "AviatorJonah | Dashboard",
+  description: "Your dashboard for AviatorJonah.",
+};
 
 export default async function CoursesDashboard() {
   const {

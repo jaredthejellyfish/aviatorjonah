@@ -4,9 +4,38 @@ import { getCourseBySlugWithProgress } from "@/utils/helpers/getCourseBySlugWith
 import Content from "./content";
 import { notFound } from "next/navigation";
 import { after } from "next/server";
+import { Metadata, ResolvingMetadata } from "next";
+import { getCourseBySlug } from "@/utils/helpers/getCourseBySlug";
+
 type Props = {
   params: Promise<{ courseSlug: string }>;
 };
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const courseSlug = (await params).courseSlug;
+
+  // fetch data
+  const course = await getCourseBySlug(courseSlug);
+
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: course?.title
+      ? `AviatorJonah | ${course.title}`
+      : "AviatorJonah | Course",
+    description: course?.description
+      ? `${course.description.slice(0, 150)}...`
+      : "AviatorJonah | Course",
+    openGraph: {
+      images: [course?.image ?? "", ...previousImages],
+    },
+  };
+}
 
 async function CoursePage({ params }: Props) {
   const courseSlug = (await params).courseSlug;

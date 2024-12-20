@@ -39,9 +39,9 @@ function Navigation() {
             <Protect permission="org:content_creator:access">
               <Link
                 className="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors hidden sm:inline-block"
-                href="/content-creators"
+                href="/content-studio"
               >
-                Content Creators
+                Content Studio
               </Link>
             </Protect>
             <Link

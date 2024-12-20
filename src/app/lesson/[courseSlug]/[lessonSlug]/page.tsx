@@ -1,8 +1,10 @@
 import CompleteLesson from "@/components/Course/CompleteLesson";
 import Sections from "@/components/Course/sections";
 import LeftSidebar from "@/components/Course/sidebar";
+import { getCourseBySlug } from "@/utils/helpers/getCourseBySlug";
 
 import { getCourseBySlugWithProgress } from "@/utils/helpers/getCourseBySlugWithProgress";
+import { Metadata, ResolvingMetadata } from "next";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
 import type { HTMLAttributes, DetailedHTMLProps } from "react";
@@ -13,6 +15,32 @@ type Props = {
     lessonSlug: string;
   }>;
 };
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const courseSlug = (await params).courseSlug;
+
+  // fetch data
+  const course = await getCourseBySlug(courseSlug);
+
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: course?.title
+      ? `AviatorJonah | ${course.title}`
+      : "AviatorJonah | Course",
+    description: course?.description
+      ? `${course.description.slice(0, 150)}...`
+      : "AviatorJonah | Course",
+    openGraph: {
+      images: [course?.image ?? "", ...previousImages],
+    },
+  };
+}
 
 type HeadingProps = DetailedHTMLProps<
   HTMLAttributes<HTMLHeadingElement>,

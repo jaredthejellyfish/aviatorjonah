@@ -20,10 +20,37 @@ import {
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import PaymentClient from "@/components/payment-client";
+import { Metadata, ResolvingMetadata } from "next";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const slug = (await params).slug;
+
+  // fetch data
+  const course = await getCourseBySlug(slug);
+
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: course?.title
+      ? `AviatorJonah | ${course.title}`
+      : "AviatorJonah | Course",
+    description: course?.description
+      ? `${course.description.slice(0, 150)}...`
+      : "AviatorJonah | Course",
+    openGraph: {
+      images: [course?.image ?? "", ...previousImages],
+    },
+  };
+}
 
 async function ViewCourse({ params }: Props) {
   const slug = (await params).slug;
@@ -49,7 +76,7 @@ async function ViewCourse({ params }: Props) {
   };
 
   const sortedModules = course.modules.sort(
-    (a, b) => a.order_index - b.order_index,
+    (a, b) => a.order_index - b.order_index
   );
 
   return (
@@ -147,7 +174,7 @@ async function ViewCourse({ params }: Props) {
                     <ul className="space-y-3">
                       {module.lessons
                         .sort(
-                          (a, b) => (a.order_index ?? 0) - (b.order_index ?? 0),
+                          (a, b) => (a.order_index ?? 0) - (b.order_index ?? 0)
                         )
                         .map((lesson) => (
                           <li
