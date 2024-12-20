@@ -1,27 +1,19 @@
-"use client";
+import { auth } from "@clerk/nextjs/server";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
 
-import { useEffect } from "react";
-import { useAuth, useOrganizationList } from "@clerk/nextjs";
+const SyncActiveOrganizationClient = dynamic(
+  () => import("@/components/SyncActiveOrganizationClient")
+);
 
-export function SyncActiveOrganization({
-  membership,
-}: {
-  membership: Record<string, string>;
-}) {
-  const { setActive, isLoaded } = useOrganizationList();
+export async function SyncActiveOrganization({}) {
+  const { sessionClaims } = await auth();
 
-  const { orgId } = useAuth();
-
-  const firstOrgId = Object.keys(membership ?? {})?.[0];
-
-  useEffect(() => {
-    if (!isLoaded) return;
-
-    // If the org ID in the URL is not the same as the org ID in the session (the active organization), set the active organization to be the org ID from the URL
-    if (!orgId && firstOrgId) {
-      void setActive({ organization: firstOrgId });
-    }
-  }, [isLoaded, setActive, firstOrgId, orgId]);
-
-  return null;
+  return (
+    <Suspense fallback={null}>
+      <SyncActiveOrganizationClient
+        membership={sessionClaims?.membership as Record<string, string>}
+      />
+    </Suspense>
+  );
 }

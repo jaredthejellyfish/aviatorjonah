@@ -28,12 +28,20 @@ function Navigation() {
         </Link>
         <nav className="flex items-center gap-2 sm:gap-4 md:gap-6">
           <SignedIn>
-            <Protect permission="org:content_creator:access">
+            <Protect permission="org:owner:access">
               <Link
                 className="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors hidden sm:inline-block"
                 href="/admin"
               >
                 Admin
+              </Link>
+            </Protect>
+            <Protect permission="org:content_creator:access">
+              <Link
+                className="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors hidden sm:inline-block"
+                href="/content-creators"
+              >
+                Content Creators
               </Link>
             </Protect>
             <Link

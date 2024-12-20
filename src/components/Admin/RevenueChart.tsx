@@ -2,28 +2,36 @@ import stripe from "@/utils/stripe";
 import { Skeleton } from "@/components/ui/skeleton";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
+import { unstable_cache as cache } from 'next/cache';
 
 const RevenueChartContent = dynamic(() => import("./RevenueChartContent"));
 
-async function getMonthlyRevenue(year: number, month: number) {
-  const startDate = Math.floor(new Date(year, month - 1, 1).getTime() / 1000);
-  const endDate = Math.floor(new Date(year, month, 1).getTime() / 1000);
+const getMonthlyRevenue = cache(
+  async (year: number, month: number) => {
+    const startDate = Math.floor(new Date(year, month - 1, 1).getTime() / 1000);
+    const endDate = Math.floor(new Date(year, month, 1).getTime() / 1000);
 
-  let total = 0;
-  const charges = stripe.charges.list({
-    created: {
-      gte: startDate,
-      lt: endDate,
-    },
-    limit: 1000,
-  });
+    let total = 0;
+    const charges = stripe.charges.list({
+      created: {
+        gte: startDate,
+        lt: endDate,
+      },
+      limit: 1000,
+    });
 
-  await charges.autoPagingEach((charge) => {
-    total += charge.amount;
-  });
+    await charges.autoPagingEach((charge) => {
+      total += charge.amount;
+    });
 
-  return total / 100;
-}
+    return total / 100;
+  },
+  ['monthly-revenue'],
+  {
+    revalidate: 3600, // Cache for 1 hour
+    tags: ['revenue']
+  }
+);
 
 export default async function RevenueChart() {
   // Dynamically determine the current year:

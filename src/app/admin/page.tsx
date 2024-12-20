@@ -32,8 +32,16 @@ import {
   ActiveSalesCard,
   ActiveSalesCardSkeleton,
 } from "@/components/Admin/Cards/ActiveSalesCard";
+import { redirect } from "next/navigation";
+import { needsAdminAccess } from "@/utils/helpers/needsAdminAccess";
 
 export default async function AdminDashboardPage() {
+  const hasAdminAccess = await needsAdminAccess();
+
+  if (!hasAdminAccess) {
+    return redirect("/admin/not-authorized");
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
@@ -98,10 +106,10 @@ export default async function AdminDashboardPage() {
               <Link href="/admin/courses/new">Create New Course</Link>
             </Button>
             <Button asChild variant="outline">
-              <Link href="/admin/users">Manage Users</Link>
+              <Link href="/admin/courses">Course Management</Link>
             </Button>
             <Button asChild variant="outline">
-              <Link href="/admin/settings">System Settings</Link>
+              <Link href="/admin/users">Manage Users</Link>
             </Button>
           </CardContent>
         </Card>

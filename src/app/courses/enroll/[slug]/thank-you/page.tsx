@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 async function enrollUserInCourse(
   courseId: string,
   sessionId: string,
-  userId: string,
+  userId: string
 ) {
   const stripeSession = await stripe.checkout.sessions.retrieve(sessionId);
   const isPaid =
@@ -90,7 +90,7 @@ export default async function EnrollmentSuccess({
   const enrolled = await enrollUserInCourse(
     course.id,
     sessionId,
-    authData.userId,
+    authData.userId
   );
 
   if (!enrolled) {
@@ -178,11 +178,14 @@ export default async function EnrollmentSuccess({
                 </li>
               </ol>
               <div className="flex space-x-4">
-                <Button className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white">
-                  Go to Course
+                <Button
+                  className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white"
+                  asChild
+                >
+                  <Link href={`/course/${course.slug}`}>Go to Course</Link>
                 </Button>
                 <Button variant="outline" className="flex-1" asChild>
-                  <Link href="/courses">View All Courses</Link>
+                  <Link href="/courses">View Courses</Link>
                 </Button>
               </div>
             </CardContent>

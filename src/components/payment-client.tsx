@@ -77,8 +77,10 @@ function PaymentClient({
   }
 
   return enrolled ? (
-    <Button size="lg" className={cn("mb-4 w-full", buttonStyles)} disabled>
-      Already Enrolled
+    <Button size="lg" className={cn("mb-4 w-full", buttonStyles)} asChild>
+      <Link href={`/course/${selectedCourse.slug}`}>
+        Go to Course
+      </Link>
     </Button>
   ) : (
     <Button

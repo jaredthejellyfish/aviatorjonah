@@ -22,6 +22,12 @@ import {
 } from "@/components/ui/collapsible";
 import { Course } from "@/utils/helpers/getCourseBySlugWithProgress";
 import Link from "next/link";
+import {
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Tooltip } from "@/components/ui/tooltip";
 
 interface CourseProps {
   title: string;
@@ -176,7 +182,7 @@ export default function Content({
                     >
                       <CollapsibleTrigger className="flex justify-between items-center w-full p-2 rounded-md hover:bg-muted text-start">
                         <h3 className="text-lg font-semibold">
-                          {module.title} ({module.order_index})
+                          {module.title}
                         </h3>
                         {openModules.includes(module.id) ? (
                           <ChevronUp className="h-4 w-4" />
@@ -245,7 +251,21 @@ export default function Content({
                 <CardTitle>Course Progress</CardTitle>
               </CardHeader>
               <CardContent>
-                <Progress value={progressPercentage} className="mb-2" />
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger className="w-full">
+                      <Progress
+                        value={progressPercentage}
+                        className="mb-2 w-full"
+                      />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      {((completedLessons / totalLessons) * 100).toFixed(2)}%
+                      completed
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+
                 <p className="text-sm text-muted-foreground">
                   {completedLessons} of {totalLessons} lessons completed
                 </p>

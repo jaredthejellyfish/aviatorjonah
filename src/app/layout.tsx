@@ -7,7 +7,6 @@ import ClerkProviderWrapper from "@/providers/ClerkProvider";
 import QueryProvider from "@/providers/query-provider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "@/components/ui/sonner";
-import { auth } from "@clerk/nextjs/server";
 import { SyncActiveOrganization } from "@/components/SyncActiveOrganization";
 
 export const experimental_ppr = true;
@@ -33,8 +32,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { sessionClaims } = await auth();
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -48,9 +45,7 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <ClerkProviderWrapper>
-              <SyncActiveOrganization
-                membership={sessionClaims?.membership as Record<string, string>}
-              />
+              <SyncActiveOrganization />
               <div className="min-h-screen bg-gradient-to-b from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-900/40 text-neutral-800 dark:text-neutral-200">
                 <Navigation />
                 {children}

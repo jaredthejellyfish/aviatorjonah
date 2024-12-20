@@ -2,26 +2,34 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DollarSign } from "lucide-react";
 import stripe from "@/utils/stripe";
 import { Skeleton } from "@/components/ui/skeleton";
+import { unstable_cache as cache } from "next/cache";
 
-async function getMonthlyRevenue(year: number, month: number) {
-  const startDate = Math.floor(new Date(year, month - 1, 1).getTime() / 1000);
-  const endDate = Math.floor(new Date(year, month, 1).getTime() / 1000);
+const getMonthlyRevenue = cache(
+  async (year: number, month: number) => {
+    const startDate = Math.floor(new Date(year, month - 1, 1).getTime() / 1000);
+    const endDate = Math.floor(new Date(year, month, 1).getTime() / 1000);
 
-  let total = 0;
-  const charges = stripe.charges.list({
-    created: {
-      gte: startDate,
-      lt: endDate,
-    },
-    limit: 1000,
-  });
+    let total = 0;
+    const charges = stripe.charges.list({
+      created: {
+        gte: startDate,
+        lt: endDate,
+      },
+      limit: 1000,
+    });
 
-  await charges.autoPagingEach((charge) => {
-    total += charge.amount;
-  });
+    await charges.autoPagingEach((charge) => {
+      total += charge.amount;
+    });
 
-  return total / 100; // Returns revenue in whole dollars
-}
+    return total / 100;
+  },
+  ['monthly-revenue'],
+  {
+    revalidate: 3600, // Cache for 1 hour
+    tags: [`revenue-monthly`]
+  }
+);
 
 export default async function TotalRevenue() {
   // Determine current month and year

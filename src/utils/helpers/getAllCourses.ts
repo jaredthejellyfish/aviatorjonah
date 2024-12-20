@@ -1,12 +1,18 @@
-import { createClient } from "../supabase/server";
+import { createClient } from "@/utils/supabase/server";
 
-export async function getAllCourses() {
+export async function getAllCourses(noDraft: boolean = false) {
   const supabase = await createClient();
 
-  const { data, error } = await supabase
-    .from("courses")
-    .select("*")
-    .order("title", { ascending: false });
+  const query = !noDraft
+    ? supabase.from("courses").select("*").order("title", { ascending: false })
+    : supabase
+        .from("courses")
+        .select("*")
+        .order("title", { ascending: false })
+        .is("draft", false);
+
+  const { data, error } = await query;
+
   if (error) {
     console.error(error);
     return [];
