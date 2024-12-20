@@ -124,6 +124,12 @@ function Navigation() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             className="fixed inset-0 bg-black/50 backdrop-blur-sm top-16 left-0 right-0 z-40"
+            onClick={(e) => {
+              // Only close if clicking the backdrop itself, not its children
+              if (e.target === e.currentTarget) {
+                setIsOpen(false);
+              }
+            }}
           >
             <div className="container mx-auto py-4 px-4">
               <nav className="flex flex-col gap-6 bg-white dark:bg-neutral-900 rounded-lg p-6">
