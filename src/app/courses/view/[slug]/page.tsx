@@ -36,9 +36,6 @@ export async function generateMetadata(
   // fetch data
   const course = await getCourseBySlug(slug);
 
-  // optionally access and extend (rather than replace) parent metadata
-  const previousImages = (await parent).openGraph?.images || [];
-
   return {
     title: course?.title
       ? `AviatorJonah | ${course.title}`
@@ -47,7 +44,7 @@ export async function generateMetadata(
       ? `${course.description.slice(0, 150)}...`
       : "AviatorJonah | Course",
     openGraph: {
-      images: [course?.image ?? "", ...previousImages],
+      images: [course?.image ?? ""],
     },
   };
 }
