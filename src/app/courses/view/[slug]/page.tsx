@@ -20,7 +20,7 @@ import {
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import PaymentClient from "@/components/payment-client";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -28,7 +28,6 @@ type Props = {
 
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata
 ): Promise<Metadata> {
   // read route params
   const slug = (await params).slug;
@@ -44,6 +43,9 @@ export async function generateMetadata(
       ? `${course.description.slice(0, 150)}...`
       : "AviatorJonah | Course",
     openGraph: {
+      title: `${course?.title} - AviatorJonah`,
+      description: `${course?.description?.slice(0, 150)}...`,
+      url: `https://learn.aviatorjonah.com/courses/view/${course?.slug}`,
       images: [course?.image ?? ""],
     },
   };
