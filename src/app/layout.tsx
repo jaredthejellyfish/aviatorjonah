@@ -50,6 +50,9 @@ export default async function RootLayout({
               <div className="min-h-screen bg-gradient-to-b from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-900/40 text-neutral-800 dark:text-neutral-200">
                 <Navigation />
                 {children}
+                <div className="h-10 bg-black text-4xl p-20">
+                  This is a footer!
+                </div>
               </div>
               <ReactQueryDevtools />
               <Toaster />
