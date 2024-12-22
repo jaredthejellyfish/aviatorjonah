@@ -268,10 +268,10 @@ export function ChapterSection({
           </motion.button>
         </HoverCardTrigger>
 
-        <HoverCardContent className="p-4">
+        <HoverCardContent className="p-0" side="top">
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="outline">Delete Chapter</Button>
+              <Button variant="outline" className="w-full">Delete Chapter</Button>
             </AlertDialogTrigger>
             <AlertDialogContent className="max-w-2xl p-6 gap-6 border-neutral-800">
               <AlertDialogHeader className="gap-2">
