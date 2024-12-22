@@ -39,9 +39,9 @@ async function EditCoursePage({ params }: Props) {
         <div className="container mx-auto px-4 py-8">
           <div className="mb-8">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-              <div>
+              <div className="w-full">
                 <Input
-                  className="text-3xl h-9 font-bold mb-2"
+                  className="text-3xl h-9 font-bold mb-2 p-0 w-4/5"
                   defaultValue={course.title}
                   style={{ fontSize: "2.25rem" }}
                 />
