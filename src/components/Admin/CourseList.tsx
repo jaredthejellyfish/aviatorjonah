@@ -97,7 +97,9 @@ export function CourseList({ courses: initialCourses }: { courses: Course[] }) {
                       : "bg-green-500 hover:bg-green-600"
                   }
                 >
-                  {course.draft ? "Draft" : "Published"}
+                  <span className="text-black dark:text-white">
+                    {course.draft ? "Draft" : "Published"}
+                  </span>
                 </Badge>
               </TableCell>
               <TableCell className="text-right space-x-2">

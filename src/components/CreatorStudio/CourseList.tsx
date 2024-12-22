@@ -47,7 +47,7 @@ export function CourseList({
   };
 
   return (
-    <div className="bg-black p-3 rounded-md">
+    <div className="dark:bg-black bg-white p-3 rounded-md">
       <Table>
         <TableHeader>
           <TableRow>
