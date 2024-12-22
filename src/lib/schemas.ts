@@ -29,3 +29,11 @@ export const UpdateLessonSchema = z.object({
   orderIndex: z.number().min(0).optional(),
 });
 
+export const SelectedCourseSchema = z.object({
+  id: z.string().optional(),
+  price: z.number(),
+  title: z.string(),
+  description: z.string(),
+  image: z.string().optional(),
+  slug: z.string(),
+});

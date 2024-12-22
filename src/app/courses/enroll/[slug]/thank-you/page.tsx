@@ -193,19 +193,21 @@ export default async function EnrollmentSuccess({
         </div>
         <div className="lg:block">
           <Card className="sticky top-24 overflow-hidden bg-white dark:bg-neutral-900 shadow-xl">
-            <Image
-              src={course.image ?? ""}
-              alt={course.title}
-              width={600}
-              height={400}
-              className="w-full h-48 object-cover"
-            />
+            {course.image && (
+              <Image
+                src={course.image}
+                alt={course.title}
+                width={600}
+                height={400}
+                className="w-full h-48 object-cover"
+              />
+            )}
             <CardContent className="pt-6">
               <h3 className="text-xl font-semibold mb-4">{course.title}</h3>
               <div className="space-y-3 mb-6">
                 <div className="flex items-center space-x-2 text-neutral-600 dark:text-neutral-400">
                   <BookOpen className="h-5 w-5" />
-                  <span>Instructor: {course.instructor}</span>
+                  <span>Instructor: {course.instructor_name}</span>
                 </div>
                 <div className="flex items-center space-x-2 text-neutral-600 dark:text-neutral-400">
                   <Clock className="h-5 w-5" />

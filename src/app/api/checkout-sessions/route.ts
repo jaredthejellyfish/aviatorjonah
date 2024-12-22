@@ -3,22 +3,30 @@ import { NextRequest, NextResponse } from "next/server";
 
 import stripe from "@/utils/stripe";
 import { currentUser } from "@clerk/nextjs/server";
+import { SelectedCourseSchema } from "@/lib/schemas";
 
 export async function POST(req: NextRequest) {
   const headersList = await headers();
-  const user = await currentUser()
+  const user = await currentUser();
 
+  const body = await req.json();
 
-  console.log(user)
-  const { courseId, price, title, description, images, courseSlug } =
-    await req.json();
+  const parsedCourse = SelectedCourseSchema.safeParse(body);
 
-  if (!courseId || !price || !title || !description || !courseSlug) {
+  if (!parsedCourse.success) {
     return NextResponse.json(
-      { error: "Missing required course information" },
+      { error: "Missing required course information", cause: parsedCourse.error },
       { status: 400 }
     );
   }
+
+  const {
+    price,
+    title,
+    description,
+    image: images,
+    slug: courseSlug,
+  } = parsedCourse.data;
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -30,7 +38,7 @@ export async function POST(req: NextRequest) {
             product_data: {
               name: title,
               description: description,
-              images: [...images], // Add images if you have them
+              images: images ? [images] : [], // Add images if you have them
             },
             unit_amount: Math.round(price * 100), // Stripe expects the amount in cents
           },

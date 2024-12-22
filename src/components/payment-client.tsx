@@ -7,6 +7,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { SelectedCourseSchema } from "@/lib/schemas";
 
 type Props = {
   selectedCourse: {
@@ -30,14 +31,16 @@ function PaymentClient({
   buttonStyles,
   buttonText,
 }: Props) {
-  if (!selectedCourse || !selectedCourse.price) {
+  const parsedCourse = SelectedCourseSchema.safeParse(selectedCourse);
+
+  if (!parsedCourse.success) {
     return <div>Course not found</div>;
   }
 
   const redirectToCheckout = async () => {
     try {
       const stripe = await loadStripe(
-        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
+        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
       );
 
       if (!stripe) throw new Error("Stripe failed to initialize.");
@@ -53,7 +56,7 @@ function PaymentClient({
           title: selectedCourse.title,
           description: selectedCourse.description,
           images: [selectedCourse.image],
-          courseSlug: selectedCourse.slug,
+          slug: selectedCourse.slug,
         }),
       });
 
@@ -78,9 +81,7 @@ function PaymentClient({
 
   return enrolled ? (
     <Button size="lg" className={cn("mb-4 w-full", buttonStyles)} asChild>
-      <Link href={`/course/${selectedCourse.slug}`}>
-        Go to Course
-      </Link>
+      <Link href={`/course/${selectedCourse.slug}`}>Go to Course</Link>
     </Button>
   ) : (
     <Button

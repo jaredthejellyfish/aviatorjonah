@@ -63,13 +63,15 @@ function CoursesSection({ courses }: Props) {
       {filteredCourses.map((course) => (
         <motion.div key={course.id} variants={itemVariants}>
           <Card className="overflow-hidden bg-white dark:bg-neutral-900 shadow-lg">
+            {course.image && (
             <Image
-              src={course.image ?? ""}
-              alt={course.title}
-              width={300}
-              height={300}
-              className="w-full h-48 object-cover"
-            />
+              src={course.image}
+                alt={course.title}
+                width={300}
+                height={300}
+                className="w-full h-48 object-cover"
+              />
+            )}
             <CardHeader className="pb-2 pt-5">
               <CardTitle>{course.title}</CardTitle>
             </CardHeader>

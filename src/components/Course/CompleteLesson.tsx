@@ -114,8 +114,12 @@ function CompleteLesson({
       );
       const firstLessonOfNextModule = nextModuleLessons[0];
       nextDestination = {
-        href: `/lesson/${course.slug}/${firstLessonOfNextModule.slug}`,
-        text: "Next Module",
+        href: firstLessonOfNextModule
+          ? `/lesson/${course.slug}/${firstLessonOfNextModule.slug}`
+          : `/course/${course.slug}`,
+        text: firstLessonOfNextModule
+          ? "Next Module"
+          : "Course Completed!",
       };
     }
   } else {
@@ -129,8 +133,6 @@ function CompleteLesson({
   const currentLesson = sortedLessons[currentLessonIndex];
 
   const currentLessonProgress = currentLesson.progress;
-
-  console.log(currentLessonProgress[0]);
 
   return (
     <Card className="mt-10 w-full">

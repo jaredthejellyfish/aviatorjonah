@@ -26,9 +26,7 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export async function generateMetadata(
-  { params }: Props,
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // read route params
   const slug = (await params).slug;
 
@@ -93,13 +91,15 @@ async function ViewCourse({ params }: Props) {
       </div>
       <div className="lg:hidden block mb-5">
         <Card className="sticky top-24 overflow-hidden bg-white dark:bg-neutral-900 shadow-xl">
-          <Image
-            src={course.image ?? ""}
-            alt={course.title}
-            width={600}
-            height={400}
-            className="w-full h-32 object-cover"
-          />
+          {course.image && (
+            <Image
+              src={course.image ?? null}
+              alt={course.title}
+              width={600}
+              height={400}
+              className="w-full h-32 object-cover"
+            />
+          )}
           <CardContent className="pt-6">
             <div className="flex justify-between items-center mb-4">
               <div className="text-3xl font-bold text-indigo-600 dark:text-indigo-400">
@@ -122,7 +122,7 @@ async function ViewCourse({ params }: Props) {
             <div className="space-y-2 text-sm text-neutral-600 dark:text-neutral-400">
               <div className="flex items-center">
                 <BookOpen className="h-4 w-4 mr-2" />
-                Instructor: {course.instructor}
+                Instructor: {course.instructor_name}
               </div>
               <div className="flex items-center">
                 <Calendar className="h-4 w-4 mr-2" />
@@ -198,13 +198,15 @@ async function ViewCourse({ params }: Props) {
         </div>
         <div className="hidden lg:block">
           <Card className="sticky top-24 overflow-hidden bg-white dark:bg-neutral-900 shadow-xl">
-            <Image
-              src={course.image ?? ""}
-              alt={course.title}
-              width={600}
-              height={400}
-              className="w-full h-48 object-cover"
-            />
+            {course.image && (
+              <Image
+                src={course.image ?? null}
+                alt={course.title}
+                width={600}
+                height={400}
+                className="w-full h-48 object-cover"
+              />
+            )}
             <CardContent className="pt-6">
               <div className="flex justify-between items-center mb-4">
                 <div className="text-3xl font-bold text-indigo-600 dark:text-indigo-400">

@@ -310,13 +310,15 @@ const CourseTable = ({
             <MotionCard key={course.id} variants={fadeInUp} custom={index}>
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
+                  {course.image && (
                   <Image
-                    src={course.image ?? ""}
+                    src={course.image ?? PlaceholderImage}
                     alt={course.title ?? ""}
                     width={60}
                     height={60}
                     className="rounded-md object-cover"
-                  />
+                    />
+                  )}
                   <div>
                     <CardTitle className="text-lg">{course.title}</CardTitle>
                     <CardDescription>{course.category}</CardDescription>
@@ -335,7 +337,9 @@ const CourseTable = ({
                   </div>
                 </div>
                 <motion.div>
-                  <Button className="w-full">Enroll Now</Button>
+                  <Link href={`/courses/view/${course.slug}`}>
+                    <Button className="w-full">View Course</Button>
+                  </Link>
                 </motion.div>
               </CardContent>
             </MotionCard>
