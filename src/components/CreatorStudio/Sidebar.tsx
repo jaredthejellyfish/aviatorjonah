@@ -37,9 +37,11 @@ export default function LeftSidebar({
         slug: lesson.slug ?? "",
         moduleSlug: moduleItem.slug ?? "",
         courseSlug: courseSlug ?? "",
+        id: lesson.id ?? "",
       })),
     chapterTitle: moduleItem.title ?? "",
     chapterNumber: moduleItem.order_index,
+    id: moduleItem.id ?? "",
   }));
 
   const currentModuleTitle =
@@ -69,6 +71,7 @@ export default function LeftSidebar({
         currentModuleTitle={currentModuleTitle}
         currentLessonTitle={currentLessonTitle}
         courseSlug={courseSlug}
+        courseId={course.id}
       />
 
       {/* DrawerSidebar (mobile-friendly) */}
@@ -78,6 +81,7 @@ export default function LeftSidebar({
         currentModuleTitle={currentModuleTitle}
         currentLessonTitle={currentLessonTitle}
         courseSlug={courseSlug}
+        courseId={course.id}
       />
     </div>
   );

@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface DeleteCourseParams {
   courseId: string;
@@ -26,7 +27,13 @@ export function useDeleteCourseMutation() {
       return response.json();
     },
     onSuccess: () => {
+      toast.success("Course Deleted", {
+        description: "The course has been successfully deleted.",
+      });
       router.refresh();
+    },
+    onError: () => {
+      toast.error("Failed to delete course");
     },
   });
 }

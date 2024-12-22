@@ -85,6 +85,14 @@ export async function getDashboardData() {
       (course) => !enrolledIds.has(course.id),
     );
 
+      const overallProgress = enrolledCoursesWithProgress.reduce(
+        (acc, curr) => acc + curr.totalProgress,
+        0,
+      );
+
+    const overallProgressPercentage =
+      (overallProgress / enrolledCoursesWithProgress.length).toFixed(0);
+
     return {
       enrolledCourses: enrolledCoursesWithProgress,
       recommendedCourses: filteredRecommendations,
@@ -94,6 +102,7 @@ export async function getDashboardData() {
         (acc, curr) => acc + curr.totalTime,
         0,
       ),
+      overallProgress: overallProgressPercentage,
     };
   } catch (error) {
     console.error("Error in getDashboardData:", error);
@@ -104,6 +113,7 @@ export async function getDashboardData() {
       recommendedCourses: null,
       currentStreak: null,
       userPercentile: null,
+      overallProgress: null,
     };
   }
 }

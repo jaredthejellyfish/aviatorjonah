@@ -227,7 +227,7 @@ async function ViewCourse({ params }: Props) {
               <div className="space-y-2 text-sm text-neutral-600 dark:text-neutral-400">
                 <div className="flex items-center">
                   <BookOpen className="h-4 w-4 mr-2" />
-                  Instructor: {course.instructor}
+                  Instructor: {course.instructor_name}
                 </div>
                 <div className="flex items-center">
                   <Calendar className="h-4 w-4 mr-2" />

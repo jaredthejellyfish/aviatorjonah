@@ -45,6 +45,13 @@ export type Database = {
             referencedRelation: "courses"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "assignments_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses_with_enrollment_count"
+            referencedColumns: ["id"]
+          },
         ]
       }
       bookmarked_courses: {
@@ -74,6 +81,13 @@ export type Database = {
             referencedRelation: "courses"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "bookmarked_courses_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses_with_enrollment_count"
+            referencedColumns: ["id"]
+          },
         ]
       }
       courses: {
@@ -83,9 +97,11 @@ export type Database = {
           created_at: string | null
           description: string | null
           draft: boolean
+          enrollment_count: number | null
           id: string
           image: string | null
           instructor_id: string
+          instructor_name: string | null
           level: string | null
           price: number | null
           slug: string | null
@@ -98,9 +114,11 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           draft?: boolean
+          enrollment_count?: number | null
           id?: string
           image?: string | null
           instructor_id: string
+          instructor_name?: string | null
           level?: string | null
           price?: number | null
           slug?: string | null
@@ -113,9 +131,11 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           draft?: boolean
+          enrollment_count?: number | null
           id?: string
           image?: string | null
           instructor_id?: string
+          instructor_name?: string | null
           level?: string | null
           price?: number | null
           slug?: string | null
@@ -149,6 +169,13 @@ export type Database = {
             columns: ["course_id"]
             isOneToOne: false
             referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "enrollments_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses_with_enrollment_count"
             referencedColumns: ["id"]
           },
         ]
@@ -242,6 +269,13 @@ export type Database = {
             referencedRelation: "courses"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "modules_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses_with_enrollment_count"
+            referencedColumns: ["id"]
+          },
         ]
       }
       progress: {
@@ -281,6 +315,13 @@ export type Database = {
             columns: ["course_id"]
             isOneToOne: false
             referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "progress_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses_with_enrollment_count"
             referencedColumns: ["id"]
           },
           {
@@ -339,6 +380,57 @@ export type Database = {
       }
     }
     Views: {
+      courses_with_enrollment_count: {
+        Row: {
+          category: string | null
+          completion_time: number | null
+          created_at: string | null
+          description: string | null
+          draft: boolean | null
+          enrollment_count: number | null
+          id: string | null
+          image: string | null
+          instructor_id: string | null
+          level: string | null
+          price: number | null
+          slug: string | null
+          title: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          category?: string | null
+          completion_time?: number | null
+          created_at?: string | null
+          description?: string | null
+          draft?: boolean | null
+          enrollment_count?: never
+          id?: string | null
+          image?: string | null
+          instructor_id?: string | null
+          level?: string | null
+          price?: number | null
+          slug?: string | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string | null
+          completion_time?: number | null
+          created_at?: string | null
+          description?: string | null
+          draft?: boolean | null
+          enrollment_count?: never
+          id?: string | null
+          image?: string | null
+          instructor_id?: string | null
+          level?: string | null
+          price?: number | null
+          slug?: string | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       lessons_public: {
         Row: {
           created_at: string | null

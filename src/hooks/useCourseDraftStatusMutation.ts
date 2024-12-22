@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-
+import { toast } from "sonner";
 interface ToggleDraftStatusParams {
   courseId: string;
 }
@@ -26,7 +26,13 @@ export function useCourseDraftStatusMutation() {
       return response.json();
     },
     onSuccess: () => {
+      toast.success("Course Draft Status Updated", {
+        description: "The course draft status has been successfully updated.",
+      });
       router.refresh();
+    },
+    onError: () => {
+      toast.error("Failed to update course draft status");
     },
   });
 }

@@ -15,16 +15,17 @@ export async function POST(req: NextRequest) {
   const supabase = await createClient();
   const authData = await auth();
 
-  if (!authData.userId || authData.orgRole !== "org:owner") {
+  if (!authData.userId) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   // First check if course exists
   const { data: course, error: fetchError } = await supabase
     .from("courses")
-    .select("id")
+    .select("id, instructor_id")
     .eq("id", courseId)
     .single();
+
 
   if (fetchError) {
     return NextResponse.json({ message: "Failed to fetch course" }, { status: 500 });
@@ -32,6 +33,10 @@ export async function POST(req: NextRequest) {
 
   if (!course) {
     return NextResponse.json({ message: "Course not found" }, { status: 404 });
+  }
+
+  if ((course.instructor_id !== authData.userId) && (authData.orgRole !== "org:owner")) {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   // Delete the course

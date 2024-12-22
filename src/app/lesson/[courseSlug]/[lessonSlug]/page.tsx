@@ -2,12 +2,13 @@ import CompleteLesson from "@/components/Course/CompleteLesson";
 import Sections from "@/components/Course/sections";
 import LeftSidebar from "@/components/Course/sidebar";
 import { getCourseBySlug } from "@/utils/helpers/getCourseBySlug";
-
 import { getCourseBySlugWithProgress } from "@/utils/helpers/getCourseBySlugWithProgress";
 import { Metadata, ResolvingMetadata } from "next";
-import { MDXRemote } from "next-mdx-remote/rsc";
+import { marked } from "marked";
+import { markedHighlight } from "marked-highlight";
+import hljs from "highlight.js";
 import { notFound } from "next/navigation";
-import type { HTMLAttributes, DetailedHTMLProps } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
 type Props = {
   params: Promise<{
@@ -20,13 +21,8 @@ export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  // read route params
   const courseSlug = (await params).courseSlug;
-
-  // fetch data
   const course = await getCourseBySlug(courseSlug);
-
-  // optionally access and extend (rather than replace) parent metadata
   const previousImages = (await parent).openGraph?.images || [];
 
   return {
@@ -42,11 +38,6 @@ export async function generateMetadata(
   };
 }
 
-type HeadingProps = DetailedHTMLProps<
-  HTMLAttributes<HTMLHeadingElement>,
-  HTMLHeadingElement
->;
-
 function extractSections(content: string) {
   if (!content) {
     return [];
@@ -54,48 +45,21 @@ function extractSections(content: string) {
 
   const h2Regex = /##\s*(.*?)(?:\n|$)/g;
   const matches = Array.from(content.matchAll(h2Regex));
-
   const sections = matches.map((match) => match[1].trim().replace(/^#+/, ""));
-
   return sections;
 }
 
-const components = {
-  h2: ({ children, ...props }: HeadingProps) => {
-    const id = children!
-      .toString()
-      .toLowerCase()
-      .trim()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-z0-9\s-]/g, "")
-      .replace(/\s+/g, "-")
-      .replace(/-+/g, "-")
-      .replace(/^-+|-+$/g, "");
-    return (
-      <h2 id={id} {...props}>
-        {children}
-      </h2>
-    );
-  },
-  h3: ({ children, ...props }: HeadingProps) => {
-    const id = children!
-      .toString()
-      .toLowerCase()
-      .trim()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-z0-9\s-]/g, "")
-      .replace(/\s+/g, "-")
-      .replace(/-+/g, "-")
-      .replace(/^-+|-+$/g, "");
-    return (
-      <h3 id={id} {...props}>
-        {children}
-      </h3>
-    );
-  },
-};
+function slugify(text: string) {
+  return text
+    .toLowerCase()
+    .trim()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
 
 async function CoursePage({ params }: Props) {
   const courseSlug = (await params).courseSlug;
@@ -127,18 +91,64 @@ async function CoursePage({ params }: Props) {
 
   const sections = extractSections(content);
 
+  // Configure marked with custom renderer
+  const renderer = new marked.Renderer();
+
+  // Custom heading renderer
+  renderer.heading = ({ tokens, depth }) => {
+    const text = tokens
+      .filter((token) => token.type === "text")
+      .map((token) => (token as { text: string }).text)
+      .join("");
+    const id = slugify(text);
+
+    if (depth === 2) {
+      return `<h2 id="${id}" class="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">${text}</h2>`;
+    }
+
+    if (depth === 3) {
+      return `<h3 id="${id}" class="scroll-m-20 text-2xl font-semibold tracking-tight">${text}</h3>`;
+    }
+
+    return `<h${depth}>${text}</h${depth}>`;
+  };
+
+  // Configure marked with syntax highlighting and custom renderer
+  marked.use(
+    markedHighlight({
+      langPrefix: "hljs language-",
+      highlight(code, lang) {
+        const language = hljs.getLanguage(lang) ? lang : "plaintext";
+        return hljs.highlight(code, { language }).value;
+      },
+    }),
+    {
+      renderer,
+      gfm: true,
+      breaks: true,
+    }
+  );
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] lg:grid-cols-[300px_1fr_250px] ">
+    <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] lg:grid-cols-[300px_1fr_250px]">
       <LeftSidebar
         course={course}
         courseSlug={courseSlug}
         moduleSlug={moduleSlug}
         lessonSlug={lessonSlug}
       />
-      <div className="w-full !max-w-none md:px-10 px-4 py-5 prose prose-headings:text-primary prose-strong:text-primary prose-a:text-primary prose-a:underline prose-a:decoration-primary prose-a:decoration-2 prose-a:underline-offset-4 prose-a:decoration-offset-4 prose-a:hover:text-primary/80 prose-a:hover:decoration-primary/80 prose-a:hover:no-underline prose-h1:font-bold dark:prose-p:text-white/80 dark:prose-li:text-white/80">
-        <h1 className="text-4xl font-bold">{lessonTitle}</h1>
-        <MDXRemote source={content} components={components} />
-        <CompleteLesson course={course} currentLessonSlug={lessonSlug} />
+      <div className="relative w-full overflow-x-hidden">
+        <div className="px-4 md:px-10 py-5 prose dark:prose-invert max-w-full prose-headings:text-primary prose-strong:text-primary prose-a:text-primary prose-a:underline prose-a:decoration-primary prose-a:decoration-2 prose-a:underline-offset-4 prose-a:decoration-offset-4 prose-a:hover:text-primary/80 prose-a:hover:decoration-primary/80 prose-a:hover:no-underline prose-h1:font-bold dark:prose-p:text-white/80 dark:prose-li:text-white/80 prose-pre:overflow-x-auto prose-img:rounded-xl">
+          <h1 className="text-4xl font-bold">{lessonTitle}</h1>
+          <ErrorBoundary fallback={<div>Error loading lesson</div>}>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: marked(content),
+              }}
+            />
+          </ErrorBoundary>
+          <CompleteLesson course={course} currentLessonSlug={lessonSlug} />
+        </div>
       </div>
 
       <Sections sections={sections} />

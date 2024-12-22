@@ -35,6 +35,7 @@ export default async function CoursesDashboard() {
     totalTime,
     currentStreak,
     userPercentile,
+    overallProgress,
   } = await getDashboardData();
 
   return (
@@ -127,9 +128,9 @@ export default async function CoursesDashboard() {
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span>Overall Progress</span>
-                <span className="font-medium">65%</span>
+                <span className="font-medium">{overallProgress}%</span>
               </div>
-              <Progress value={65} className="h-2" />
+              <Progress value={overallProgress ? parseInt(overallProgress) : 0} className="h-2" />
             </div>
             <div className="grid gap-4 md:grid-cols-3">
               <div className="flex items-center space-x-4 rounded-lg border p-4">

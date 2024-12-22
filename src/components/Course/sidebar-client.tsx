@@ -1,8 +1,11 @@
 "use client";
-
+// sidebar-client.tsx (Client Components)
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "motion/react";
 import { Check, ChevronDown, Menu } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -17,11 +20,29 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 
-function ChapterLesson({
+const fadeInUpVariants = {
+  initial: { opacity: 0, y: -20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -20 },
+};
+
+const fadeInQuickVariants = {
+  initial: { opacity: 0, y: -10 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -10 },
+};
+
+const rotateVariants = {
+  open: { rotate: 180 },
+  closed: { rotate: 0 },
+};
+
+// -------------------------------------
+// ChapterLesson
+// -------------------------------------
+export function ChapterLesson({
   lesson,
   currentLessonTitle,
 }: {
@@ -36,9 +57,10 @@ function ChapterLesson({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
+      variants={fadeInQuickVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
       transition={{ duration: 0.2 }}
       className="mr-3"
     >
@@ -46,36 +68,37 @@ function ChapterLesson({
         href={`/lesson/${lesson.courseSlug}/${lesson.slug}`}
         className={cn(
           "group flex items-center justify-between w-full px-4 py-2.5 rounded-md transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-          lesson.title === currentLessonTitle && "bg-primary/10",
+          lesson.title === currentLessonTitle && "bg-primary/10"
         )}
       >
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <span className="truncate w-4/5 text-sm font-medium group-hover:text-primary">
-                {lesson.title}
-              </span>
-            </TooltipTrigger>
-            <TooltipContent side="right" sideOffset={10}>
-              <p className="text-sm">{lesson.title}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-        {lesson.completed && (
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            className="flex items-center justify-center p-1.5 rounded-full bg-green-400/40"
-          >
-            <Check className="w-3.5 h-3.5 text-primary" />
-          </motion.div>
-        )}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span className="truncate w-4/5 text-sm font-medium group-hover:text-primary">
+              {lesson.title}
+            </span>
+          </TooltipTrigger>
+          <TooltipContent side="right" sideOffset={10}>
+            <p className="text-sm">{lesson.title}</p>
+          </TooltipContent>
+          {lesson.completed && (
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="flex items-center justify-center p-1.5 rounded-full bg-green-400/40"
+            >
+              <Check className="w-3.5 h-3.5 text-primary" />
+            </motion.div>
+          )}
+        </Tooltip>
       </Link>
     </motion.div>
   );
 }
 
-function ChapterSection({
+// -------------------------------------
+// ChapterSection
+// -------------------------------------
+export function ChapterSection({
   lessons,
   chapterTitle,
   chapterNumber,
@@ -98,8 +121,9 @@ function ChapterSection({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
+      variants={fadeInUpVariants}
+      initial="initial"
+      animate="animate"
       transition={{ duration: 0.3 }}
       className="mt-6"
     >
@@ -113,21 +137,20 @@ function ChapterSection({
           <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Chapter {chapterNumber}
           </span>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <h2 className="text-sm font-semibold truncate w-full text-left group-hover:text-primary transition-colors">
-                  {chapterTitle}
-                </h2>
-              </TooltipTrigger>
-              <TooltipContent side="right" sideOffset={10}>
-                <p className="text-sm">{chapterTitle}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <h2 className="text-sm font-semibold truncate w-full text-left group-hover:text-primary transition-colors">
+                {chapterTitle}
+              </h2>
+            </TooltipTrigger>
+            <TooltipContent side="right" sideOffset={10}>
+              <p className="text-sm">{chapterTitle}</p>
+            </TooltipContent>
+          </Tooltip>
         </div>
         <motion.div
-          animate={{ rotate: isOpen ? 180 : 0 }}
+          variants={rotateVariants}
+          animate={isOpen ? "open" : "closed"}
           transition={{ duration: 0.2 }}
         >
           <ChevronDown className="w-4 h-4 text-muted-foreground" />
@@ -157,6 +180,9 @@ function ChapterSection({
   );
 }
 
+// -------------------------------------
+// SidebarContent
+// -------------------------------------
 export function SidebarContent({
   courseModules,
   courseTitle,
@@ -183,20 +209,22 @@ export function SidebarContent({
   courseSlug: string;
 }) {
   return (
-    <Tabs
-      defaultValue="content"
-      className={cn(
-        "md:h-[calc(100vh-64px)] h-full pb-6 md:pb-0 overflow-scroll flex flex-col bg-background",
-        className,
-      )}
-    >
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="flex-shrink-0 border-b border-border p-4 hidden md:block"
+    <TooltipProvider>
+      <Tabs
+        defaultValue="content"
+        className={cn(
+          "md:h-[calc(100vh-64px)] h-full pb-6 md:pb-0 overflow-scroll flex flex-col bg-background",
+          className
+        )}
       >
-        <TooltipProvider>
+        {/* Course title (visible on md+) */}
+        <motion.div
+          variants={fadeInUpVariants}
+          initial="initial"
+          animate="animate"
+          transition={{ duration: 0.5 }}
+          className="flex-shrink-0 border-b border-border p-4 hidden md:block"
+        >
           <Tooltip>
             <TooltipTrigger asChild>
               <Link href={`/course/${courseSlug}`}>
@@ -209,55 +237,65 @@ export function SidebarContent({
               <p className="text-sm">{courseTitle}</p>
             </TooltipContent>
           </Tooltip>
-        </TooltipProvider>
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="flex-shrink-0 bg-background p-2 border-b border-border"
-      >
-        <TabsList className="w-full">
-          <TabsTrigger value="content" className="flex-1">
-            Content
-          </TabsTrigger>
-          <TabsTrigger value="resources" className="flex-1">
-            Resources
-          </TabsTrigger>
-        </TabsList>
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-        className="flex-grow overflow-y-auto"
-      >
-        <TabsContent value="content">
-          {courseModules?.map((moduleItem) => (
-            <ChapterSection
-              key={moduleItem.chapterNumber}
-              lessons={moduleItem.lessons}
-              chapterTitle={moduleItem.chapterTitle}
-              chapterNumber={moduleItem.chapterNumber}
-              currentLessonTitle={currentLessonTitle}
-              defaultOpen={
-                currentModuleTitle
-                  ? currentModuleTitle === moduleItem.chapterTitle
-                  : false
-              }
-            />
-          ))}
-        </TabsContent>
-        <TabsContent value="resources" className="p-4">
-          <p className="text-sm text-muted-foreground">
-            Resources content goes here.
-          </p>
-        </TabsContent>
-      </motion.div>
-    </Tabs>
+        </motion.div>
+
+        {/* Tabs header */}
+        <motion.div
+          variants={fadeInUpVariants}
+          initial="initial"
+          animate="animate"
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="flex-shrink-0 bg-background p-2 border-b border-border"
+        >
+          <TabsList className="w-full">
+            <TabsTrigger value="content" className="flex-1">
+              Content
+            </TabsTrigger>
+            <TabsTrigger value="resources" className="flex-1">
+              Resources
+            </TabsTrigger>
+          </TabsList>
+        </motion.div>
+
+        {/* Tabs content */}
+        <motion.div
+          variants={{ initial: { opacity: 0 }, animate: { opacity: 1 } }}
+          initial="initial"
+          animate="animate"
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="flex-grow overflow-y-auto"
+        >
+          <TabsContent value="content">
+            {courseModules?.map((moduleItem) => (
+              <ChapterSection
+                key={moduleItem.chapterNumber}
+                lessons={moduleItem.lessons}
+                chapterTitle={moduleItem.chapterTitle}
+                chapterNumber={moduleItem.chapterNumber}
+                currentLessonTitle={currentLessonTitle}
+                defaultOpen={
+                  currentModuleTitle
+                    ? currentModuleTitle === moduleItem.chapterTitle
+                    : false
+                }
+              />
+            ))}
+          </TabsContent>
+
+          <TabsContent value="resources" className="p-4">
+            <p className="text-sm text-muted-foreground">
+              Resources content goes here.
+            </p>
+          </TabsContent>
+        </motion.div>
+      </Tabs>
+    </TooltipProvider>
   );
 }
 
+// -------------------------------------
+// DrawerSidebar
+// -------------------------------------
 export function DrawerSidebar({
   courseTitle,
   courseModules,
@@ -283,16 +321,17 @@ export function DrawerSidebar({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Close the drawer automatically if screen is resized to >=768px
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
         setIsOpen(false);
       }
     };
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
@@ -307,12 +346,15 @@ export function DrawerSidebar({
           </Button>
         </motion.div>
       </DrawerTrigger>
+
       <DrawerContent>
         <DrawerHeader>
           <Link href={`/course/${courseSlug}`}>
             <DrawerTitle>{courseTitle}</DrawerTitle>
           </Link>
         </DrawerHeader>
+
+        {/* Reuse the SidebarContent inside the drawer */}
         <SidebarContent
           courseSlug={courseSlug}
           courseTitle={courseTitle}
