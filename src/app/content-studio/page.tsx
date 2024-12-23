@@ -28,7 +28,7 @@ export default async function CreatorStudioPage() {
 
       <div className="mt-8">
         <h2 className="text-2xl font-semibold mb-4">Your Courses</h2>
-        <CourseList initialCourses={courses} />
+        <CourseList courses={courses} />
       </div>
     </div>
   );

@@ -1,6 +1,13 @@
 "use client";
 
-import React, { useCallback, useState, useRef, useEffect } from "react";
+import React, {
+  useCallback,
+  useState,
+  useRef,
+  useEffect,
+  useTransition,
+} from "react";
+import { useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -18,8 +25,9 @@ import {
   Edit2,
 } from "lucide-react";
 import { marked } from "marked";
-import { useCourseUpdateLessonMutation } from "@/hooks/useCourseUpdateLessonMutation";
 import { Input } from "../ui/input";
+import { updateLesson } from "@/actions/course-editor/lesson";
+import { toast } from "sonner";
 
 // Define types for editor controls
 interface EditorControl {
@@ -102,7 +110,6 @@ const EditorControls: React.FC<EditorControlsProps> = ({
 
 interface LessonEditorProps {
   initialContent: string;
-  onSave?: (content: string) => Promise<void>;
   lessonId: string;
   courseSlug: string;
   lessonSlug: string;
@@ -113,22 +120,16 @@ const LessonEditor: React.FC<LessonEditorProps> = ({
   initialContent,
   lessonId,
   lessonTitle: initialLessonTitle,
+  courseSlug,
 }) => {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const [content, setContent] = useState(initialContent || "");
   const [activeTab, setActiveTab] = useState<string>("edit");
-  const [isSaving, setIsSaving] = useState(false);
   const [unsavedChanges, setUnsavedChanges] = useState(false);
   const [lessonTitle, setLessonTitle] = useState(initialLessonTitle);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const { mutate: updateLesson } = useCourseUpdateLessonMutation();
 
-  // -----------------------------------------------------
-  // 1. Define callbacks (insertMarkdown, handleSave) first
-  // -----------------------------------------------------
-
-  /**
-   * Inserts Markdown into the current cursor/selection position
-   */
   const insertMarkdown = useCallback(
     (markdown: string): void => {
       if (!textareaRef.current) return;
@@ -143,7 +144,6 @@ const LessonEditor: React.FC<LessonEditorProps> = ({
 
       // Handle different markdown insertions
       if (markdown === "**Bold**" || markdown === "*Italic*") {
-        // e.g. "**Bold**" => wrap selection in "**" if something is selected
         const wrapper = markdown.charAt(0);
         const wrapperLength = markdown.match(/^[*]+/)?.[0].length || 0;
         if (selectedText) {
@@ -177,29 +177,44 @@ const LessonEditor: React.FC<LessonEditorProps> = ({
     [content]
   );
 
-  /**
-   * Saves the content to the server using the updateLesson mutation
-   */
   const handleSave = useCallback(async () => {
-    if (isSaving) return;
+    if (isPending) return;
 
-    try {
-      setIsSaving(true);
+    const res = (await new Promise((resolve) => {
+      startTransition(async () => {
+        const formData = new FormData();
+        formData.append("lessonId", lessonId);
+        formData.append("content", content);
+        formData.append("title", lessonTitle);
 
-      console.log("lessonTitle", lessonTitle);
-      updateLesson({
-        lessonId,
-        content,
-        title: lessonTitle,
+        const res = await updateLesson(formData);
+        resolve(res);
       });
-    } finally {
-      setIsSaving(false);
-    }
-  }, [content, isSaving, updateLesson, lessonId, lessonTitle]);
+    })) as { success: boolean; newSlug: string | null };
 
-  // -----------------------------------------------------
-  // 2. Now define any effects that rely on these callbacks
-  // -----------------------------------------------------
+    if (res.success) {
+      toast.success("Lesson saved");
+      if (lessonTitle !== initialLessonTitle) {
+        setUnsavedChanges(false);
+        router.push(
+          `/content-studio/edit/${courseSlug}/${res.newSlug}`
+        );
+      } else {
+        router.refresh();
+        setUnsavedChanges(false);
+      }
+    } else {
+      toast.error("Failed to save lesson");
+    }
+  }, [
+    isPending,
+    lessonId,
+    content,
+    lessonTitle,
+    router,
+    courseSlug,
+    initialLessonTitle,
+  ]);
 
   // Prevent form submission
   useEffect(() => {
@@ -238,7 +253,6 @@ const LessonEditor: React.FC<LessonEditorProps> = ({
 
     window.addEventListener("keydown", handleKeyDown, true);
     return () => window.removeEventListener("keydown", handleKeyDown, true);
-    // Include dependencies that affect the logic inside
   }, [activeTab, insertMarkdown, handleSave]);
 
   // Warn about unsaved changes when leaving
@@ -302,11 +316,11 @@ const LessonEditor: React.FC<LessonEditorProps> = ({
                       e.preventDefault();
                       handleSave();
                     }}
-                    disabled={isSaving || !unsavedChanges}
+                    disabled={isPending || !unsavedChanges}
                     type="button"
                   >
                     <Save className="h-4 w-4 mr-2" />
-                    {isSaving ? "Saving..." : "Save"}
+                    {isPending ? "Saving..." : "Save"}
                   </Button>
                 </div>
 
@@ -314,7 +328,7 @@ const LessonEditor: React.FC<LessonEditorProps> = ({
                   <TabsContent value="edit" className="mt-0">
                     <EditorControls
                       onInsert={insertMarkdown}
-                      disabled={isSaving}
+                      disabled={isPending}
                     />
                     <Textarea
                       ref={textareaRef}
@@ -326,7 +340,7 @@ const LessonEditor: React.FC<LessonEditorProps> = ({
                       name="content"
                       className="min-h-[600px] w-full font-mono text-sm bg-background border-muted"
                       placeholder="Enter your lesson content using Markdown..."
-                      disabled={isSaving}
+                      disabled={isPending}
                     />
                   </TabsContent>
 

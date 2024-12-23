@@ -1,3 +1,7 @@
+"use client";
+
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -18,11 +22,33 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createCourse } from "@/actions/createCourse";
+import { addCourse } from "@/actions/course-editor/course";
+import { toast } from "sonner";
 
 export function CreateCourseButton() {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [open, setOpen] = useState(false);
+
+  const handleSubmit = async (formData: FormData) => {
+    const res = (await new Promise((resolve) => {
+      startTransition(async () => {
+        const res = await addCourse(formData);
+        resolve(res);
+      });
+    })) as { success: boolean };
+
+    if (res.success) {
+      toast.success("Course created successfully");
+      router.refresh();
+      setOpen(false);
+    } else {
+      toast.error("Failed to create course");
+    }
+  };
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>Create New Course</Button>
       </DialogTrigger>
@@ -33,7 +59,7 @@ export function CreateCourseButton() {
             Enter the title of your new course to get started.
           </DialogDescription>
         </DialogHeader>
-        <form action={createCourse}>
+        <form action={handleSubmit}>
           <div className="flex flex-col gap-4 py-4">
             <div className="flex flex-col items-start gap-y-2">
               <Label htmlFor="title" className="text-right">
@@ -98,7 +124,9 @@ export function CreateCourseButton() {
           </div>
 
           <DialogFooter>
-            <Button type="submit">Create Course</Button>
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Creating..." : "Create Course"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

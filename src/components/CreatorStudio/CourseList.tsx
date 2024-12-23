@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { CreatorCourse } from "@/utils/helpers/getCreatorCourses";
 import { Button } from "@/components/ui/button";
@@ -13,39 +10,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Pencil, Trash2 } from "lucide-react";
-import { useDeleteCourseMutation } from "@/hooks/useDeleteCourseMutation";
 import DeleteDialogWithConfirm from "../DeleteDialogWithConfirm";
+import { removeCourse } from "@/actions/course-editor/course";
 
-export function CourseList({
-  initialCourses,
-}: {
-  initialCourses: CreatorCourse[];
-}) {
-  const [courses, setCourses] = useState<CreatorCourse[]>(initialCourses);
-  const { mutate: deleteCourse } = useDeleteCourseMutation();
-
-  useEffect(() => {
-    setCourses(initialCourses);
-  }, [initialCourses]);
-
-  const handleDeleteCourse = (courseId: string) => {
-    setCourses((currentCourses) =>
-      currentCourses.filter((course) => course.id !== courseId)
-    );
-
-    deleteCourse(
-      { courseId },
-      {
-        onError: () => {
-          setCourses((currentCourses) => [
-            ...currentCourses,
-            ...initialCourses.filter((course) => course.id === courseId),
-          ]);
-        },
-      }
-    );
-  };
-
+export function CourseList({ courses }: { courses: CreatorCourse[] }) {
   return (
     <div className="dark:bg-black bg-white p-3 rounded-md">
       <Table>
@@ -75,9 +43,9 @@ export function CourseList({
                   </Button>
                   <DeleteDialogWithConfirm
                     courseName={course.title || ""}
-                    onDelete={() =>
-                      course.id && handleDeleteCourse(course.id)
-                    }
+                    deleteAction={removeCourse}
+                    userIdFromCourse={course.instructor_id ?? ""}
+                    courseId={course.id ?? ""}
                   >
                     <Button variant="destructive" size="sm">
                       <Trash2 className="h-4 w-4" />

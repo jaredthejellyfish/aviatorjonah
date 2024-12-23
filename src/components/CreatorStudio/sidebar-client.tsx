@@ -1,8 +1,8 @@
 "use client";
 // sidebar-client.tsx (Client Components)
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "motion/react";
+
 import { ChevronDown, Menu, Plus, Trash } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -29,17 +29,15 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-  DialogClose,
-} from "../ui/dialog";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
-import { useCourseAddModuleMutation } from "@/hooks/useCourseAddModuleMutation";
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "../ui/hover-card";
+} from "@/components/ui/hover-card";
 
 import {
   AlertDialogContent,
@@ -51,32 +49,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogDescription,
-} from "../ui/alert-dialog";
-import { useCourseDeleteModuleMutation } from "@/hooks/useCourseDeleteModuleMutation";
-import { useCourseAddLessonMutation } from "@/hooks/useCourseAddLessonMutation";
-import { useCourseDeleteLessonMutation } from "@/hooks/useCourseDeleteLessonMutation";
-
-const fadeInUpVariants = {
-  initial: { opacity: 0, y: -20 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -20 },
-};
-
-const fadeInQuickVariants = {
-  initial: { opacity: 0, y: -10 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -10 },
-};
-
-const rotateVariants = {
-  open: { rotate: 180 },
-  closed: { rotate: 0 },
-};
+} from "@/components/ui/alert-dialog";
+import { useRouter } from "next/navigation";
+import { addChapter, removeChapter } from "@/actions/course-editor/chapter";
+import { toast } from "sonner";
+import { addLesson, removeLesson } from "@/actions/course-editor/lesson";
 
 // -------------------------------------
 // ChapterLesson
 // -------------------------------------
-export function ChapterLesson({
+function ChapterLesson({
   lesson,
   currentLessonTitle,
 }: {
@@ -90,27 +72,37 @@ export function ChapterLesson({
   };
   currentLessonTitle?: string;
 }) {
-  const { mutate: deleteLesson } = useCourseDeleteLessonMutation();
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [moduleTitleInput, setModuleTitleInput] = useState("");
   const [currentText, setCurrentText] = useState("");
 
   const doesTextMatch = useMemo(() => {
-    return currentText === "delete my lesson";
+    return currentText.toLowerCase() === "delete my lesson";
   }, [currentText]);
 
-  const handleDelete = (lessonId: string) => {
-    deleteLesson({
-      lessonId: lessonId,
-    });
+  const handleDelete = async (formData: FormData) => {
+    formData.append("lessonId", lesson.id);
+
+    const res = (await new Promise((resolve) => {
+      startTransition(async () => {
+        const res = await removeLesson(formData);
+        resolve(res);
+      });
+    })) as { success: boolean };
+
+    if (res.success) {
+      toast.success("Lesson deleted successfully");
+      router.push(`/content-studio/edit/${lesson.courseSlug}`);
+      setDialogOpen(false);
+    } else {
+      toast.error("Failed to delete lesson");
+    }
   };
 
   return (
-    <motion.div
-      variants={fadeInQuickVariants}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      transition={{ duration: 0.2 }}
+    <div
       className={cn(
         lesson.title === currentLessonTitle && "bg-primary/10",
         "group flex items-center justify-between w-full px-4 py-2.5 rounded-md transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
@@ -121,7 +113,7 @@ export function ChapterLesson({
           {lesson.title}
         </span>
       </Link>
-      <AlertDialog>
+      <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <AlertDialogTrigger asChild>
           <div className="flex items-center justify-center p-1.5 rounded-full bg-red-400/40">
             <Trash className="w-3.5 h-3.5 text-primary" />
@@ -134,7 +126,7 @@ export function ChapterLesson({
             </AlertDialogTitle>
             <AlertDialogDescription className="text-base font-normal text-neutral-400">
               This lesson will be deleted, along with all of its Content,
-              Content, Student Progress, Comments, and Associated Data.
+              Student Progress, Comments, and Associated Data.
             </AlertDialogDescription>
           </AlertDialogHeader>
 
@@ -170,32 +162,39 @@ export function ChapterLesson({
             </div>
           </div>
 
-          <AlertDialogFooter className="gap-3 sm:gap-3">
-            <AlertDialogCancel className="h-11 px-6 bg-transparent border-neutral-800 hover:bg-neutral-900 transition-colors">
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction
-              onClick={() => handleDelete(lesson.id)}
-              disabled={!doesTextMatch || moduleTitleInput !== lesson.title}
-              className={cn(
-                "h-11 px-6 bg-white text-black hover:bg-neutral-200 transition-colors",
-                (!doesTextMatch || moduleTitleInput !== lesson.title) &&
-                  "opacity-50 cursor-not-allowed"
-              )}
-            >
-              Continue
-            </AlertDialogAction>
-          </AlertDialogFooter>
+          <form action={handleDelete}>
+            <AlertDialogFooter className="gap-3 sm:gap-3">
+              <AlertDialogCancel className="h-11 px-6 bg-transparent border-neutral-800 hover:bg-neutral-900 transition-colors">
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction
+                type="submit"
+                disabled={
+                  !doesTextMatch ||
+                  moduleTitleInput !== lesson.title ||
+                  isPending
+                }
+                className={cn(
+                  "h-11 px-6 bg-white text-black hover:bg-neutral-200 transition-colors",
+                  (!doesTextMatch ||
+                    moduleTitleInput !== lesson.title ||
+                    isPending) &&
+                    "opacity-50 cursor-not-allowed"
+                )}
+              >
+                {isPending ? "Deleting..." : "Continue"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </form>
         </AlertDialogContent>
       </AlertDialog>
-    </motion.div>
+    </div>
   );
 }
-
 // -------------------------------------
 // ChapterSection
 // -------------------------------------
-export function ChapterSection({
+function ChapterSection({
   lessons,
   chapterTitle,
   chapterNumber,
@@ -217,37 +216,43 @@ export function ChapterSection({
   currentLessonTitle?: string;
   moduleId: string;
 }) {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const [isOpen, setIsOpen] = useState(defaultOpen ?? false);
   const [moduleTitleInput, setModuleTitleInput] = useState("");
   const [currentText, setCurrentText] = useState("");
-
-  const { mutate: deleteModule } = useCourseDeleteModuleMutation();
-
-  const handleDelete = (moduleId: string) => {
-    deleteModule({
-      moduleId: moduleId,
-    });
-  };
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const doesTextMatch = useMemo(() => {
-    return currentText === "delete my module";
+    return currentText.toLowerCase() === "delete my module";
   }, [currentText]);
 
+  const handleDelete = async (formData: FormData) => {
+    formData.append("moduleId", moduleId);
+
+    const res = (await new Promise((resolve) => {
+      startTransition(async () => {
+        const res = await removeChapter(formData);
+        resolve(res);
+      });
+    })) as { success: boolean };
+
+    if (res.success) {
+      toast.success("Chapter deleted successfully");
+      router.refresh();
+      setDialogOpen(false);
+    } else {
+      toast.error("Failed to delete chapter");
+    }
+  };
+
   return (
-    <motion.div
-      variants={fadeInUpVariants}
-      initial="initial"
-      animate="animate"
-      transition={{ duration: 0.3 }}
-      className="mt-6"
-    >
+    <div className="mt-6">
       <HoverCard>
         <HoverCardTrigger>
-          <motion.button
+          <button
             onClick={() => setIsOpen(!isOpen)}
             className="w-full flex items-center justify-between px-4 py-2 hover:bg-primary/5 transition-colors rounded-md group"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
           >
             <div className="flex flex-col items-start max-w-[80%]">
               <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
@@ -258,20 +263,18 @@ export function ChapterSection({
                 {chapterTitle}
               </h2>
             </div>
-            <motion.div
-              variants={rotateVariants}
-              animate={isOpen ? "open" : "closed"}
-              transition={{ duration: 0.2 }}
-            >
+            <div>
               <ChevronDown className="w-4 h-4 text-muted-foreground" />
-            </motion.div>
-          </motion.button>
+            </div>
+          </button>
         </HoverCardTrigger>
 
         <HoverCardContent className="p-0" side="top">
-          <AlertDialog>
+          <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <AlertDialogTrigger asChild>
-              <Button variant="outline" className="w-full">Delete Chapter</Button>
+              <Button variant="outline" className="w-full">
+                Delete Chapter
+              </Button>
             </AlertDialogTrigger>
             <AlertDialogContent className="max-w-2xl p-6 gap-6 border-neutral-800">
               <AlertDialogHeader className="gap-2">
@@ -316,47 +319,47 @@ export function ChapterSection({
                 </div>
               </div>
 
-              <AlertDialogFooter className="gap-3 sm:gap-3">
-                <AlertDialogCancel className="h-11 px-6 bg-transparent border-neutral-800 hover:bg-neutral-900 transition-colors">
-                  Cancel
-                </AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={() => handleDelete(moduleId)}
-                  disabled={!doesTextMatch || moduleTitleInput !== chapterTitle}
-                  className={cn(
-                    "h-11 px-6 bg-white text-black hover:bg-neutral-200 transition-colors",
-                    (!doesTextMatch || moduleTitleInput !== chapterTitle) &&
-                      "opacity-50 cursor-not-allowed"
-                  )}
-                >
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
+              <form action={handleDelete}>
+                <AlertDialogFooter className="gap-3 sm:gap-3">
+                  <AlertDialogCancel className="h-11 px-6 bg-transparent border-neutral-800 hover:bg-neutral-900 transition-colors">
+                    Cancel
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    type="submit"
+                    disabled={
+                      !doesTextMatch ||
+                      moduleTitleInput !== chapterTitle ||
+                      isPending
+                    }
+                    className={cn(
+                      "h-11 px-6 bg-white text-black hover:bg-neutral-200 transition-colors",
+                      (!doesTextMatch ||
+                        moduleTitleInput !== chapterTitle ||
+                        isPending) &&
+                        "opacity-50 cursor-not-allowed"
+                    )}
+                  >
+                    {isPending ? "Deleting..." : "Continue"}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </form>
             </AlertDialogContent>
           </AlertDialog>
         </HoverCardContent>
       </HoverCard>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="mt-1 space-y-0.5 pl-4 overflow-hidden"
-          >
-            <AddLessonButton moduleId={moduleId} />
-            {lessons.map((lesson) => (
-              <ChapterLesson
-                key={lesson.slug}
-                lesson={lesson}
-                currentLessonTitle={currentLessonTitle}
-              />
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+      {isOpen && (
+        <div className="mt-1 space-y-0.5 pl-4 overflow-hidden">
+          <AddLessonButton moduleId={moduleId} />
+          {lessons.map((lesson) => (
+            <ChapterLesson
+              key={lesson.slug}
+              lesson={lesson}
+              currentLessonTitle={currentLessonTitle}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -370,34 +373,36 @@ function AddModuleButton({
   courseId: string;
   moduleCount: number;
 }) {
-  const { mutate: addModule } = useCourseAddModuleMutation();
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [open, setOpen] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    const title = formData.get("title") as string;
-    const description = formData.get("description") as string;
+  const handleSubmit = async (formData: FormData) => {
+    // Add the order index to the form data
+    formData.append("orderIndex", (moduleCount + 1).toString());
+    formData.append("courseId", courseId);
 
-    console.log(title, description, courseId, moduleCount);
+    const res = (await new Promise((resolve) => {
+      startTransition(async () => {
+        const res = await addChapter(formData);
+        resolve(res);
+      });
+    })) as { success: boolean };
 
-    addModule({ title, description, courseId, orderIndex: moduleCount + 1 });
+    if (res.success) {
+      toast.success("Chapter added successfully");
+      router.refresh();
+      setOpen(false);
+    } else {
+      toast.error("Failed to add chapter");
+    }
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <motion.div
-          variants={fadeInUpVariants}
-          initial="initial"
-          animate="animate"
-          transition={{ duration: 0.3 }}
-          className="mt-0"
-        >
-          <motion.button
-            className="w-full flex items-center justify-between px-4 bg-primary/5 transition-colors group py-4"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
+        <div className="mt-0">
+          <button className="w-full flex items-center justify-between px-4 bg-primary/5 transition-colors group py-4">
             <div className="flex flex-col items-start max-w-[80%]">
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -413,15 +418,17 @@ function AddModuleButton({
             <div>
               <Plus className="w-4 h-4 text-muted-foreground" />
             </div>
-          </motion.button>
-        </motion.div>
+          </button>
+        </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add Chapter</DialogTitle>
+          <DialogDescription>
+            Add a new chapter to your course.
+          </DialogDescription>
         </DialogHeader>
-        <DialogDescription>Add a new chapter to your course.</DialogDescription>
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        <form action={handleSubmit} className="space-y-4">
           <div>
             <Label htmlFor="title">Title</Label>
             <Input id="title" name="title" />
@@ -432,9 +439,9 @@ function AddModuleButton({
           </div>
 
           <DialogFooter>
-            <DialogClose asChild>
-              <Button type="submit">Add Chapter</Button>
-            </DialogClose>
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Adding..." : "Add Chapter"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
@@ -442,29 +449,37 @@ function AddModuleButton({
   );
 }
 
+// -------------------------------------
+// AddLessonButton
+// -------------------------------------
 function AddLessonButton({ moduleId }: { moduleId: string }) {
-  const { mutate: addLesson } = useCourseAddLessonMutation();
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [open, setOpen] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    const title = formData.get("title") as string;
-    const description = formData.get("description") as string;
+  const handleSubmit = async (formData: FormData) => {
+    formData.append("moduleId", moduleId);
 
-    addLesson({ title, description, moduleId });
+    const res = (await new Promise((resolve) => {
+      startTransition(async () => {
+        const res = await addLesson(formData);
+        resolve(res);
+      });
+    })) as { success: boolean };
+
+    if (res.success) {
+      toast.success("Lesson added successfully");
+      router.refresh();
+      setOpen(false);
+    } else {
+      toast.error("Failed to add lesson");
+    }
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <motion.div
-          variants={fadeInQuickVariants}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-          transition={{ duration: 0.2 }}
-          className="mr-3"
-        >
+        <div className="mr-3">
           <div
             className={cn(
               "group flex items-center justify-between w-full px-4 py-2.5 rounded-md transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
@@ -486,15 +501,17 @@ function AddLessonButton({ moduleId }: { moduleId: string }) {
               </div>
             </Tooltip>
           </div>
-        </motion.div>
+        </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add Lesson</DialogTitle>
+          <DialogDescription>
+            Add a new lesson to your chapter.
+          </DialogDescription>
         </DialogHeader>
-        <DialogDescription>Add a new lesson to your chapter.</DialogDescription>
 
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        <form action={handleSubmit} className="space-y-4">
           <div>
             <Label htmlFor="title">Title</Label>
             <Input id="title" name="title" />
@@ -505,9 +522,9 @@ function AddLessonButton({ moduleId }: { moduleId: string }) {
           </div>
 
           <DialogFooter>
-            <DialogClose asChild>
-              <Button type="submit">Add Lesson</Button>
-            </DialogClose>
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Adding..." : "Add Lesson"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
@@ -557,13 +574,7 @@ export function SidebarContent({
         )}
       >
         {/* Course title (visible on md+) */}
-        <motion.div
-          variants={fadeInUpVariants}
-          initial="initial"
-          animate="animate"
-          transition={{ duration: 0.5 }}
-          className="flex-shrink-0 border-b border-border p-4 hidden md:block"
-        >
+        <div className="flex-shrink-0 border-b border-border p-4 hidden md:block">
           <Tooltip>
             <TooltipTrigger asChild>
               <Link href={`/content-studio/edit/${courseSlug}`}>
@@ -576,16 +587,10 @@ export function SidebarContent({
               <p className="text-sm">{courseTitle}</p>
             </TooltipContent>
           </Tooltip>
-        </motion.div>
+        </div>
 
         {/* Tabs header */}
-        <motion.div
-          variants={fadeInUpVariants}
-          initial="initial"
-          animate="animate"
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="flex-shrink-0 bg-background p-2 border-b border-border"
-        >
+        <div className="flex-shrink-0 bg-background p-2 border-b border-border">
           <TabsList className="w-full">
             <TabsTrigger value="content" className="flex-1">
               Content
@@ -594,16 +599,10 @@ export function SidebarContent({
               Resources
             </TabsTrigger>
           </TabsList>
-        </motion.div>
+        </div>
 
         {/* Tabs content */}
-        <motion.div
-          variants={{ initial: { opacity: 0 }, animate: { opacity: 1 } }}
-          initial="initial"
-          animate="animate"
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex-grow overflow-y-auto"
-        >
+        <div className="flex-grow overflow-y-auto">
           <TabsContent value="content">
             <AddModuleButton
               courseId={courseId}
@@ -632,7 +631,7 @@ export function SidebarContent({
               Resources content goes here.
             </p>
           </TabsContent>
-        </motion.div>
+        </div>
       </Tabs>
     </TooltipProvider>
   );
@@ -684,16 +683,11 @@ export function DrawerSidebar({
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <motion.div
-          initial={{ opacity: 0, scale: 0, rotate: -360 }}
-          animate={{ opacity: 1, scale: 1, rotate: 0 }}
-          transition={{ duration: 0.5 }}
-          className="fixed top-20 left-4 z-30"
-        >
+        <div className="fixed top-20 left-4 z-30">
           <Button variant="outline" className="w-10 h-10 md:hidden">
             <Menu className="w-full h-full" />
           </Button>
-        </motion.div>
+        </div>
       </DrawerTrigger>
 
       <DrawerContent>

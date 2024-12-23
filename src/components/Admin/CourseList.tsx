@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -13,55 +14,35 @@ import {
 import { Course } from "@/utils/helpers/getAllCourses";
 import { Badge } from "@/components/ui/badge";
 import { Pencil, Trash2, Eye, EyeOff } from "lucide-react";
-import { useCourseDraftStatusMutation } from "@/hooks/useCourseDraftStatusMutation";
-
-import { useDeleteCourseMutation } from "@/hooks/useDeleteCourseMutation";
 import DeleteDialogWithConfirm from "../DeleteDialogWithConfirm";
+import { removeCourse, setCourseDraftStatus } from "@/actions/course-editor/course";
+import { toast } from "sonner";
 
-export function CourseList({ courses: initialCourses }: { courses: Course[] }) {
-  const [courses, setCourses] = useState(initialCourses);
-  const { mutate: toggleDraftStatus } = useCourseDraftStatusMutation();
-  const { mutate: deleteCourse } = useDeleteCourseMutation();
+export function CourseList({ courses }: { courses: Course[] }) {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [pendingCourseId, setPendingCourseId] = useState<string | null>(null);
 
-  const handleDraftToggle = (courseId: string) => {
-    setCourses((currentCourses) =>
-      currentCourses.map((course) =>
-        course.id === courseId ? { ...course, draft: !course.draft } : course
-      )
-    );
+  const handleDraftToggle = async (courseId: string, draftStatus: boolean) => {
+    setPendingCourseId(courseId);
 
-    toggleDraftStatus(
-      { courseId },
-      {
-        onError: () => {
-          setCourses((currentCourses) =>
-            currentCourses.map((course) =>
-              course.id === courseId
-                ? { ...course, draft: !course.draft }
-                : course
-            )
-          );
-        },
-      }
-    );
-  };
+    const res = await new Promise((resolve) => {
+      startTransition(async () => {
+        const formData = new FormData();
+        formData.append("courseId", courseId);
+        formData.append("draftStatus", draftStatus.toString());
+        const res = await setCourseDraftStatus(formData);
+        resolve(res);
+      });
+    }) as { success: boolean };
 
-  const handleDelete = (courseId: string) => {
-    setCourses((currentCourses) =>
-      currentCourses.filter((course) => course.id !== courseId)
-    );
-
-    deleteCourse(
-      { courseId },
-      {
-        onError: () => {
-          setCourses((currentCourses) => [
-            ...currentCourses,
-            ...initialCourses.filter((course) => course.id === courseId),
-          ]);
-        },
-      }
-    );
+    if (res.success) {
+      toast.success("Draft status updated");
+      router.refresh();
+      setPendingCourseId(null);
+    } else {
+      toast.error("Failed to update draft status");
+    }
   };
 
   return (
@@ -106,21 +87,30 @@ export function CourseList({ courses: initialCourses }: { courses: Course[] }) {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => handleDraftToggle(course.id)}
+                  onClick={() =>
+                    handleDraftToggle(course.id, !course.draft)
+                  }
+                  disabled={isPending && pendingCourseId === course.id}
                 >
                   {course.draft ? (
                     <Eye className="h-4 w-4 mr-1" />
                   ) : (
                     <EyeOff className="h-4 w-4 mr-1" />
                   )}
-                  {course.draft ? "Publish" : "Unpublish"}
+                  {isPending && pendingCourseId === course.id
+                    ? "Updating..."
+                    : course.draft
+                    ? "Publish"
+                    : "Unpublish"}
                 </Button>
                 <Button variant="outline" size="sm">
                   <Pencil className="h-4 w-4" />
                 </Button>
                 <DeleteDialogWithConfirm
                   courseName={course.title || ""}
-                  onDelete={() => course.id && handleDelete(course.id)}
+                  deleteAction={removeCourse}
+                  courseId={course.id}
+                  userIdFromCourse={course.instructor_id}
                 >
                   <Button variant="destructive" size="sm">
                     <Trash2 className="h-4 w-4" />
