@@ -5,12 +5,12 @@ import { DollarSign, Users, BookOpen } from "lucide-react";
 export function CreatorStats({ courses }: { courses: CreatorCourse[] }) {
   const totalRevenue = courses.reduce(
     (sum, course) => sum + (course.price || 0) * (course.enrollment_count || 0),
-    0
+    0,
   );
 
   const totalStudents = courses.reduce(
     (sum, course) => sum + (course.enrollment_count || 0),
-    0
+    0,
   );
   const publishedCourses = courses.filter((course) => !course.draft).length;
 

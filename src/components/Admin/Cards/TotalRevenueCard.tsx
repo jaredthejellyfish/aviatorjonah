@@ -24,11 +24,11 @@ const getMonthlyRevenue = cache(
 
     return total / 100;
   },
-  ['monthly-revenue'],
+  ["monthly-revenue"],
   {
     revalidate: 3600, // Cache for 1 hour
-    tags: [`revenue-monthly`]
-  }
+    tags: [`revenue-monthly`],
+  },
 );
 
 export default async function TotalRevenue() {
@@ -74,7 +74,9 @@ export default async function TotalRevenue() {
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">{currentRevenueFormatted}</div>
-        <p className="text-xs text-muted-foreground">{growthFormatted} from last month</p>
+        <p className="text-xs text-muted-foreground">
+          {growthFormatted} from last month
+        </p>
       </CardContent>
     </Card>
   );
@@ -92,5 +94,5 @@ export function TotalRevenueSkeleton() {
         <Skeleton className="h-4 w-32" />
       </CardContent>
     </Card>
-  )
+  );
 }

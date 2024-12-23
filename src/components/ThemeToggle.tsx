@@ -31,7 +31,10 @@ export function ModeToggle({ className }: { className?: string }) {
   return (
     <motion.button
       onClick={toggleTheme}
-      className={cn("relative inline-flex h-5 w-5 items-center justify-center rounded-full transition-colors", className)}
+      className={cn(
+        "relative inline-flex h-5 w-5 items-center justify-center rounded-full transition-colors",
+        className,
+      )}
       whileTap={{ scale: 0.95 }}
       whileHover={{ scale: 1.1 }}
     >

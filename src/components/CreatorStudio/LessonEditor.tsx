@@ -174,7 +174,7 @@ const LessonEditor: React.FC<LessonEditorProps> = ({
         textarea.setSelectionRange(newCursorPosition, newCursorPosition);
       }, 0);
     },
-    [content]
+    [content],
   );
 
   const handleSave = useCallback(async () => {
@@ -196,9 +196,7 @@ const LessonEditor: React.FC<LessonEditorProps> = ({
       toast.success("Lesson saved");
       if (lessonTitle !== initialLessonTitle) {
         setUnsavedChanges(false);
-        router.push(
-          `/content-studio/edit/${courseSlug}/${res.newSlug}`
-        );
+        router.push(`/content-studio/edit/${courseSlug}/${res.newSlug}`);
       } else {
         router.refresh();
         setUnsavedChanges(false);

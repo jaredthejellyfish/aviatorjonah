@@ -1,6 +1,10 @@
 "use server";
 
-import { AddChapterSchema, DeleteChapterSchema, UpdateChapterSchema } from "@/lib/schemas";
+import {
+  AddChapterSchema,
+  DeleteChapterSchema,
+  UpdateChapterSchema,
+} from "@/lib/schemas";
 import canEdit from "@/utils/helpers/canEdit";
 import { createClient } from "@/utils/supabase/server";
 

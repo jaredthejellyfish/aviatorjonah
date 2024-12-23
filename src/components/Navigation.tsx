@@ -11,7 +11,7 @@ import { SignedIn } from "@clerk/nextjs";
 import { ModeToggle } from "./ThemeToggle";
 import { Button } from "./ui/button";
 import { Squash as Hamburger } from "hamburger-react";
-import { usePathname } from 'next/navigation';
+import { usePathname } from "next/navigation";
 
 function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,9 +54,9 @@ function Navigation() {
               <Protect permission="org:owner:access">
                 <Link
                   className={`text-sm font-medium transition-colors hidden sm:inline-block ${
-                    isActivePath('/admin')
-                      ? 'text-indigo-600 dark:text-indigo-400'
-                      : 'hover:text-indigo-600 dark:hover:text-indigo-400'
+                    isActivePath("/admin")
+                      ? "text-indigo-600 dark:text-indigo-400"
+                      : "hover:text-indigo-600 dark:hover:text-indigo-400"
                   }`}
                   href="/admin"
                 >
@@ -66,9 +66,9 @@ function Navigation() {
               <Protect permission="org:content_creator:access">
                 <Link
                   className={`text-sm font-medium transition-colors hidden sm:inline-block ${
-                    isActivePath('/content-studio')
-                      ? 'text-indigo-600 dark:text-indigo-400'
-                      : 'hover:text-indigo-600 dark:hover:text-indigo-400'
+                    isActivePath("/content-studio")
+                      ? "text-indigo-600 dark:text-indigo-400"
+                      : "hover:text-indigo-600 dark:hover:text-indigo-400"
                   }`}
                   href="/content-studio"
                 >
@@ -77,9 +77,9 @@ function Navigation() {
               </Protect>
               <Link
                 className={`text-sm font-medium transition-colors hidden sm:inline-block ${
-                  isActivePath('/dashboard')
-                    ? 'text-indigo-600 dark:text-indigo-400'
-                    : 'hover:text-indigo-600 dark:hover:text-indigo-400'
+                  isActivePath("/dashboard")
+                    ? "text-indigo-600 dark:text-indigo-400"
+                    : "hover:text-indigo-600 dark:hover:text-indigo-400"
                 }`}
                 href="/dashboard"
               >
@@ -87,9 +87,9 @@ function Navigation() {
               </Link>
               <Link
                 className={`text-sm font-medium transition-colors hidden sm:inline-block ${
-                  isActivePath('/courses')
-                    ? 'text-indigo-600 dark:text-indigo-400'
-                    : 'hover:text-indigo-600 dark:hover:text-indigo-400'
+                  isActivePath("/courses")
+                    ? "text-indigo-600 dark:text-indigo-400"
+                    : "hover:text-indigo-600 dark:hover:text-indigo-400"
                 }`}
                 href="/courses"
               >
@@ -136,9 +136,9 @@ function Navigation() {
                 <SignedIn>
                   <Link
                     className={`text-base font-medium transition-colors ${
-                      isActivePath('/dashboard')
-                        ? 'text-indigo-600 dark:text-indigo-400'
-                        : 'hover:text-indigo-600 dark:hover:text-indigo-400'
+                      isActivePath("/dashboard")
+                        ? "text-indigo-600 dark:text-indigo-400"
+                        : "hover:text-indigo-600 dark:hover:text-indigo-400"
                     }`}
                     href="/dashboard"
                     onClick={() => setIsOpen(false)}
@@ -147,9 +147,9 @@ function Navigation() {
                   </Link>
                   <Link
                     className={`text-base font-medium transition-colors ${
-                      isActivePath('/courses')
-                        ? 'text-indigo-600 dark:text-indigo-400'
-                        : 'hover:text-indigo-600 dark:hover:text-indigo-400'
+                      isActivePath("/courses")
+                        ? "text-indigo-600 dark:text-indigo-400"
+                        : "hover:text-indigo-600 dark:hover:text-indigo-400"
                     }`}
                     href="/courses"
                     onClick={() => setIsOpen(false)}
@@ -159,9 +159,9 @@ function Navigation() {
                   <Protect permission="org:owner:access">
                     <Link
                       className={`text-base font-medium transition-colors ${
-                        isActivePath('/admin')
-                          ? 'text-indigo-600 dark:text-indigo-400'
-                          : 'hover:text-indigo-600 dark:hover:text-indigo-400'
+                        isActivePath("/admin")
+                          ? "text-indigo-600 dark:text-indigo-400"
+                          : "hover:text-indigo-600 dark:hover:text-indigo-400"
                       }`}
                       href="/admin"
                       onClick={() => setIsOpen(false)}
@@ -172,9 +172,9 @@ function Navigation() {
                   <Protect permission="org:content_creator:access">
                     <Link
                       className={`text-base font-medium transition-colors ${
-                        isActivePath('/content-studio')
-                          ? 'text-indigo-600 dark:text-indigo-400'
-                          : 'hover:text-indigo-600 dark:hover:text-indigo-400'
+                        isActivePath("/content-studio")
+                          ? "text-indigo-600 dark:text-indigo-400"
+                          : "hover:text-indigo-600 dark:hover:text-indigo-400"
                       }`}
                       href="/content-studio"
                       onClick={() => setIsOpen(false)}

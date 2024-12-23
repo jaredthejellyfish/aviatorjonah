@@ -1,6 +1,10 @@
 "use server";
 
-import { AddLessonSchema, DeleteLessonSchema, UpdateLessonSchema } from "@/lib/schemas";
+import {
+  AddLessonSchema,
+  DeleteLessonSchema,
+  UpdateLessonSchema,
+} from "@/lib/schemas";
 import canEdit from "@/utils/helpers/canEdit";
 import { createClient } from "@/utils/supabase/server";
 
@@ -18,21 +22,19 @@ export async function addLesson(formData: FormData) {
     return { success: false };
   }
 
-  const { allowed } = await canEdit();      
+  const { allowed } = await canEdit();
 
   if (!allowed) return { success: false };
 
   const supabase = await createClient();
 
-  const { error } = await supabase
-    .from("lessons")
-    .insert({
-      title: parsed.data.title,
-      description: parsed.data.description,
-      module_id: parsed.data.moduleId,
-      content: "",
-      order_index: 0,
-    });
+  const { error } = await supabase.from("lessons").insert({
+    title: parsed.data.title,
+    description: parsed.data.description,
+    module_id: parsed.data.moduleId,
+    content: "",
+    order_index: 0,
+  });
 
   if (error) {
     console.error(error);
@@ -111,5 +113,8 @@ export async function updateLesson(formData: FormData) {
     return { success: false, newSlug: null };
   }
 
-  return { success: true, newSlug: rawData.title !== undefined ? data[0].slug: null };
+  return {
+    success: true,
+    newSlug: rawData.title !== undefined ? data[0].slug : null,
+  };
 }

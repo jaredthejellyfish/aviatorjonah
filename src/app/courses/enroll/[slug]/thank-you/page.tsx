@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 async function enrollUserInCourse(
   courseId: string,
   sessionId: string,
-  userId: string
+  userId: string,
 ) {
   const stripeSession = await stripe.checkout.sessions.retrieve(sessionId);
   const isPaid =
@@ -90,7 +90,7 @@ export default async function EnrollmentSuccess({
   const enrolled = await enrollUserInCourse(
     course.id,
     sessionId,
-    authData.userId
+    authData.userId,
   );
 
   if (!enrolled) {

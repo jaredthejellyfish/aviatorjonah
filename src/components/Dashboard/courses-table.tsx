@@ -311,12 +311,12 @@ const CourseTable = ({
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
                   {course.image && (
-                  <Image
-                    src={course.image ?? PlaceholderImage}
-                    alt={course.title ?? ""}
-                    width={60}
-                    height={60}
-                    className="rounded-md object-cover"
+                    <Image
+                      src={course.image ?? PlaceholderImage}
+                      alt={course.title ?? ""}
+                      width={60}
+                      height={60}
+                      className="rounded-md object-cover"
                     />
                   )}
                   <div>

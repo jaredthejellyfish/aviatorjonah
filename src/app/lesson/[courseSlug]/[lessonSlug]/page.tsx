@@ -19,7 +19,7 @@ type Props = {
 
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const courseSlug = (await params).courseSlug;
   const course = await getCourseBySlug(courseSlug);
@@ -76,7 +76,7 @@ async function CoursePage({ params }: Props) {
   }
 
   const moduleSlug = course?.modules?.find((module) =>
-    module.lessons?.some((lesson) => lesson.slug === lessonSlug)
+    module.lessons?.some((lesson) => lesson.slug === lessonSlug),
   )?.slug as string | undefined;
 
   const lessonTitle =
@@ -126,7 +126,7 @@ async function CoursePage({ params }: Props) {
       renderer,
       gfm: true,
       breaks: true,
-    }
+    },
   );
 
   return (

@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { BarChart } from "lucide-react";
 import stripe from "@/utils/stripe";
 
-import { unstable_cache as cache } from 'next/cache';
+import { unstable_cache as cache } from "next/cache";
 
 const countMonthlyTransactions = cache(
   async (year: number, month: number) => {
@@ -25,11 +25,11 @@ const countMonthlyTransactions = cache(
 
     return count;
   },
-  ['monthly-transactions'],
+  ["monthly-transactions"],
   {
     revalidate: 3600, // Cache for 1 hour
-    tags: ['stripe-transactions']
-  }
+    tags: ["stripe-transactions"],
+  },
 );
 
 async function getMonthlyStats() {
@@ -44,7 +44,7 @@ async function getMonthlyStats() {
   const thisMonthCount = await countMonthlyTransactions(thisYear, thisMonth);
   const lastMonthCount = await countMonthlyTransactions(
     lastMonthYear,
-    lastMonth
+    lastMonth,
   );
 
   const percentChange =

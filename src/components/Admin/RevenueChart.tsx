@@ -2,7 +2,7 @@ import stripe from "@/utils/stripe";
 import { Skeleton } from "@/components/ui/skeleton";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
-import { unstable_cache as cache } from 'next/cache';
+import { unstable_cache as cache } from "next/cache";
 
 const RevenueChartContent = dynamic(() => import("./RevenueChartContent"));
 
@@ -26,11 +26,11 @@ const getMonthlyRevenue = cache(
 
     return total / 100;
   },
-  ['monthly-revenue'],
+  ["monthly-revenue"],
   {
     revalidate: 3600, // Cache for 1 hour
-    tags: ['revenue']
-  }
+    tags: ["revenue"],
+  },
 );
 
 export default async function RevenueChart() {
@@ -61,7 +61,7 @@ export default async function RevenueChart() {
     months.map(async ({ name, month }) => {
       const total = await getMonthlyRevenue(currentYear, month);
       return { name, total };
-    })
+    }),
   );
 
   return (

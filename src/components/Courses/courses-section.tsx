@@ -64,8 +64,8 @@ function CoursesSection({ courses }: Props) {
         <motion.div key={course.id} variants={itemVariants}>
           <Card className="overflow-hidden bg-white dark:bg-neutral-900 shadow-lg">
             {course.image && (
-            <Image
-              src={course.image}
+              <Image
+                src={course.image}
                 alt={course.title}
                 width={300}
                 height={300}

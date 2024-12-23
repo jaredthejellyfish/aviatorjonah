@@ -21,7 +21,7 @@ import { useState } from "react";
 async function completeLesson(
   takeaway: string,
   lesson_id: string,
-  course_id?: string
+  course_id?: string,
 ) {
   if (!course_id) {
     throw new Error("Course ID is required");
@@ -69,12 +69,12 @@ function CompleteLesson({
 
   // Sort modules and lessons by their order_index
   const sortedModules = [...course.modules].sort(
-    (a, b) => a.order_index - b.order_index
+    (a, b) => a.order_index - b.order_index,
   );
 
   // Find the index of the module containing the current lesson
   const currentModuleIndex = sortedModules.findIndex((module) =>
-    module.lessons.some((lesson) => lesson.slug === currentLessonSlug)
+    module.lessons.some((lesson) => lesson.slug === currentLessonSlug),
   );
 
   if (currentModuleIndex === -1) {
@@ -84,12 +84,12 @@ function CompleteLesson({
   // Extract and sort the lessons of the current module
   const currentModule = sortedModules[currentModuleIndex];
   const sortedLessons = [...currentModule.lessons].sort(
-    (a, b) => a.order_index - b.order_index
+    (a, b) => a.order_index - b.order_index,
   );
 
   // Find the index of the current lesson within the current module
   const currentLessonIndex = sortedLessons.findIndex(
-    (lesson) => lesson.slug === currentLessonSlug
+    (lesson) => lesson.slug === currentLessonSlug,
   );
 
   const isLastModuleLesson = currentLessonIndex === sortedLessons.length - 1;
@@ -110,16 +110,14 @@ function CompleteLesson({
       // Move to the first lesson of the next module
       const nextModule = sortedModules[currentModuleIndex + 1];
       const nextModuleLessons = [...nextModule.lessons].sort(
-        (a, b) => a.order_index - b.order_index
+        (a, b) => a.order_index - b.order_index,
       );
       const firstLessonOfNextModule = nextModuleLessons[0];
       nextDestination = {
         href: firstLessonOfNextModule
           ? `/lesson/${course.slug}/${firstLessonOfNextModule.slug}`
           : `/course/${course.slug}`,
-        text: firstLessonOfNextModule
-          ? "Next Module"
-          : "Course Completed!",
+        text: firstLessonOfNextModule ? "Next Module" : "Course Completed!",
       };
     }
   } else {
@@ -158,7 +156,7 @@ function CompleteLesson({
               Completed on{" "}
               {currentLessonProgress[0].completed_at
                 ? new Date(
-                    currentLessonProgress[0].completed_at
+                    currentLessonProgress[0].completed_at,
                   ).toLocaleDateString()
                 : ""}
             </p>
@@ -179,7 +177,11 @@ function CompleteLesson({
       </CardContent>
       <CardFooter>
         {currentLessonProgress?.[0]?.completed ? (
-          <Button size="lg" className="w-full sm:w-auto dark:text-black text-white" asChild>
+          <Button
+            size="lg"
+            className="w-full sm:w-auto dark:text-black text-white"
+            asChild
+          >
             <Link
               href={nextDestination.href}
               className="flex items-center justify-center gap-2"

@@ -85,13 +85,14 @@ export async function getDashboardData() {
       (course) => !enrolledIds.has(course.id),
     );
 
-      const overallProgress = enrolledCoursesWithProgress.reduce(
-        (acc, curr) => acc + curr.totalProgress,
-        0,
-      );
+    const overallProgress = enrolledCoursesWithProgress.reduce(
+      (acc, curr) => acc + curr.totalProgress,
+      0,
+    );
 
-    const overallProgressPercentage =
-      (overallProgress / enrolledCoursesWithProgress.length).toFixed(0);
+    const overallProgressPercentage = (
+      overallProgress / enrolledCoursesWithProgress.length
+    ).toFixed(0);
 
     return {
       enrolledCourses: enrolledCoursesWithProgress,

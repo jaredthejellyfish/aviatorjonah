@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { AlertCircle, ArrowLeft, Lock } from 'lucide-react';
+import { AlertCircle, ArrowLeft, Lock } from "lucide-react";
 
 export default function UnauthorizedPage() {
   const containerVariants = {
@@ -42,8 +42,9 @@ export default function UnauthorizedPage() {
                 Unauthorized Access
               </h1>
               <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base md:text-lg max-w-md mx-auto">
-                Sorry, you don&apos;t have the necessary permissions to access this page. 
-                If you believe this is an error, please contact your administrator.
+                Sorry, you don&apos;t have the necessary permissions to access
+                this page. If you believe this is an error, please contact your
+                administrator.
               </p>
             </motion.div>
             <motion.div variants={itemVariants} className="mt-8 space-y-4">
@@ -68,4 +69,3 @@ export default function UnauthorizedPage() {
     </main>
   );
 }
-

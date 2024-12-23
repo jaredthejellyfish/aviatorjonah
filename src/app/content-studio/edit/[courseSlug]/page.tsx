@@ -68,7 +68,7 @@ async function EditCoursePage({ params }: Props) {
                     <p className="text-2xl font-bold">
                       {course.modules.reduce(
                         (sum, module) => sum + module.lessons.length,
-                        0
+                        0,
                       )}
                     </p>
                   </div>
@@ -84,9 +84,9 @@ async function EditCoursePage({ params }: Props) {
                         (sum, module) =>
                           sum +
                           module.lessons.filter(
-                            (lesson) => lesson.progress.length > 0
+                            (lesson) => lesson.progress.length > 0,
                           ).length,
-                        0
+                        0,
                       )}
                     </p>
                   </div>
@@ -108,10 +108,10 @@ async function EditCoursePage({ params }: Props) {
                               module.lessons.reduce(
                                 (sum, lesson) =>
                                   sum + (lesson.reading_time ?? 0),
-                                0
+                                0,
                               ),
-                            0
-                          ) / 3600
+                            0,
+                          ) / 3600,
                         ),
                         minutes: Math.floor(
                           (course.modules.reduce(
@@ -120,12 +120,12 @@ async function EditCoursePage({ params }: Props) {
                               module.lessons.reduce(
                                 (sum, lesson) =>
                                   sum + (lesson.reading_time ?? 0),
-                                0
+                                0,
                               ),
-                            0
+                            0,
                           ) %
                             3600) /
-                            60
+                            60,
                         ),
                         seconds:
                           course.modules.reduce(
@@ -134,9 +134,9 @@ async function EditCoursePage({ params }: Props) {
                               module.lessons.reduce(
                                 (sum, lesson) =>
                                   sum + (lesson.reading_time ?? 0),
-                                0
+                                0,
                               ),
-                            0
+                            0,
                           ) % 60,
                       })}
                     </p>

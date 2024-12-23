@@ -65,13 +65,13 @@ export default function Content({
 
   const totalLessons = modules.reduce(
     (sum, module) => sum + module.lessons.length,
-    0
+    0,
   );
   const completedLessons = modules.reduce(
     (sum, module) =>
       sum +
       module.lessons.filter((lesson) => lesson.progress.length > 0).length,
-    0
+    0,
   );
   const progressPercentage = (completedLessons / totalLessons) * 100;
 
@@ -79,7 +79,7 @@ export default function Content({
     setOpenModules((prev) =>
       prev.includes(moduleId)
         ? prev.filter((id) => id !== moduleId)
-        : [...prev, moduleId]
+        : [...prev, moduleId],
     );
   };
 
@@ -134,10 +134,10 @@ export default function Content({
                         sum +
                         module.lessons.reduce(
                           (sum, lesson) => sum + (lesson.reading_time ?? 0),
-                          0
+                          0,
                         ),
-                      0
-                    )
+                      0,
+                    ),
                   )}
                 </p>
               </div>

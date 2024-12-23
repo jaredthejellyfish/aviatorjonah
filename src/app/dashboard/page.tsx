@@ -130,7 +130,10 @@ export default async function CoursesDashboard() {
                 <span>Overall Progress</span>
                 <span className="font-medium">{overallProgress}%</span>
               </div>
-              <Progress value={overallProgress ? parseInt(overallProgress) : 0} className="h-2" />
+              <Progress
+                value={overallProgress ? parseInt(overallProgress) : 0}
+                className="h-2"
+              />
             </div>
             <div className="grid gap-4 md:grid-cols-3">
               <div className="flex items-center space-x-4 rounded-lg border p-4">

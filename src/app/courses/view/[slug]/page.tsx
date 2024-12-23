@@ -73,7 +73,7 @@ async function ViewCourse({ params }: Props) {
   };
 
   const sortedModules = course.modules.sort(
-    (a, b) => a.order_index - b.order_index
+    (a, b) => a.order_index - b.order_index,
   );
 
   return (
@@ -173,7 +173,7 @@ async function ViewCourse({ params }: Props) {
                     <ul className="space-y-3">
                       {module.lessons
                         .sort(
-                          (a, b) => (a.order_index ?? 0) - (b.order_index ?? 0)
+                          (a, b) => (a.order_index ?? 0) - (b.order_index ?? 0),
                         )
                         .map((lesson) => (
                           <li

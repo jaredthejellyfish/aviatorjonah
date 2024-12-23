@@ -26,9 +26,7 @@ export default async function PopularCoursesWidget() {
               <TooltipTrigger className="w-full">
                 <Progress value={course.totalPercent} className="h-2 w-full" />
               </TooltipTrigger>
-              <TooltipContent>
-                {course.totalPercent}%
-              </TooltipContent>
+              <TooltipContent>{course.totalPercent}%</TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </div>

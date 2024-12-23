@@ -13,10 +13,12 @@ interface RevenueChartContentProps {
   monthlyRevenue: { name: string; total: number }[];
 }
 
-export default function RevenueChartContent({ monthlyRevenue }: RevenueChartContentProps) {
+export default function RevenueChartContent({
+  monthlyRevenue,
+}: RevenueChartContentProps) {
   return (
     <ResponsiveContainer width="100%" height={370}>
-      <LineChart 
+      <LineChart
         data={monthlyRevenue}
         margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
       >
@@ -34,9 +36,7 @@ export default function RevenueChartContent({ monthlyRevenue }: RevenueChartCont
           axisLine={false}
           tickFormatter={(value) => `$${value}`}
         />
-        <Tooltip 
-          formatter={(value: number) => [`$${value}`, "Revenue"]}
-        />
+        <Tooltip formatter={(value: number) => [`$${value}`, "Revenue"]} />
         <Line
           type="monotone"
           dataKey="total"

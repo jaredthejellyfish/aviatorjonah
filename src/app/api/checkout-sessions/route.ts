@@ -15,8 +15,11 @@ export async function POST(req: NextRequest) {
 
   if (!parsedCourse.success) {
     return NextResponse.json(
-      { error: "Missing required course information", cause: parsedCourse.error },
-      { status: 400 }
+      {
+        error: "Missing required course information",
+        cause: parsedCourse.error,
+      },
+      { status: 400 },
     );
   }
 
@@ -47,11 +50,11 @@ export async function POST(req: NextRequest) {
       ],
       mode: "payment",
       success_url: `${headersList.get(
-        "origin"
+        "origin",
       )}/courses/enroll/${courseSlug}/thank-you?session_id={CHECKOUT_SESSION_ID}`,
       customer_email: user?.emailAddresses[0]?.emailAddress,
       cancel_url: `${headersList.get(
-        "origin"
+        "origin",
       )}/courses/enroll/${courseSlug}/error`,
     });
 
@@ -60,7 +63,7 @@ export async function POST(req: NextRequest) {
     console.error(err);
     return NextResponse.json(
       { error: "Error creating checkout session" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

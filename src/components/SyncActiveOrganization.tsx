@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
 const SyncActiveOrganizationClient = dynamic(
-  () => import("@/components/SyncActiveOrganizationClient")
+  () => import("@/components/SyncActiveOrganizationClient"),
 );
 
 export async function SyncActiveOrganization({}) {

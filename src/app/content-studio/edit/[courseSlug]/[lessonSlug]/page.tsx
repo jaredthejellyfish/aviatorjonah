@@ -17,7 +17,7 @@ async function EditLessonPage({ params }: Props) {
   }
 
   const moduleSlug = course?.modules?.find((module) =>
-    module.lessons?.some((lesson) => lesson.slug === lessonSlug)
+    module.lessons?.some((lesson) => lesson.slug === lessonSlug),
   )?.slug;
 
   const currentLesson = course?.modules

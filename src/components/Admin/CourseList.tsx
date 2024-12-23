@@ -15,7 +15,10 @@ import { Course } from "@/utils/helpers/getAllCourses";
 import { Badge } from "@/components/ui/badge";
 import { Pencil, Trash2, Eye, EyeOff } from "lucide-react";
 import DeleteDialogWithConfirm from "../DeleteDialogWithConfirm";
-import { removeCourse, setCourseDraftStatus } from "@/actions/course-editor/course";
+import {
+  removeCourse,
+  setCourseDraftStatus,
+} from "@/actions/course-editor/course";
 import { toast } from "sonner";
 
 export function CourseList({ courses }: { courses: Course[] }) {
@@ -26,7 +29,7 @@ export function CourseList({ courses }: { courses: Course[] }) {
   const handleDraftToggle = async (courseId: string, draftStatus: boolean) => {
     setPendingCourseId(courseId);
 
-    const res = await new Promise((resolve) => {
+    const res = (await new Promise((resolve) => {
       startTransition(async () => {
         const formData = new FormData();
         formData.append("courseId", courseId);
@@ -34,7 +37,7 @@ export function CourseList({ courses }: { courses: Course[] }) {
         const res = await setCourseDraftStatus(formData);
         resolve(res);
       });
-    }) as { success: boolean };
+    })) as { success: boolean };
 
     if (res.success) {
       toast.success("Draft status updated");
@@ -87,9 +90,7 @@ export function CourseList({ courses }: { courses: Course[] }) {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() =>
-                    handleDraftToggle(course.id, !course.draft)
-                  }
+                  onClick={() => handleDraftToggle(course.id, !course.draft)}
                   disabled={isPending && pendingCourseId === course.id}
                 >
                   {course.draft ? (
@@ -100,8 +101,8 @@ export function CourseList({ courses }: { courses: Course[] }) {
                   {isPending && pendingCourseId === course.id
                     ? "Updating..."
                     : course.draft
-                    ? "Publish"
-                    : "Unpublish"}
+                      ? "Publish"
+                      : "Unpublish"}
                 </Button>
                 <Button variant="outline" size="sm">
                   <Pencil className="h-4 w-4" />

@@ -10,7 +10,7 @@ import { SidebarContent } from "./sidebar-client";
  * We disable SSR here to ensure it only renders on the client.
  */
 const DrawerSidebar = dynamic(() =>
-  import("./sidebar-client").then((mod) => mod.DrawerSidebar)
+  import("./sidebar-client").then((mod) => mod.DrawerSidebar),
 );
 
 interface LeftSidebarProps {
@@ -52,7 +52,7 @@ export default function LeftSidebar({
 
   // Sort modules by their order
   const courseModules = courseModulesUnsorted?.sort(
-    (a, b) => (a.chapterNumber ?? 0) - (b.chapterNumber ?? 0)
+    (a, b) => (a.chapterNumber ?? 0) - (b.chapterNumber ?? 0),
   );
 
   if (!course) {

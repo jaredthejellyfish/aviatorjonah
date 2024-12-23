@@ -4,14 +4,17 @@ import { getAllCourses } from "@/utils/helpers/getAllCourses";
 import { BookOpen } from "lucide-react";
 
 export default async function TotalCoursesCard() {
-  const courses = await getAllCourses();    
+  const courses = await getAllCourses();
 
   const totalCourses = courses.length;
 
   const totalCoursesThisMonth = courses.filter((course) => {
     const courseDate = new Date(course.created_at || "");
     const currentDate = new Date();
-    return courseDate.getMonth() === currentDate.getMonth() && courseDate.getFullYear() === currentDate.getFullYear();
+    return (
+      courseDate.getMonth() === currentDate.getMonth() &&
+      courseDate.getFullYear() === currentDate.getFullYear()
+    );
   }).length;
 
   return (

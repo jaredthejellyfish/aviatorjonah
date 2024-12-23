@@ -11,7 +11,6 @@ import { SyncActiveOrganization } from "@/components/SyncActiveOrganization";
 
 export const experimental_ppr = true;
 
-
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",

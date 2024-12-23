@@ -94,7 +94,7 @@ export default function OrganizationDashboard() {
 
   const changeUserRole = async (
     userId: string,
-    newRole: OrganizationCustomRoleKey
+    newRole: OrganizationCustomRoleKey,
   ) => {
     if (!organization) return;
     setIsLoading(true);
@@ -149,7 +149,7 @@ export default function OrganizationDashboard() {
                 organization: value,
               });
               const orgName = userMemberships.data?.find(
-                (m) => m.organization.id === value
+                (m) => m.organization.id === value,
               )?.organization.name;
               if (orgName) {
                 toast.success(`Switched to ${orgName}`);
@@ -224,7 +224,7 @@ export default function OrganizationDashboard() {
                           onValueChange={(value) =>
                             changeUserRole(
                               member.publicUserData.userId as string,
-                              value as OrganizationCustomRoleKey
+                              value as OrganizationCustomRoleKey,
                             )
                           }
                           defaultValue={member.role}
@@ -282,7 +282,7 @@ export default function OrganizationDashboard() {
                             } catch (err) {
                               console.error(
                                 "Failed to remove invitation:",
-                                err
+                                err,
                               );
                               toast.error("Failed to remove invitation");
                             }

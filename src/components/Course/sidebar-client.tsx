@@ -68,7 +68,7 @@ export function ChapterLesson({
         href={`/lesson/${lesson.courseSlug}/${lesson.slug}`}
         className={cn(
           "group flex items-center justify-between w-full px-4 py-2.5 rounded-md transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-          lesson.title === currentLessonTitle && "bg-primary/10"
+          lesson.title === currentLessonTitle && "bg-primary/10",
         )}
       >
         <Tooltip>
@@ -214,7 +214,7 @@ export function SidebarContent({
         defaultValue="content"
         className={cn(
           "md:h-[calc(100vh-64px)] h-full pb-6 md:pb-0 overflow-scroll flex flex-col bg-background",
-          className
+          className,
         )}
       >
         {/* Course title (visible on md+) */}

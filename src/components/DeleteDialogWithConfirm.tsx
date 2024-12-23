@@ -40,7 +40,7 @@ function DeleteDialogWithConfirm({
 
   const doesTextMatch = useMemo(
     () => currentText.toLowerCase() === "delete my course",
-    [currentText]
+    [currentText],
   );
 
   const handleDelete = async (formData: FormData) => {
@@ -126,7 +126,7 @@ function DeleteDialogWithConfirm({
                 (!doesTextMatch ||
                   courseNameInput !== courseName ||
                   isPending) &&
-                  "opacity-50 cursor-not-allowed"
+                  "opacity-50 cursor-not-allowed",
               )}
             >
               {isPending ? "Deleting..." : "Continue"}
