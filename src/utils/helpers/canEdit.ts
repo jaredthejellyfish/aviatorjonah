@@ -3,11 +3,6 @@ import { auth } from "@clerk/nextjs/server";
 export default async function canEdit(userIdFromCourse?: string) {
   const { userId, has } = await auth();
 
-  console.log("userId", userId);
-  console.log("has", has({ role: "org:content_creators" }));
-  console.log("has", has({ role: "org:owner" }));
-  console.log("userIdFromCourse", userIdFromCourse);
-
   // If no user is logged in, they can't edit
   if (!userId) return { allowed: false, userId };
 
