@@ -54,7 +54,7 @@ export const CreateCourseSchema = z.object({
 });
 
 export const UpdateCourseSchema = z.object({
-  courseId: z.string().min(1),
+  id: z.string().min(1),
   title: z.string().min(1).optional(),
   description: z.string().optional(),
   price: z

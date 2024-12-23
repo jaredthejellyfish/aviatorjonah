@@ -71,32 +71,42 @@ export async function removeCourse(formData: FormData) {
 
 export async function updateCourse(formData: FormData) {
   const courseId = formData.get("courseId");
-  if (!courseId) throw new Error("Course ID is required");
+  if (!courseId) return { success: false, slug: undefined };
 
   const rawData = {
-    title: formData.get("title"),
-    description: formData.get("description"),
-    price: formData.get("price"),
-    category: formData.get("category"),
-    level: formData.get("level"),
+    id: courseId,
+    title: formData.get("title") || undefined,
+    description: formData.get("description") || undefined,
+    price: formData.get("price") || undefined,
+    category: formData.get("category") || undefined,
+    level: formData.get("level") || undefined,
   };
 
+  console.log(rawData);
+
   const parsed = UpdateCourseSchema.safeParse(rawData);
-  if (!parsed.success) throw new Error(parsed.error.message);
+  if (!parsed.success) {
+    console.error(parsed.error);
+    return { success: false, slug: undefined };
+  }
 
   const { allowed } = await canEdit(courseId as string);
-  if (!allowed) throw new Error("You are not a creator");
+  if (!allowed) return { success: false, slug: undefined };
 
   const supabase = await createClient();
 
-  const { data, error } = await supabase
+  const { error, data } = await supabase
     .from("courses")
     .update(parsed.data)
-    .eq("id", courseId);
+    .eq("id", parsed.data.id)
+    .select();
 
-  if (error) throw new Error("Failed to update course");
+  if (error) {
+    console.error(error);
+    return { success: false, slug: undefined };
+  }
 
-  return { data };
+  return { success: true, slug: data[0].slug };
 }
 
 export async function setCourseDraftStatus(formData: FormData) {
