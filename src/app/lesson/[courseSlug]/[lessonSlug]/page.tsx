@@ -9,7 +9,7 @@ import { markedHighlight } from "marked-highlight";
 import hljs from "highlight.js";
 import { notFound } from "next/navigation";
 import { ErrorBoundary } from "react-error-boundary";
-import LessonContentContainer from "@/components/LessonContentContainer";
+import LessonContentContainer from "@/components/Course/LessonContentContainer";
 
 
 export const dynamic = "force-dynamic";

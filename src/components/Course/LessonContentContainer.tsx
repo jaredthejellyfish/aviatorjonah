@@ -9,13 +9,10 @@ type Props = { children: React.ReactNode };
 
 function LessonContentContainer({ children }: Props) {
 	const isSectionsOpen = useStore($isSectionsOpen);
- 
+
 	return (
 		<div
-			className={cn(
-				"grid grid-cols-1 md:grid-cols-[300px_1fr] ",
-				isSectionsOpen ? "lg:grid-cols-[300px_1fr_250px]" : "grid-cols-[300px_1fr_0fr]",
-			)}
+			className={`grid grid-cols-1 md:grid-cols-[300px_1fr] transition-[grid-template-columns] duration-300 ease-in-out lg:grid-cols-[300px_1fr_${isSectionsOpen ? "250px" : "0px"}]`}
 		>
 			{children}
 		</div>
