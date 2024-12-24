@@ -8,6 +8,7 @@ import QueryProvider from "@/providers/query-provider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "@/components/ui/sonner";
 import { SyncActiveOrganization } from "@/components/SyncActiveOrganization";
+import Hotjar from "@/components/Hotjar";
 
 export const experimental_ppr = true;
 
@@ -55,6 +56,7 @@ export default async function RootLayout({
             </ClerkProviderWrapper>
           </ThemeProvider>
         </QueryProvider>
+        <Hotjar />
       </body>
     </html>
   );
