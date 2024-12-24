@@ -43,9 +43,22 @@ function extractSections(content: string) {
     return [];
   }
 
-  const h2Regex = /##\s*(.*?)(?:\n|$)/g;
-  const matches = Array.from(content.matchAll(h2Regex));
-  const sections = matches.map((match) => match[1].trim().replace(/^#+/, ""));
+  // Split content into lines and process each line
+  const lines = content.split('\n');
+  const sections: string[] = [];
+  
+  for (const line of lines) {
+    // Match any line that starts with ## (allowing for optional spaces before and after)
+    const match = line.match(/^\s*##\s+([^#].*?)\s*$/);
+    if (match) {
+      const sectionTitle = match[1].trim();
+      // Only add non-empty section titles
+      if (sectionTitle) {
+        sections.push(sectionTitle);
+      }
+    }
+  }
+
   return sections;
 }
 
