@@ -75,7 +75,7 @@ export default function LandingPage() {
     <>
       <main className="flex-1">
         <section
-          className="relative w-full py-16 md:py-24 lg:py-32 bg-white dark:bg-neutral-900 h-[calc(100vh-64px)] flex flex-col justify-center items-center"
+          className="relative w-full py-16 md:py-24 lg:py-32 bg-neutral-100 dark:bg-neutral-900 h-[calc(100vh-64px)] flex flex-col justify-center items-center border-b"
           id="cta"
         >
           <motion.div
