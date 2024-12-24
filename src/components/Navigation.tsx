@@ -107,15 +107,14 @@ function Navigation() {
               </SignInButton>
             </SignedOut>
             <ModeToggle className="sm:flex hidden" />
-            <SignedIn>
-              <div className="sm:hidden p-0">
-                <Hamburger
-                  size={20}
-                  toggled={isOpen}
-                  toggle={() => setIsOpen(!isOpen)}
-                />
-              </div>
-            </SignedIn>
+
+            <div className="sm:hidden p-0">
+              <Hamburger
+                size={20}
+                toggled={isOpen}
+                toggle={() => setIsOpen(!isOpen)}
+              />
+            </div>
           </nav>
         </div>
       </motion.header>
