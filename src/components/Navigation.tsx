@@ -159,6 +159,17 @@ function Navigation() {
 								>
 									Courses
 								</Link>
+								<Link
+									className={`text-base font-medium transition-colors ${
+										isActivePath("/blog")
+											? "text-indigo-600 dark:text-indigo-400"
+											: "hover:text-indigo-600 dark:hover:text-indigo-400"
+									}`}
+									href="/blog"
+									onClick={() => setIsOpen(false)}
+								>
+									Blog
+								</Link>
 								<SignedIn>
 									<Link
 										className={`text-base font-medium transition-colors ${
