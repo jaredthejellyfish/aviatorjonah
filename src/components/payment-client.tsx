@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { SelectedCourseSchema } from "@/lib/schemas";
+import { SignInButton, useAuth } from "@clerk/nextjs";
 
 type Props = {
   selectedCourse: {
@@ -27,15 +28,16 @@ type Props = {
 function PaymentClient({
   selectedCourse,
   enrolled,
-  isAuthenticated,
   buttonStyles,
   buttonText,
 }: Props) {
+  const { isSignedIn: isAuthenticated } = useAuth();
   const parsedCourse = SelectedCourseSchema.safeParse(selectedCourse);
 
   if (!parsedCourse.success) {
     return <div>Course not found</div>;
   }
+
 
   const redirectToCheckout = async () => {
     try {
@@ -73,9 +75,11 @@ function PaymentClient({
 
   if (!isAuthenticated) {
     return (
-      <Link href={`/auth/login?return=/courses/view/${selectedCourse.slug}`}>
-        <Button className={cn("mb-4 w-full", buttonStyles)}>{"hi"}</Button>
-      </Link>
+      <SignInButton mode="modal">
+        <Button className={cn("mb-4 w-full", buttonStyles)}>
+          Sign In to Enroll
+        </Button>
+      </SignInButton>
     );
   }
 

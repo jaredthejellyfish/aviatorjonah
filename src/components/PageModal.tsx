@@ -9,9 +9,7 @@ interface PageModalProps {
   children: React.ReactNode;
 }
 
-export default function PageModal({
-  children,
-}: PageModalProps) {
+export default function PageModal({ children }: PageModalProps) {
   const router = useRouter();
   const modalRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
@@ -23,11 +21,11 @@ export default function PageModal({
   };
 
   const modalVariants = {
-    hidden: { 
+    hidden: {
       opacity: 0,
       y: 50,
     },
-    visible: { 
+    visible: {
       opacity: 1,
       y: 0,
       transition: {
@@ -123,7 +121,7 @@ export default function PageModal({
           className="bg-white dark:bg-neutral-900 rounded-lg px-6 overflow-y-auto h-[90vh] mt-16 relative"
           tabIndex={-1}
         >
-          <div className="absolute lg:top-6 lg:right-6 top-1 right-1 bg-black/50 lg:bg-transparent z-10 rounded-full">
+          <div className="absolute lg:top-1.5 lg:right-1.5 top-1 right-1 bg-black/50 lg:bg-transparent z-10 rounded-full">
             <button
               onClick={() => router.back()}
               className="p-2 hover:bg-gray-100 dark:hover:bg-neutral-800 rounded-full transition-colors"

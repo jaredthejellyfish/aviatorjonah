@@ -85,20 +85,22 @@ function Navigation() {
               >
                 Dashboard
               </Link>
-              <Link
-                className={`text-sm font-medium transition-colors hidden sm:inline-block ${
-                  isActivePath("/courses")
-                    ? "text-indigo-600 dark:text-indigo-400"
-                    : "hover:text-indigo-600 dark:hover:text-indigo-400"
-                }`}
-                href="/courses"
-              >
-                Courses
-              </Link>
+            </SignedIn>
+            <Link
+              className={`text-sm font-medium transition-colors hidden sm:inline-block ${
+                isActivePath("/courses")
+                  ? "text-indigo-600 dark:text-indigo-400"
+                  : "hover:text-indigo-600 dark:hover:text-indigo-400"
+              }`}
+              href="/courses"
+            >
+              Courses
+            </Link>
+            <SignedIn>
               <UserButton />
             </SignedIn>
             <SignedOut>
-              <SignInButton>
+              <SignInButton mode="modal">
                 <Button className="bg-indigo-600 text-white hover:bg-indigo-700">
                   Login
                 </Button>
@@ -133,6 +135,17 @@ function Navigation() {
           >
             <div className="container mx-auto py-4 px-4">
               <nav className="flex flex-col gap-6 bg-white dark:bg-neutral-900 rounded-lg p-6">
+                <Link
+                  className={`text-base font-medium transition-colors ${
+                    isActivePath("/courses")
+                      ? "text-indigo-600 dark:text-indigo-400"
+                      : "hover:text-indigo-600 dark:hover:text-indigo-400"
+                  }`}
+                  href="/courses"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Courses
+                </Link>
                 <SignedIn>
                   <Link
                     className={`text-base font-medium transition-colors ${
@@ -145,17 +158,7 @@ function Navigation() {
                   >
                     Dashboard
                   </Link>
-                  <Link
-                    className={`text-base font-medium transition-colors ${
-                      isActivePath("/courses")
-                        ? "text-indigo-600 dark:text-indigo-400"
-                        : "hover:text-indigo-600 dark:hover:text-indigo-400"
-                    }`}
-                    href="/courses"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Courses
-                  </Link>
+
                   <Protect permission="org:owner:access">
                     <Link
                       className={`text-base font-medium transition-colors ${

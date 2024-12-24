@@ -17,10 +17,9 @@ import PageModal from "@/components/PageModal";
 
 const ViewCourseLoadingSkeleton = () => {
   return (
-    <main className="container mx-auto px-4 py-6">
-      {/* Mobile Card */}
+    <main className="container mx-auto md:px-4 py-6">
       <div className="lg:hidden block mb-5">
-        <Card className="sticky top-24 overflow-hidden bg-white dark:bg-neutral-900 shadow-xl">
+        <Card className="overflow-hidden bg-white dark:bg-neutral-900 shadow-xl">
           <div className="w-full h-32 bg-neutral-200 dark:bg-neutral-800 animate-pulse" />
           <CardContent className="pt-6">
             <div className="flex justify-between items-center mb-4">
@@ -95,7 +94,7 @@ const ViewCourseLoadingSkeleton = () => {
 
         {/* Desktop Card */}
         <div className="hidden lg:block">
-          <Card className="sticky top-24 overflow-hidden bg-white dark:bg-neutral-900 shadow-xl">
+          <Card className="overflow-hidden bg-white dark:bg-neutral-900 shadow-xl">
             <div className="w-full h-48 bg-neutral-200 dark:bg-neutral-800 animate-pulse" />
             <CardContent className="pt-6">
               <div className="flex justify-between items-center mb-4">
@@ -127,8 +126,6 @@ type Props = {
 async function ViewCourseModalContent({ slug }: { slug: string }) {
   const course = await getCourseBySlug(slug);
 
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-
   if (!course) {
     return notFound();
   }
@@ -155,7 +152,7 @@ async function ViewCourseModalContent({ slug }: { slug: string }) {
   return (
     <main className="container mx-auto md:px-4 py-6">
       <div className="lg:hidden block mb-5">
-        <Card className="sticky top-24 overflow-hidden bg-white dark:bg-neutral-900 shadow-xl">
+        <Card className="overflow-hidden bg-white dark:bg-neutral-900 shadow-xl">
           {course.image && (
             <Image
               src={course.image ?? null}
@@ -262,7 +259,7 @@ async function ViewCourseModalContent({ slug }: { slug: string }) {
           </div>
         </div>
         <div className="hidden lg:block">
-          <Card className="sticky top-24 overflow-hidden bg-white dark:bg-neutral-900 shadow-xl">
+          <Card className="overflow-hidden bg-white dark:bg-neutral-900 shadow-xl">
             {course.image && (
               <Image
                 src={course.image ?? null}

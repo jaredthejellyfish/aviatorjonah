@@ -7,25 +7,26 @@ export async function createClient() {
   const cookieStore = await cookies();
   const { getToken } = await auth();
 
-  const token = await getToken({ template: "supabase" });
-  const authToken = token ? { Authorization: `Bearer ${token}` } : null;
-
   return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       global: {
-        headers: { "Cache-Control": "no-store", ...authToken },
+        headers: { "Cache-Control": "no-store" },
         fetch: async (url, options = {}) => {
+          // Try to get the Clerk token
           const clerkToken = await getToken({
             template: "supabase",
           });
 
-          // Insert the Clerk Supabase token into the headers
           const headers = new Headers(options?.headers);
-          headers.set("Authorization", `Bearer ${clerkToken}`);
+          
+          // Only set the Authorization header if we have a token
+          if (clerkToken) {
+            headers.set("Authorization", `Bearer ${clerkToken}`);
+          }
 
-          // Now call the default fetch
+          // Call fetch with or without the Authorization header
           return fetch(url, {
             ...options,
             headers,

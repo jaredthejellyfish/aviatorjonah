@@ -2,14 +2,21 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 const isProtectedRoute = createRouteMatcher([
-  "/courses(.*)",
   "/forum(.*)",
   "/dashboard(.*)",
   "/course(.*)",
 ]);
 
+const isCourseRoute = createRouteMatcher([
+  "/courses(.*)",
+]);
+
 export default clerkMiddleware(async (auth, req) => {
   const { userId } = await auth();
+
+  if (isCourseRoute(req)) {
+    return NextResponse.next();
+  }
 
   if (req.nextUrl.pathname === "/" && userId) {
     const url = req.nextUrl.clone();
