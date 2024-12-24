@@ -99,6 +99,16 @@ function Navigation() {
 						>
 							Courses
 						</Link>
+						<Link
+							className={`text-sm font-medium transition-colors hidden sm:inline-block ${
+								isActivePath("/blog")
+									? "text-indigo-600 dark:text-indigo-400"
+									: "hover:text-indigo-600 dark:hover:text-indigo-400"
+							}`}
+							href="/blog"
+						>
+							Blog
+						</Link>
 						<SignedIn>
 							<UserButton />
 						</SignedIn>
@@ -109,6 +119,7 @@ function Navigation() {
 								</Button>
 							</SignInButton>
 						</SignedOut>
+
 						<ModeToggle className="sm:flex hidden" />
 
 						<div className="sm:hidden p-0">

@@ -11,8 +11,7 @@ import { notFound } from "next/navigation";
 import { ErrorBoundary } from "react-error-boundary";
 import LessonContentContainer from "@/components/Course/LessonContentContainer";
 
-
-export const dynamic = "force-dynamic";
+export const experimental_ppr = false;
 
 // Cache the marked configuration to avoid reconfiguring on every render
 const configureMarked = () => {

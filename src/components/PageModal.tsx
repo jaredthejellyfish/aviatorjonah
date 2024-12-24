@@ -4,12 +4,19 @@ import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 interface PageModalProps {
 	children: React.ReactNode;
+	showCloseButton?: boolean;
+	className?: string;
 }
 
-export default function PageModal({ children }: PageModalProps) {
+export default function PageModal({
+	children,
+	showCloseButton = true,
+	className,
+}: PageModalProps) {
 	const router = useRouter();
 	const modalRef = useRef<HTMLDivElement>(null);
 	const previousFocusRef = useRef<HTMLElement | null>(null);
@@ -118,18 +125,23 @@ export default function PageModal({ children }: PageModalProps) {
 				<motion.div
 					ref={modalRef}
 					variants={modalVariants}
-					className="bg-white dark:bg-neutral-900 rounded-lg px-6 overflow-y-auto h-[90vh] mt-16 relative"
+					className={cn(
+						"bg-white dark:bg-neutral-900 rounded-lg px-6 overflow-y-auto h-[90vh] mt-16 relative",
+						className,
+					)}
 					tabIndex={-1}
 				>
-					<div className="absolute lg:top-1.5 lg:right-1.5 top-1 right-1 bg-black/50 lg:bg-transparent z-10 rounded-full">
-						<button
-							onClick={() => router.back()}
+					{showCloseButton && (
+						<div className="absolute lg:top-1.5 lg:right-1.5 top-1 right-1 bg-black/50 lg:bg-transparent z-10 rounded-full">
+							<button
+								onClick={() => router.back()}
 							className="p-2 hover:bg-gray-100 dark:hover:bg-neutral-800 rounded-full transition-colors"
 							aria-label="Close modal"
-						>
-							<X size={20} />
-						</button>
-					</div>
+							>
+								<X size={20} />
+							</button>
+						</div>
+					)}
 					{children}
 				</motion.div>
 			</div>
