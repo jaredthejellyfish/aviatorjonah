@@ -1,6 +1,5 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { $isSectionsOpen } from "@/stores/sections-store";
 import { useStore } from "@nanostores/react";
 import React from "react";
