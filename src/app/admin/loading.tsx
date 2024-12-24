@@ -12,18 +12,15 @@ import { RecentSalesWidgetSkeleton } from "@/components/Admin/RecentSalesWidget"
 import { PopularCoursesWidgetSkeleton } from "@/components/Admin/PopularCoursesWidget";
 import { RevenueChartSkeleton } from "@/components/Admin/RevenueChart";
 import AdminNotAuthorized from "@/components/Admin/AdminNotAuthorized";
-import { Protect } from "@clerk/nextjs";
 import { TotalRevenueSkeleton } from "@/components/Admin/Cards/TotalRevenueCard";
 import { TotalCoursesCardSkeleton } from "@/components/Admin/Cards/TotalCoursesCard";
 import { ActiveUsersCardSkeleton } from "@/components/Admin/Cards/ActiveUsersCard";
 import { ActiveSalesCardSkeleton } from "@/components/Admin/Cards/ActiveSalesCard";
+import ProtectServer from "@/components/ProtectServer";
 
 export default async function AdminDashboardPage() {
   return (
-    <Protect
-      permission="org:content_creator:access"
-      fallback={<AdminNotAuthorized />}
-    >
+    <ProtectServer orgSlug="admin" fallback={<AdminNotAuthorized />}>
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
         <div className="grid gap-6 grid-cols-2 lg:grid-cols-4 mb-8">
@@ -134,6 +131,6 @@ export default async function AdminDashboardPage() {
           </Link>
         </div>
       </div>
-    </Protect>
+    </ProtectServer>
   );
 }

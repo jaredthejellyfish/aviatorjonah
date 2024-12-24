@@ -1,6 +1,6 @@
 "use client";
 
-import { Protect, SignInButton } from "@clerk/nextjs";
+import { SignInButton } from "@clerk/nextjs";
 import { SignedOut } from "@clerk/nextjs";
 import { Plane } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
@@ -12,6 +12,7 @@ import { ModeToggle } from "./ThemeToggle";
 import { Button } from "./ui/button";
 import { Squash as Hamburger } from "hamburger-react";
 import { usePathname } from "next/navigation";
+import ProtectClient from "./ProtectClient";
 
 function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,7 +51,7 @@ function Navigation() {
           </Link>
           <nav className="flex items-center gap-2 sm:gap-4 md:gap-6">
             <SignedIn>
-              <Protect permission="org:owner:access">
+              <ProtectClient orgSlug="admins">
                 <Link
                   className={`text-sm font-medium transition-colors hidden sm:inline-block ${
                     isActivePath("/admin")
@@ -61,8 +62,8 @@ function Navigation() {
                 >
                   Admin
                 </Link>
-              </Protect>
-              <Protect permission="org:content_creator:access">
+              </ProtectClient>
+              <ProtectClient orgSlug={["content-creators", "admins"]}>
                 <Link
                   className={`text-sm font-medium transition-colors hidden sm:inline-block ${
                     isActivePath("/content-studio")
@@ -73,7 +74,7 @@ function Navigation() {
                 >
                   Content Studio
                 </Link>
-              </Protect>
+              </ProtectClient>
               <Link
                 className={`text-sm font-medium transition-colors hidden sm:inline-block ${
                   isActivePath("/dashboard")
@@ -157,7 +158,7 @@ function Navigation() {
                     Dashboard
                   </Link>
 
-                  <Protect permission="org:owner:access">
+                  <ProtectClient orgSlug="admins">
                     <Link
                       className={`text-base font-medium transition-colors ${
                         isActivePath("/admin")
@@ -169,8 +170,8 @@ function Navigation() {
                     >
                       Admin
                     </Link>
-                  </Protect>
-                  <Protect permission="org:content_creator:access">
+                  </ProtectClient>
+                  <ProtectClient orgSlug={["content-creators", "admins"]}>
                     <Link
                       className={`text-base font-medium transition-colors ${
                         isActivePath("/content-studio")
@@ -182,7 +183,7 @@ function Navigation() {
                     >
                       Content Studio
                     </Link>
-                  </Protect>
+                  </ProtectClient>
                 </SignedIn>
                 <div className="flex items-center justify-between pt-4 border-t border-neutral-200 dark:border-neutral-700">
                   <span className="text-base text-neutral-500 dark:text-neutral-400">

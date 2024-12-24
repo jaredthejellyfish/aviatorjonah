@@ -158,7 +158,7 @@ export default async function CoursesDashboard() {
                   <p className="text-sm font-medium">Completed Courses</p>
                   <p className="text-2xl font-bold">
                     {enrolledCourses?.filter(
-                      (course) => course.totalProgress === 100,
+                      (course) => course.totalProgress === 100
                     ).length ?? 0}
                   </p>
                 </div>

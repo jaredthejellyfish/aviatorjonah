@@ -82,8 +82,6 @@ export async function updateCourse(formData: FormData) {
     level: formData.get("level") || undefined,
   };
 
-  console.log(rawData);
-
   const parsed = UpdateCourseSchema.safeParse(rawData);
   if (!parsed.success) {
     console.error(parsed.error);
