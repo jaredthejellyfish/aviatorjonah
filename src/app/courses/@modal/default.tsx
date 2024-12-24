@@ -1,5 +1,5 @@
 function ModalPage() {
-  return null;
+	return null;
 }
 
 export default ModalPage;

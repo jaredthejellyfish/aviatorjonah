@@ -1,10 +1,10 @@
 import React from "react";
 import {
-  Card,
-  CardTitle,
-  CardHeader,
-  CardContent,
-  CardFooter,
+	Card,
+	CardTitle,
+	CardHeader,
+	CardContent,
+	CardFooter,
 } from "../ui/card";
 import { BookOpen, Clock, BarChart } from "lucide-react";
 import { Button } from "../ui/button";
@@ -16,84 +16,87 @@ import PlaceholderImage from "@/public/placeholder.svg";
 import { useIsInView } from "@/hooks/useIsInView";
 
 function PopularCoursesSection() {
-  const [elementRef, isInView] = useIsInView<HTMLDivElement>({
-    root: null,
-    threshold: 0.5,
-    rootMargin: "0px",
-  });
-  const { data: courses, isLoading } = usePopularCourses(isInView);
+	const [elementRef, isInView] = useIsInView<HTMLDivElement>({
+		root: null,
+		threshold: 0.5,
+		rootMargin: "0px",
+	});
+	const { data: courses, isLoading } = usePopularCourses(isInView);
 
-  return (
-    <div ref={elementRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {isLoading &&
-        [...Array(3)].map((_, index) => (
-          <Card
-            key={index}
-            className="overflow-hidden bg-white dark:bg-neutral-900 shadow-lg"
-          >
-            <Skeleton className="w-full h-48" />
-            <CardHeader className="pb-2 pt-5">
-              <Skeleton className="h-6 w-3/4" />
-            </CardHeader>
-            <CardContent>
-              <Skeleton className="h-4 w-full mb-2" />
-              <Skeleton className="h-4 w-5/6 mb-4" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-1/2" />
-                <Skeleton className="h-4 w-1/3" />
-                <Skeleton className="h-4 w-1/4" />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Skeleton className="h-10 w-full rounded-md" />
-            </CardFooter>
-          </Card>
-        ))}
-      {courses?.map((course) => (
-        <div key={course.id}>
-          <Card className="overflow-hidden bg-white dark:bg-neutral-900 shadow-lg h-full">
-            <Image
-              src={course.image ?? PlaceholderImage}
-              alt={course.title}
-              width={800}
-              height={600}
-              className="w-full h-48 object-cover"
-            />
-            <CardHeader className="pb-2 pt-5">
-              <CardTitle>{course.title}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-neutral-600 dark:text-neutral-400 mb-4 line-clamp-2">
-                {course.description}
-              </p>
-              <div className="flex items-center space-x-2 text-sm text-neutral-600 dark:text-neutral-400">
-                <BookOpen className="h-4 w-4" />
-                <span>{course.category}</span>
-              </div>
-              <div className="flex items-center space-x-2 text-sm text-neutral-600 dark:text-neutral-400 mt-2">
-                <Clock className="h-4 w-4" />
-                <span>
-                  {Math.ceil((course?.completion_time ?? 30) / 60)}{" "}
-                  {Math.ceil((course?.completion_time ?? 30) / 60) < 1.01
-                    ? "hour"
-                    : "hours"}
-                </span>
-              </div>
-              <div className="flex items-center space-x-2 text-sm text-neutral-600 dark:text-neutral-400 mt-2">
-                <BarChart className="h-4 w-4" />
-                <span>{course.level}</span>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button asChild className="w-full">
-                <Link href={`/courses/view/${course.slug}`}>View Course</Link>
-              </Button>
-            </CardFooter>
-          </Card>
-        </div>
-      ))}
-    </div>
-  );
+	return (
+		<div
+			ref={elementRef}
+			className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+		>
+			{isLoading &&
+				[...Array(3)].map((_, index) => (
+					<Card
+						key={index}
+						className="overflow-hidden bg-white dark:bg-neutral-900 shadow-lg"
+					>
+						<Skeleton className="w-full h-48" />
+						<CardHeader className="pb-2 pt-5">
+							<Skeleton className="h-6 w-3/4" />
+						</CardHeader>
+						<CardContent>
+							<Skeleton className="h-4 w-full mb-2" />
+							<Skeleton className="h-4 w-5/6 mb-4" />
+							<div className="space-y-2">
+								<Skeleton className="h-4 w-1/2" />
+								<Skeleton className="h-4 w-1/3" />
+								<Skeleton className="h-4 w-1/4" />
+							</div>
+						</CardContent>
+						<CardFooter>
+							<Skeleton className="h-10 w-full rounded-md" />
+						</CardFooter>
+					</Card>
+				))}
+			{courses?.map((course) => (
+				<div key={course.id}>
+					<Card className="overflow-hidden bg-white dark:bg-neutral-900 shadow-lg h-full">
+						<Image
+							src={course.image ?? PlaceholderImage}
+							alt={course.title}
+							width={800}
+							height={600}
+							className="w-full h-48 object-cover"
+						/>
+						<CardHeader className="pb-2 pt-5">
+							<CardTitle>{course.title}</CardTitle>
+						</CardHeader>
+						<CardContent>
+							<p className="text-neutral-600 dark:text-neutral-400 mb-4 line-clamp-2">
+								{course.description}
+							</p>
+							<div className="flex items-center space-x-2 text-sm text-neutral-600 dark:text-neutral-400">
+								<BookOpen className="h-4 w-4" />
+								<span>{course.category}</span>
+							</div>
+							<div className="flex items-center space-x-2 text-sm text-neutral-600 dark:text-neutral-400 mt-2">
+								<Clock className="h-4 w-4" />
+								<span>
+									{Math.ceil((course?.completion_time ?? 30) / 60)}{" "}
+									{Math.ceil((course?.completion_time ?? 30) / 60) < 1.01
+										? "hour"
+										: "hours"}
+								</span>
+							</div>
+							<div className="flex items-center space-x-2 text-sm text-neutral-600 dark:text-neutral-400 mt-2">
+								<BarChart className="h-4 w-4" />
+								<span>{course.level}</span>
+							</div>
+						</CardContent>
+						<CardFooter>
+							<Button asChild className="w-full">
+								<Link href={`/courses/view/${course.slug}`}>View Course</Link>
+							</Button>
+						</CardFooter>
+					</Card>
+				</div>
+			))}
+		</div>
+	);
 }
 
 export default PopularCoursesSection;

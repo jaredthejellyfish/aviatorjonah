@@ -6,13 +6,13 @@ export const $categoryFilter = atom<CategoryFilters>("All");
 export const $levelFilter = atom<LevelFilters>("All");
 
 export const setSearchTerm = (value: string) => {
-  $searchTerm.set(value);
+	$searchTerm.set(value);
 };
 
 export const setCategoryFilter = (value: CategoryFilters) => {
-  $categoryFilter.set(value);
+	$categoryFilter.set(value);
 };
 
 export const setLevelFilter = (value: LevelFilters) => {
-  $levelFilter.set(value);
+	$levelFilter.set(value);
 };

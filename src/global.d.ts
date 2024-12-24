@@ -1,7 +1,7 @@
 export {};
 
 declare global {
-  interface CustomJWTSessionClaims {
-    membership: Record<string, string>;
-  }
+	interface CustomJWTSessionClaims {
+		membership: Record<string, string>;
+	}
 }

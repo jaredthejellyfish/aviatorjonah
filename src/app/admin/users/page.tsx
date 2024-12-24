@@ -7,15 +7,15 @@ import { OrganizationDashboardSkeleton } from "./OrganizationDashboardSkeleton";
 const OrganizationDashboard = dynamic(() => import("./OrganizationDashboard"));
 
 export default async function UsersPage() {
-  const hasAdminAccess = await needsAdminAccess();
+	const hasAdminAccess = await needsAdminAccess();
 
-  if (!hasAdminAccess) {
-    redirect("/admin/not-authorized");
-  }
+	if (!hasAdminAccess) {
+		redirect("/admin/not-authorized");
+	}
 
-  return (
-    <Suspense fallback={<OrganizationDashboardSkeleton />}>
-      <OrganizationDashboard />
-    </Suspense>
-  );
+	return (
+		<Suspense fallback={<OrganizationDashboardSkeleton />}>
+			<OrganizationDashboard />
+		</Suspense>
+	);
 }

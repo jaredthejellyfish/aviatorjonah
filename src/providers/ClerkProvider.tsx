@@ -5,17 +5,17 @@ import { dark } from "@clerk/themes";
 import { useTheme } from "next-themes";
 
 export default function ClerkProviderWrapper({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  const { theme } = useTheme();
-  return (
-    <ClerkProvider
-      dynamic
-      appearance={{ baseTheme: theme === "dark" ? dark : undefined }}
-    >
-      {children}
-    </ClerkProvider>
-  );
+	const { theme } = useTheme();
+	return (
+		<ClerkProvider
+			dynamic
+			appearance={{ baseTheme: theme === "dark" ? dark : undefined }}
+		>
+			{children}
+		</ClerkProvider>
+	);
 }
