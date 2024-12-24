@@ -1,7 +1,7 @@
 import { Course } from "@/utils/helpers/getAllCourses";
 import { useQuery } from "@tanstack/react-query";
 
-export const usePopularCourses = () => {
+export const usePopularCourses = (enabled: boolean = true) => {
   return useQuery({
     queryKey: ["popular-courses"],
     queryFn: async () => {
@@ -11,5 +11,6 @@ export const usePopularCourses = () => {
       }
       return response.json() as Promise<Course[]>;
     },
+    enabled,
   });
 };

@@ -13,7 +13,7 @@ import dynamic from "next/dynamic";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useIsScrolled } from "@/hooks/useIsScrolled";
 
 const PopularCoursesSection = dynamic(
   () => import("@/components/Landing/PopularCoursesSection"),
@@ -50,15 +50,7 @@ const PopularCoursesSection = dynamic(
 );
 
 export default function LandingPage() {
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const { isScrolled, scrollToElementId, scrollToTop } = useIsScrolled();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -79,86 +71,66 @@ export default function LandingPage() {
     },
   };
 
-  const scrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      const offsetTop = section.offsetTop - 64;
-      window.scrollTo({
-        top: offsetTop,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
     <>
       <main className="flex-1">
-        <section className="relative w-full py-16 md:py-24 lg:py-32 overflow-hidden">
+        <section
+          className="relative w-full py-16 md:py-24 lg:py-32 bg-white dark:bg-neutral-900 h-[calc(100vh-64px)] flex flex-col justify-center items-center"
+          id="cta"
+        >
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="container relative mx-auto px-4 md:px-6 h-[calc(100vh-320px)] flex flex-col justify-center items-center"
+            className="container mx-auto px-4 md:px-6 flex flex-col justify-center items-center"
           >
-            <div className="flex flex-col items-center space-y-6 text-center">
+            <div className="max-w-3xl mx-auto text-center space-y-8">
               <motion.div variants={itemVariants} className="space-y-4">
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter">
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-                    Elevate Your Learning
-                  </span>
-                  <br />
-                  <span className="text-neutral-900 dark:text-white">
-                    with AviatorJonah
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-neutral-900 dark:text-white">
+                  Elevate Your Learning with{" "}
+                  <span className="text-indigo-600 dark:text-indigo-400">
+                    AviatorJonah
                   </span>
                 </h1>
-                <p className="mx-auto max-w-[800px] text-md md:text-xl lg:text-2xl text-neutral-600 dark:text-neutral-300">
+                <p className="text-xl text-neutral-600 dark:text-neutral-300">
                   Join our aviation community and discover the thrill of flight
+                  through expert-led courses and cutting-edge training.
                 </p>
               </motion.div>
               <motion.div
                 variants={itemVariants}
-                className="flex flex-col sm:flex-row gap-4 w-full max-w-md"
+                className="flex flex-col sm:flex-row gap-4 justify-center"
               >
                 <Button
                   asChild
                   size="lg"
-                  className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg group"
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white"
                 >
-                  <Link
-                    href="/courses"
-                    className="flex items-center justify-center gap-2"
-                  >
+                  <Link href="/courses" className="flex items-center gap-2">
                     Explore Courses
-                    <motion.span
-                      animate={{ x: [0, 5, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    >
-                      <ArrowRight className="h-5 w-5" />
-                    </motion.span>
+                    <ArrowRight className="h-5 w-5" />
                   </Link>
                 </Button>
               </motion.div>
             </div>
+            <div className="absolute left-0 right-0 bottom-0 flex justify-center items-center">
+              <ChevronDown
+                onClick={() =>
+                  !isScrolled
+                    ? scrollToElementId("popular-courses")
+                    : scrollToTop()
+                }
+                className={cn(
+                  "h-10 w-10 text-indigo-500 transition-all duration-300 cursor-pointer",
+                  isScrolled && "rotate-180 scale-90"
+                )}
+              />
+            </div>
           </motion.div>
-          <div className="absolute left-0 right-0 bottom-0 flex justify-center items-center">
-            <ChevronDown
-              onClick={() =>
-                !isScrolled ? scrollToSection("popular-courses") : scrollToTop()
-              }
-              className={cn(
-                "h-10 w-10 text-indigo-500 transition-all duration-300 cursor-pointer",
-                isScrolled && "rotate-180 scale-90"
-              )}
-            />
-          </div>
         </section>
 
         <section
-          className="w-full py-8 sm:py-12 md:py-16 lg:py-24 bg-white dark:bg-neutral-800"
+          className="w-full py-8 sm:py-12 md:py-16 lg:py-24 bg-white dark:bg-neutral-800 "
           id="popular-courses"
         >
           <motion.div
@@ -174,10 +146,7 @@ export default function LandingPage() {
             >
               Popular Courses
             </motion.h2>
-            <motion.div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              variants={containerVariants}
-            >
+            <motion.div variants={containerVariants}>
               <PopularCoursesSection />
             </motion.div>
           </motion.div>
