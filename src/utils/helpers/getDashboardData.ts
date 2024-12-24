@@ -44,7 +44,7 @@ export async function getDashboardData() {
     const enrolledCourses = enrolledCoursesResult.data.map((enrollment) => ({
       ...enrollment,
       course: enrollment.course as unknown as Course,
-    }));
+    }))
 
     // Get course IDs and fetch progress data
     const enrolledCourseIds = enrolledCourses.map(
