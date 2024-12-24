@@ -27,7 +27,9 @@ const configureMarked = () => {
     };
 
     return depth in headingClasses
-      ? `<h${depth} id="${id}" class="${headingClasses[depth as keyof typeof headingClasses]}">${text}</h${depth}>`
+      ? `<h${depth} id="${id}" class="${
+          headingClasses[depth as keyof typeof headingClasses]
+        }">${text}</h${depth}>`
       : `<h${depth}>${text}</h${depth}>`;
   };
 
@@ -43,7 +45,7 @@ const configureMarked = () => {
       renderer,
       gfm: true,
       breaks: true,
-    },
+    }
   );
 };
 
@@ -59,7 +61,7 @@ type Props = {
 
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata,
+  parent: ResolvingMetadata
 ): Promise<Metadata> {
   try {
     const courseSlug = (await params).courseSlug;
@@ -78,7 +80,7 @@ export async function generateMetadata(
       },
     };
   } catch (error) {
-    console.error('Error generating metadata:', error);
+    console.error("Error generating metadata:", error);
     return {
       title: "AviatorJonah | Course",
       description: "AviatorJonah | Course",
@@ -92,9 +94,9 @@ function extractSections(content: string): string[] {
   }
 
   // Split content into lines and process each line
-  const lines = content.split('\n');
+  const lines = content.split("\n");
   const sections: string[] = [];
-  
+
   for (const line of lines) {
     // Match any line that starts with ## (allowing for optional spaces before and after)
     const match = line.match(/^\s*##\s+([^#].*?)\s*$/);
@@ -123,68 +125,61 @@ const slugify = (text: string): string => {
 };
 
 async function CoursePage({ params }: Props) {
-  try {
-    const courseSlug = (await params).courseSlug;
-    const lessonSlug = (await params).lessonSlug;
+  const courseSlug = (await params).courseSlug;
+  const lessonSlug = (await params).lessonSlug;
 
-    if (!courseSlug || !lessonSlug) {
-      return notFound();
-    }
-
-    const course = await getCourseBySlugWithProgress(courseSlug);
-
-    if (!course) {
-      return notFound();
-    }
-
-    const currentModule = course?.modules?.find((module) =>
-      module.lessons?.some((lesson) => lesson.slug === lessonSlug)
-    );
-
-    const moduleSlug = (currentModule?.slug as string | undefined);
-    const currentLesson = currentModule?.lessons?.find(
-      (lesson) => lesson.slug === lessonSlug
-    );
-
-    const lessonTitle = currentLesson?.title || "";
-    const content = currentLesson?.content || "";
-    const sections = extractSections(content);
-
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] lg:grid-cols-[300px_1fr_250px]">
-        <LeftSidebar
-          course={course}
-          courseSlug={courseSlug}
-          moduleSlug={moduleSlug}
-          lessonSlug={lessonSlug}
-        />
-        <div className="relative w-full overflow-x-hidden">
-          <div className="px-4 md:px-10 py-5 prose dark:prose-invert max-w-full prose-headings:text-primary prose-strong:text-primary prose-a:text-primary prose-a:underline prose-a:decoration-primary prose-a:decoration-2 prose-a:underline-offset-4 prose-a:decoration-offset-4 prose-a:hover:text-primary/80 prose-a:hover:decoration-primary/80 prose-a:hover:no-underline prose-h1:font-bold dark:prose-p:text-white/80 dark:prose-li:text-white/80 prose-pre:overflow-x-auto prose-img:rounded-xl">
-            <h1 className="text-4xl font-bold">{lessonTitle}</h1>
-            <ErrorBoundary 
-              fallback={<div className="text-red-500">Error loading lesson content</div>}
-            >
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: marked(content),
-                }}
-              />
-            </ErrorBoundary>
-            <CompleteLesson course={course} currentLessonSlug={lessonSlug} />
-          </div>
-        </div>
-
-        <Sections sections={sections} />
-      </div>
-    );
-  } catch (error) {
-    console.error('Course page error:', error);
-    return (
-      <div className="p-4 text-red-500">
-        An error occurred while loading the course. Please try again later.
-      </div>
-    );
+  if (!courseSlug || !lessonSlug) {
+    return notFound();
   }
+
+  const course = await getCourseBySlugWithProgress(courseSlug);
+
+  if (!course) {
+    return notFound();
+  }
+
+  const currentModule = course?.modules?.find((module) =>
+    module.lessons?.some((lesson) => lesson.slug === lessonSlug)
+  );
+
+  const moduleSlug = currentModule?.slug as string | undefined;
+  const currentLesson = currentModule?.lessons?.find(
+    (lesson) => lesson.slug === lessonSlug
+  );
+
+  const lessonTitle = currentLesson?.title || "";
+  const content = currentLesson?.content || "";
+  const sections = extractSections(content);
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] lg:grid-cols-[300px_1fr_250px]">
+      <LeftSidebar
+        course={course}
+        courseSlug={courseSlug}
+        moduleSlug={moduleSlug}
+        lessonSlug={lessonSlug}
+      />
+      <div className="relative w-full overflow-x-hidden">
+        <div className="px-4 md:px-10 py-5 prose dark:prose-invert max-w-full prose-headings:text-primary prose-strong:text-primary prose-a:text-primary prose-a:underline prose-a:decoration-primary prose-a:decoration-2 prose-a:underline-offset-4 prose-a:decoration-offset-4 prose-a:hover:text-primary/80 prose-a:hover:decoration-primary/80 prose-a:hover:no-underline prose-h1:font-bold dark:prose-p:text-white/80 dark:prose-li:text-white/80 prose-pre:overflow-x-auto prose-img:rounded-xl">
+          <h1 className="text-4xl font-bold">{lessonTitle}</h1>
+          <ErrorBoundary
+            fallback={
+              <div className="text-red-500">Error loading lesson content</div>
+            }
+          >
+            <div
+              dangerouslySetInnerHTML={{
+                __html: marked(content),
+              }}
+            />
+          </ErrorBoundary>
+          <CompleteLesson course={course} currentLessonSlug={lessonSlug} />
+        </div>
+      </div>
+
+      <Sections sections={sections} />
+    </div>
+  );
 }
 
 export default CoursePage;

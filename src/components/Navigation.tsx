@@ -36,13 +36,12 @@ function Navigation() {
   return (
     <>
       <motion.header
-        suppressHydrationWarning
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 100 }}
         className="sticky top-0 z-50 px-4 lg:px-6 h-16 flex items-center border-b border-neutral-200 dark:border-neutral-700 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-sm"
       >
-        <div className="container mx-auto flex items-center justify-between">
+        <div className="container mx-auto flex items-center justify-between" suppressHydrationWarning>
           <Link className="flex items-center shrink-0" href="/">
             <Plane className="h-6 w-6 sm:h-8 sm:w-8 mr-2 text-indigo-600 dark:text-indigo-400" />
             <span className="font-bold text-lg sm:text-xl text-indigo-600 dark:text-indigo-400">
