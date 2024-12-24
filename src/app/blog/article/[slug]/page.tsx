@@ -4,7 +4,9 @@ import Link from "next/link";
 import { marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 import hljs from "highlight.js";
-import { ErrorBoundary } from "react-error-boundary";
+import { ArrowLeft } from "lucide-react";
+import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
 
 // Sample data (in a real app, this would come from your database)
 
@@ -137,10 +139,6 @@ const articles = [
 	},
 ];
 
-import { ArrowLeft } from "lucide-react";
-import { format } from "date-fns";
-import { Button } from "@/components/ui/button";
-
 export default async function ArticlePage({
 	params,
 }: { params: Promise<{ slug: string }> }) {
@@ -160,7 +158,7 @@ export default async function ArticlePage({
 							href="/blog"
 							className="absolute top-5 left-5 inline-flex items-center transition-colors mb-8 z-20"
 						>
-							<Button >
+							<Button>
 								<ArrowLeft className="mr-2 h-4 w-4" />
 								Back to Blog
 							</Button>

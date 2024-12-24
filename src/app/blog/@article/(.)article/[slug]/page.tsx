@@ -3,6 +3,10 @@ import Image from "next/image";
 import { marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 import hljs from "highlight.js";
+
+import { format } from "date-fns";
+import PageModal from "@/components/PageModal";
+import BackButton from "@/components/BackButton";
 // Sample data (in a real app, this would come from your database)
 
 const futureOfAviation = `Lorem ipsum dolor sit amet, *consectetur* adipisicing elit, sed do eiusmod tempor incididunt ut **labore et dolore magna aliqua**. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ***Duis aute irure dolor*** in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ~~Excepteur sint occaecat~~ cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -134,10 +138,8 @@ const articles = [
 	},
 ];
 
-import { ArrowLeft } from "lucide-react";
-import { format } from "date-fns";
-import PageModal from "@/components/PageModal";
-import BackButton from "@/components/BackButton";
+
+
 
 async function ArticleModalContent({ slug }: { slug: string }) {
 	const article = articles.find((a) => a.slug === slug);

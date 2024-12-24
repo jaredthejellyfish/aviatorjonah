@@ -4,9 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 
-type Props = {};
-
-function BackButton({}: Props) {
+function BackButton() {
 	const router = useRouter();
 
 	return (
