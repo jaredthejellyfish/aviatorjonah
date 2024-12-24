@@ -13,7 +13,6 @@ import {
 
 import { notFound } from "next/navigation";
 import PaymentClient from "@/components/payment-client";
-import { Metadata } from "next";
 import PageModal from "@/components/PageModal";
 
 const ViewCourseLoadingSkeleton = () => {
@@ -125,29 +124,6 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  // read route params
-  const slug = (await params).slug;
-
-  // fetch data
-  const course = await getCourseBySlug(slug);
-
-  return {
-    title: course?.title
-      ? `AviatorJonah | ${course.title}`
-      : "AviatorJonah | Course",
-    description: course?.description
-      ? `${course.description.slice(0, 150)}...`
-      : "AviatorJonah | Course",
-    openGraph: {
-      title: `${course?.title} - AviatorJonah`,
-      description: `${course?.description?.slice(0, 150)}...`,
-      url: `https://learn.aviatorjonah.com/courses/view/${course?.slug}`,
-      images: [course?.image ?? ""],
-    },
-  };
-}
-
 async function ViewCourseModalContent({ slug }: { slug: string }) {
   const course = await getCourseBySlug(slug);
 
@@ -177,7 +153,7 @@ async function ViewCourseModalContent({ slug }: { slug: string }) {
   );
 
   return (
-    <main className="container mx-auto px-4 py-6">
+    <main className="container mx-auto md:px-4 py-6">
       <div className="lg:hidden block mb-5">
         <Card className="sticky top-24 overflow-hidden bg-white dark:bg-neutral-900 shadow-xl">
           {course.image && (

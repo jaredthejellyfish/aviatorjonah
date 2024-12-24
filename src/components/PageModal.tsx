@@ -123,7 +123,7 @@ export default function PageModal({
           className="bg-white dark:bg-neutral-900 rounded-lg px-6 overflow-y-auto h-[90vh] mt-16 relative"
           tabIndex={-1}
         >
-          <div className="absolute top-6 right-6">
+          <div className="absolute lg:top-6 lg:right-6 top-1 right-1 bg-black/50 lg:bg-transparent z-10 rounded-full">
             <button
               onClick={() => router.back()}
               className="p-2 hover:bg-gray-100 dark:hover:bg-neutral-800 rounded-full transition-colors"
