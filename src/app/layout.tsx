@@ -54,6 +54,9 @@ export default async function RootLayout({
 							</div>
 							<ReactQueryDevtools />
 							<Toaster />
+							<ErrorBoundary fallback={null}>
+								<SyncActiveOrganization />
+							</ErrorBoundary>
 						</ClerkProviderWrapper>
 					</ThemeProvider>
 				</QueryProvider>

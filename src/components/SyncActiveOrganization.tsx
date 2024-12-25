@@ -1,6 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
 import dynamic from "next/dynamic";
-import { ErrorBoundary } from "react-error-boundary";
 
 const SyncActiveOrganizationClient = dynamic(
 	() => import("@/components/SyncActiveOrganizationClient"),
