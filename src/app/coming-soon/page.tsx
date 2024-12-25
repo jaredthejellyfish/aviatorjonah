@@ -12,7 +12,7 @@ export default function Home() {
 				<h1 className="text-7xl md:text-8xl font-extrabold text-primary mb-6 pointer-events-auto text-center text-white tracking-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
 					AviatorJonah
 				</h1>
-				<p className="text-2xl md:text-3xl font-medium text-primary mb-12 pointer-events-auto text-center text-white/90 tracking-wide drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
+				<p className="text-2xl md:text-3xl font-medium mb-12 pointer-events-auto text-center text-white/90 tracking-wide drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
 					Coming Soon!
 				</p>
 				<div
