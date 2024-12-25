@@ -4,7 +4,7 @@ import Image from "next/image";
 import { format } from "date-fns";
 import PageModal from "@/components/PageModal";
 import BackButton from "@/components/BackButton";
-import { client } from "@/sanity/lib/client";
+import { client } from "@/utils/sanity/client";
 import PlaceHolderImage from "@/public/placeholder.svg";
 import { PortableText } from "next-sanity";
 // Sample data (in a real app, this would come from your database)
@@ -46,7 +46,7 @@ const POST_QUERY = `*[
 	  };
   };
 
-const options = { next: { revalidate: 0 } };
+const options = { next: { revalidate: 60 } };
 
 async function ArticleModalContent({ slug }: { slug: string }) {
 	const article = await client.fetch<PostWithImageUrl>(

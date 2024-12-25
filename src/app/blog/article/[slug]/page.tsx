@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { client } from "@/sanity/lib/client";
+import { client } from "@/utils/sanity/client";
 import PlaceHolderImage from "@/public/placeholder.svg";
 import { PortableText } from "next-sanity";
 // Sample data (in a real app, this would come from your database)
@@ -46,7 +46,7 @@ type PostWithImageUrl = {
 	};
 };
 
-const options = { next: { revalidate: 0 } };
+const options = { next: { revalidate: 60 } };
 
 export default async function ArticlePage({
 	params,
