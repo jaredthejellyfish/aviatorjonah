@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   transpilePackages: ["next-mdx-remote"],
   experimental: {
     ppr: "incremental",
-    reactCompiler: true,
+    reactCompiler: false,
   },
   images: {
     remotePatterns: [
