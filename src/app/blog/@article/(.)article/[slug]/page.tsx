@@ -1,8 +1,5 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { marked } from "marked";
-import { markedHighlight } from "marked-highlight";
-import hljs from "highlight.js";
 
 import { format } from "date-fns";
 import PageModal from "@/components/PageModal";
