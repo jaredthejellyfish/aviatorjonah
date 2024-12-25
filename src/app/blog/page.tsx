@@ -27,7 +27,7 @@ const POSTS_QUERY = `*[
   "categories": categories[]->title
 } | order(publishedAt desc)`;
 
-const options = { next: { revalidate: 0 } };
+const options = { next: { revalidate: 60 } };
 
 type PostWithImageUrl = {
 	id: string;
