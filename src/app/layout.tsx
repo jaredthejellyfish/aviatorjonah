@@ -7,7 +7,7 @@ import ClerkProviderWrapper from "@/providers/ClerkProvider";
 import QueryProvider from "@/providers/query-provider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "@/components/ui/sonner";
-import { SyncActiveOrganization } from "@/components/SyncActiveOrganization";
+import { SyncActiveOrganization } from "@/components/SyncActiveOrganization/SyncActiveOrganization";
 import Hotjar from "@/components/Hotjar";
 import OneDollarStats from "@/components/OneDollarStats";
 import { ErrorBoundary } from "react-error-boundary";
