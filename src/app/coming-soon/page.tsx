@@ -1,4 +1,4 @@
-import { InstagramIcon, LinkedinIcon, TwitterIcon, XIcon } from "lucide-react";
+import { InstagramIcon, LinkedinIcon, TwitterIcon } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 
