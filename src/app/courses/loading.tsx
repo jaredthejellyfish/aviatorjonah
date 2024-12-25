@@ -21,12 +21,12 @@ export default function Loading() {
 					<Input
 						type="text"
 						placeholder="Search courses..."
-						className="w-full pl-10 pr-4 py-2 rounded-full border-2 border-indigo-200 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-white dark:bg-neutral-800 dark:border-neutral-700 dark:focus:border-indigo-400"
+						className="w-full pl-10 pr-4 py-2 rounded-full border-2 border-aviatorjonah-200 focus:border-aviatorjonah-500 focus:ring focus:ring-aviatorjonah-200 focus:ring-opacity-50 bg-white dark:bg-neutral-800 dark:border-neutral-700 dark:focus:border-aviatorjonah-400"
 					/>
-					<Search className="h-5 w-5 text-indigo-500 absolute left-3 top-1/2 transform -translate-y-1/2" />
+					<Search className="h-5 w-5 text-aviatorjonah-500 absolute left-3 top-1/2 transform -translate-y-1/2" />
 				</div>
 				<Select>
-					<SelectTrigger className="w-full md:w-[200px] rounded-full border-2 border-indigo-200 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-white dark:bg-neutral-800 dark:border-neutral-700 dark:focus:border-indigo-400">
+					<SelectTrigger className="w-full md:w-[200px] rounded-full border-2 border-aviatorjonah-200 focus:border-aviatorjonah-500 focus:ring focus:ring-aviatorjonah-200 focus:ring-opacity-50 bg-white dark:bg-neutral-800 dark:border-neutral-700 dark:focus:border-aviatorjonah-400">
 						<SelectValue placeholder=" " />
 					</SelectTrigger>
 					<SelectContent>
@@ -42,7 +42,7 @@ export default function Loading() {
 					</SelectContent>
 				</Select>
 				<Select>
-					<SelectTrigger className="w-full md:w-[200px] rounded-full border-2 border-indigo-200 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-white dark:bg-neutral-800 dark:border-neutral-700 dark:focus:border-indigo-400">
+					<SelectTrigger className="w-full md:w-[200px] rounded-full border-2 border-aviatorjonah-200 focus:border-aviatorjonah-500 focus:ring focus:ring-aviatorjonah-200 focus:ring-opacity-50 bg-white dark:bg-neutral-800 dark:border-neutral-700 dark:focus:border-aviatorjonah-400">
 						<SelectValue placeholder=" " />
 					</SelectTrigger>
 					<SelectContent>

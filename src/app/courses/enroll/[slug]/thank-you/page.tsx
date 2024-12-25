@@ -112,7 +112,7 @@ export default async function EnrollmentSuccess({
 					</span>
 				</Link>
 				<ChevronRight className="h-4 w-4 text-neutral-600 dark:text-neutral-400" />
-				<span className="text-md text-indigo-600 dark:text-indigo-400">
+				<span className="text-md text-aviatorjonah-600 dark:text-aviatorjonah-400">
 					Enrollment Success
 				</span>
 			</div>
@@ -132,12 +132,12 @@ export default async function EnrollmentSuccess({
 							</div>
 						</div>
 						<CardContent className="pt-6">
-							<h2 className="text-2xl font-semibold mb-4 text-indigo-600 dark:text-indigo-400">
+							<h2 className="text-2xl font-semibold mb-4 text-aviatorjonah-600 dark:text-aviatorjonah-400">
 								Next Steps
 							</h2>
 							<ol className="space-y-4 mb-6">
 								<li className="flex items-start space-x-3">
-									<div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold">
+									<div className="flex-shrink-0 w-8 h-8 rounded-full bg-aviatorjonah-100 dark:bg-aviatorjonah-900 flex items-center justify-center text-aviatorjonah-600 dark:text-aviatorjonah-400 font-bold">
 										1
 									</div>
 									<div>
@@ -151,7 +151,7 @@ export default async function EnrollmentSuccess({
 									</div>
 								</li>
 								<li className="flex items-start space-x-3">
-									<div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold">
+									<div className="flex-shrink-0 w-8 h-8 rounded-full bg-aviatorjonah-100 dark:bg-aviatorjonah-900 flex items-center justify-center text-aviatorjonah-600 dark:text-aviatorjonah-400 font-bold">
 										2
 									</div>
 									<div>
@@ -165,7 +165,7 @@ export default async function EnrollmentSuccess({
 									</div>
 								</li>
 								<li className="flex items-start space-x-3">
-									<div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold">
+									<div className="flex-shrink-0 w-8 h-8 rounded-full bg-aviatorjonah-100 dark:bg-aviatorjonah-900 flex items-center justify-center text-aviatorjonah-600 dark:text-aviatorjonah-400 font-bold">
 										3
 									</div>
 									<div>
@@ -179,7 +179,7 @@ export default async function EnrollmentSuccess({
 							</ol>
 							<div className="flex space-x-4">
 								<Button
-									className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white"
+									className="flex-1 bg-aviatorjonah-600 hover:bg-aviatorjonah-700 text-white"
 									asChild
 								>
 									<Link href={`/course/${course.slug}`}>Go to Course</Link>
@@ -220,7 +220,7 @@ export default async function EnrollmentSuccess({
 							<div className="mt-6">
 								<Link
 									href={`/courses/view/${course.slug}`}
-									className="inline-flex items-center space-x-2 text-indigo-600 dark:text-indigo-400 hover:underline"
+									className="inline-flex items-center space-x-2 text-aviatorjonah-600 dark:text-aviatorjonah-400 hover:underline"
 								>
 									<span>View Course Outline</span>
 									<ArrowRight className="h-4 w-4" />

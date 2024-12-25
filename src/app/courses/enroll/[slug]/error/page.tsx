@@ -54,7 +54,7 @@ export default async function Component({ params }: Props) {
 					</span>
 				</Link>
 				<ChevronRight className="h-4 w-4 text-neutral-600 dark:text-neutral-400" />
-				<span className="text-md text-indigo-600 dark:text-indigo-400">
+				<span className="text-md text-aviatorjonah-600 dark:text-aviatorjonah-400">
 					Enrollment Error
 				</span>
 			</div>
@@ -87,7 +87,7 @@ export default async function Component({ params }: Props) {
 										slug: course.slug ?? "",
 									}}
 									buttonStyles={
-										"bg-indigo-600 hover:bg-indigo-700 text-white mb-0"
+										"bg-aviatorjonah-600 hover:bg-aviatorjonah-700 text-white mb-0"
 									}
 									enrolled={false}
 									buttonText={"Try Enrolling Again"}
@@ -100,7 +100,7 @@ export default async function Component({ params }: Props) {
 						</CardContent>
 					</Card>
 
-					<h3 className="text-2xl font-semibold mb-4 text-indigo-600 dark:text-indigo-400">
+					<h3 className="text-2xl font-semibold mb-4 text-aviatorjonah-600 dark:text-aviatorjonah-400">
 						Troubleshooting Steps
 					</h3>
 					<Accordion type="single" collapsible className="w-full mb-8">
@@ -132,7 +132,7 @@ export default async function Component({ params }: Props) {
 						</AccordionItem>
 					</Accordion>
 
-					<h3 className="text-2xl font-semibold mb-4 text-indigo-600 dark:text-indigo-400">
+					<h3 className="text-2xl font-semibold mb-4 text-aviatorjonah-600 dark:text-aviatorjonah-400">
 						Contact Support
 					</h3>
 					<Card className="bg-white dark:bg-neutral-900 shadow-xl">
@@ -167,7 +167,7 @@ export default async function Component({ params }: Props) {
 								</div>
 								<Button
 									type="submit"
-									className="w-full bg-indigo-600 hover:bg-indigo-700 text-white"
+									className="w-full bg-aviatorjonah-600 hover:bg-aviatorjonah-700 text-white"
 								>
 									Submit Support Request
 								</Button>
@@ -208,7 +208,7 @@ export default async function Component({ params }: Props) {
 								<li>
 									<Link
 										href="/faq"
-										className="flex items-center space-x-2 text-indigo-600 dark:text-indigo-400 hover:underline"
+										className="flex items-center space-x-2 text-aviatorjonah-600 dark:text-aviatorjonah-400 hover:underline"
 									>
 										<HelpCircle className="h-5 w-5" />
 										<span>Frequently Asked Questions</span>
@@ -217,7 +217,7 @@ export default async function Component({ params }: Props) {
 								<li>
 									<Link
 										href="/enrollment-guide"
-										className="flex items-center space-x-2 text-indigo-600 dark:text-indigo-400 hover:underline"
+										className="flex items-center space-x-2 text-aviatorjonah-600 dark:text-aviatorjonah-400 hover:underline"
 									>
 										<ArrowRight className="h-5 w-5" />
 										<span>Enrollment Guide</span>
@@ -226,7 +226,7 @@ export default async function Component({ params }: Props) {
 								<li>
 									<Link
 										href="/system-status"
-										className="flex items-center space-x-2 text-indigo-600 dark:text-indigo-400 hover:underline"
+										className="flex items-center space-x-2 text-aviatorjonah-600 dark:text-aviatorjonah-400 hover:underline"
 									>
 										<AlertCircle className="h-5 w-5" />
 										<span>System Status</span>

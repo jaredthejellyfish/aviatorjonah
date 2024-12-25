@@ -37,7 +37,7 @@ export default function UnauthorizedPage() {
 				<Card className="max-w-2xl mx-auto bg-white dark:bg-neutral-800 border-none shadow-lg">
 					<CardContent className="p-6 sm:p-8">
 						<motion.div variants={itemVariants} className="space-y-4">
-							<Lock className="mx-auto h-12 w-12 text-indigo-600 dark:text-indigo-400" />
+							<Lock className="mx-auto h-12 w-12 text-aviatorjonah-600 dark:text-aviatorjonah-400" />
 							<h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter text-neutral-800 dark:text-neutral-200">
 								Unauthorized Access
 							</h1>
@@ -51,7 +51,7 @@ export default function UnauthorizedPage() {
 							<Button
 								asChild
 								size="lg"
-								className="bg-indigo-600 text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"
+								className="bg-aviatorjonah-600 text-white hover:bg-aviatorjonah-700 dark:bg-aviatorjonah-500 dark:hover:bg-aviatorjonah-600"
 							>
 								<Link href="/">
 									<ArrowLeft className="mr-2 h-4 w-4" />

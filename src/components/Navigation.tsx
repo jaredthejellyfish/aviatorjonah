@@ -5,7 +5,7 @@ import { SignedOut } from "@clerk/nextjs";
 import { Plane } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UserButton } from "@clerk/nextjs";
 import { SignedIn } from "@clerk/nextjs";
 import { ModeToggle } from "./ThemeToggle";
@@ -19,7 +19,7 @@ function Navigation() {
 	const pathname = usePathname();
 
 	// Add effect to handle body scroll
-	React.useEffect(() => {
+	useEffect(() => {
 		if (isOpen) {
 			document.body.style.overflow = "hidden";
 		} else {
@@ -47,8 +47,8 @@ function Navigation() {
 					suppressHydrationWarning
 				>
 					<Link className="flex items-center shrink-0" href="/">
-						<Plane className="h-6 w-6 sm:h-8 sm:w-8 mr-2 text-indigo-600 dark:text-indigo-400" />
-						<span className="font-bold text-lg sm:text-xl text-indigo-600 dark:text-indigo-400">
+						<Plane className="h-6 w-6 sm:h-8 sm:w-8 mr-2 text-aviatorjonah-700 dark:text-aviatorjonah-400" />
+						<span className="font-bold text-lg sm:text-xl text-aviatorjonah-700 dark:text-aviatorjonah-400">
 							AviatorJonah
 						</span>
 					</Link>
@@ -58,8 +58,8 @@ function Navigation() {
 								<Link
 									className={`text-sm font-medium transition-colors hidden sm:inline-block ${
 										isActivePath("/admin")
-											? "text-indigo-600 dark:text-indigo-400"
-											: "hover:text-indigo-600 dark:hover:text-indigo-400"
+											? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
+											: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
 									}`}
 									href="/admin"
 								>
@@ -70,8 +70,8 @@ function Navigation() {
 								<Link
 									className={`text-sm font-medium transition-colors hidden sm:inline-block ${
 										isActivePath("/content-studio")
-											? "text-indigo-600 dark:text-indigo-400"
-											: "hover:text-indigo-600 dark:hover:text-indigo-400"
+											? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
+											: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
 									}`}
 									href="/content-studio"
 								>
@@ -81,8 +81,8 @@ function Navigation() {
 							<Link
 								className={`text-sm font-medium transition-colors hidden sm:inline-block ${
 									isActivePath("/dashboard")
-										? "text-indigo-600 dark:text-indigo-400"
-										: "hover:text-indigo-600 dark:hover:text-indigo-400"
+										? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
+										: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
 								}`}
 								href="/dashboard"
 							>
@@ -92,8 +92,8 @@ function Navigation() {
 						<Link
 							className={`text-sm font-medium transition-colors hidden sm:inline-block ${
 								isActivePath("/courses")
-									? "text-indigo-600 dark:text-indigo-400"
-									: "hover:text-indigo-600 dark:hover:text-indigo-400"
+									? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
+									: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
 							}`}
 							href="/courses"
 						>
@@ -102,8 +102,8 @@ function Navigation() {
 						<Link
 							className={`text-sm font-medium transition-colors hidden sm:inline-block ${
 								isActivePath("/blog")
-									? "text-indigo-600 dark:text-indigo-400"
-									: "hover:text-indigo-600 dark:hover:text-indigo-400"
+									? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
+									: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
 							}`}
 							href="/blog"
 						>
@@ -114,7 +114,7 @@ function Navigation() {
 						</SignedIn>
 						<SignedOut>
 							<SignInButton mode="modal">
-								<Button className="bg-indigo-600 text-white hover:bg-indigo-700">
+								<Button className="bg-aviatorjonah-700 text-white hover:bg-aviatorjonah-700">
 									Login
 								</Button>
 							</SignInButton>
@@ -151,8 +151,8 @@ function Navigation() {
 								<Link
 									className={`text-base font-medium transition-colors ${
 										isActivePath("/courses")
-											? "text-indigo-600 dark:text-indigo-400"
-											: "hover:text-indigo-600 dark:hover:text-indigo-400"
+											? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
+											: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
 									}`}
 									href="/courses"
 									onClick={() => setIsOpen(false)}
@@ -162,8 +162,8 @@ function Navigation() {
 								<Link
 									className={`text-base font-medium transition-colors ${
 										isActivePath("/blog")
-											? "text-indigo-600 dark:text-indigo-400"
-											: "hover:text-indigo-600 dark:hover:text-indigo-400"
+											? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
+											: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
 									}`}
 									href="/blog"
 									onClick={() => setIsOpen(false)}
@@ -174,8 +174,8 @@ function Navigation() {
 									<Link
 										className={`text-base font-medium transition-colors ${
 											isActivePath("/dashboard")
-												? "text-indigo-600 dark:text-indigo-400"
-												: "hover:text-indigo-600 dark:hover:text-indigo-400"
+												? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
+												: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
 										}`}
 										href="/dashboard"
 										onClick={() => setIsOpen(false)}
@@ -187,8 +187,8 @@ function Navigation() {
 										<Link
 											className={`text-base font-medium transition-colors ${
 												isActivePath("/admin")
-													? "text-indigo-600 dark:text-indigo-400"
-													: "hover:text-indigo-600 dark:hover:text-indigo-400"
+													? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
+													: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
 											}`}
 											href="/admin"
 											onClick={() => setIsOpen(false)}
@@ -200,8 +200,8 @@ function Navigation() {
 										<Link
 											className={`text-base font-medium transition-colors ${
 												isActivePath("/content-studio")
-													? "text-indigo-600 dark:text-indigo-400"
-													: "hover:text-indigo-600 dark:hover:text-indigo-400"
+													? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
+													: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
 											}`}
 											href="/content-studio"
 											onClick={() => setIsOpen(false)}

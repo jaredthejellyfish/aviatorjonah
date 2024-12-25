@@ -196,7 +196,7 @@ const CourseTable = ({
 													size="sm"
 													className={`transition-all duration-200 ${
 														enrolledCourse.totalProgress === 0
-															? "bg-indigo-600 hover:bg-indigo-700"
+															? "bg-aviatorjonah-600 hover:bg-aviatorjonah-700"
 															: "bg-green-600 hover:bg-green-700"
 													} text-white space-x-2 min-w-[120px]`}
 													asChild

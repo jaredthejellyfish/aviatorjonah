@@ -36,7 +36,7 @@ export default function RecommendedArticles({
 					/>
 					<div className="absolute inset-0 bg-black bg-opacity-60 transition-opacity hover:bg-opacity-75">
 						<div className="absolute bottom-0 left-0 right-0 p-4">
-							<span className="text-xs font-semibold text-blue-300 uppercase tracking-wider">
+							<span className="text-xs font-semibold text-aviatorjonah-300 uppercase tracking-wider">
 								{article.categories.join(", ")}
 							</span>
 							<h3 className="text-lg md:text-xl font-bold text-white mt-2 mb-2">

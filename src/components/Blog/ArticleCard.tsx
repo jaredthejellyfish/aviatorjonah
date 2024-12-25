@@ -44,7 +44,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
 					<div className="absolute bottom-0 left-0 right-0 p-4 z-10 opacity-100">
 						{article.categories && (
 							<motion.span
-								className="text-xs font-semibold text-blue-300 uppercase tracking-wider"
+								className="text-xs font-semibold text-aviatorjonah-300 uppercase tracking-wider"
 								initial={{ opacity: 0, y: 10 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ delay: 0.1 }}

@@ -33,7 +33,7 @@ export default async function RecentSalesWidget() {
 					<HoverCard>
 						<HoverCardTrigger asChild>
 							<div className="ml-4 space-y-1 cursor-pointer">
-								<p className="text-sm font-medium leading-none group-hover:text-blue-600">
+								<p className="text-sm font-medium leading-none group-hover:text-aviatorjonah-600">
 									{sale.billing_details?.email}
 								</p>
 								<p className="text-xs text-muted-foreground">
@@ -65,7 +65,7 @@ export default async function RecentSalesWidget() {
 								>
 									<Button
 										variant="outline"
-										className="w-full hover:bg-blue-50 hover:text-blue-600 transition-colors"
+										className="w-full hover:bg-aviatorjonah-50 hover:text-aviatorjonah-600 transition-colors"
 									>
 										View Receipt
 									</Button>

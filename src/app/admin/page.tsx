@@ -128,7 +128,7 @@ export default async function AdminDashboardPage() {
 								<span>User engagement up by 12%</span>
 							</li>
 							<li className="flex items-center space-x-2">
-								<Users className="h-5 w-5 text-blue-500" />
+								<Users className="h-5 w-5 text-aviatorjonah-500" />
 								<span>5 new instructor applications</span>
 							</li>
 						</ul>

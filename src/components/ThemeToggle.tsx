@@ -58,7 +58,7 @@ export function ModeToggle({ className }: { className?: string }) {
 				transition={{ duration: 0.4, ease: "easeInOut" }}
 				className="absolute"
 			>
-				<Moon className="h-5 w-5 text-blue-500" />
+				<Moon className="h-5 w-5 text-aviatorjonah-500" />
 			</motion.div>
 		</motion.button>
 	);

@@ -88,7 +88,7 @@ export default function LandingPage() {
 							<motion.div variants={itemVariants} className="space-y-4">
 								<h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-neutral-900 dark:text-white">
 									Elevate Your Learning with{" "}
-									<span className="text-indigo-600 dark:text-indigo-400">
+									<span className="text-aviatorjonah-600 dark:text-aviatorjonah-400">
 										AviatorJonah
 									</span>
 								</h1>
@@ -104,7 +104,7 @@ export default function LandingPage() {
 								<Button
 									asChild
 									size="lg"
-									className="bg-indigo-600 hover:bg-indigo-700 text-white"
+									className="bg-aviatorjonah-600 hover:bg-aviatorjonah-700 text-white"
 								>
 									<Link href="/courses" className="flex items-center gap-2">
 										Explore Courses
@@ -121,7 +121,7 @@ export default function LandingPage() {
 										: scrollToTop()
 								}
 								className={cn(
-									"h-10 w-10 text-indigo-500 transition-all duration-300 cursor-pointer",
+									"h-10 w-10 text-aviatorjonah-500 transition-all duration-300 cursor-pointer",
 									isScrolled && "rotate-180 scale-90",
 								)}
 							/>
@@ -142,7 +142,7 @@ export default function LandingPage() {
 					>
 						<motion.h2
 							variants={itemVariants}
-							className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter text-center mb-8 sm:mb-12 bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-500"
+							className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter text-center mb-8 sm:mb-12 bg-clip-text text-transparent bg-gradient-to-r from-aviatorjonah-500 to-purple-500"
 						>
 							Popular Courses
 						</motion.h2>
@@ -152,7 +152,7 @@ export default function LandingPage() {
 					</motion.div>
 				</section>
 
-				<section className="w-full py-8 sm:py-12 md:py-16 lg:py-24 bg-gradient-to-b from-indigo-50 to-white dark:from-neutral-900 dark:to-neutral-800">
+				<section className="w-full py-8 sm:py-12 md:py-16 lg:py-24 bg-gradient-to-b from-aviatorjonah-50 to-white dark:from-neutral-900 dark:to-neutral-800">
 					<motion.div
 						variants={containerVariants}
 						initial="hidden"
@@ -162,7 +162,7 @@ export default function LandingPage() {
 					>
 						<motion.h2
 							variants={itemVariants}
-							className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter text-center mb-8 sm:mb-12 bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-500"
+							className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter text-center mb-8 sm:mb-12 bg-clip-text text-transparent bg-gradient-to-r from-aviatorjonah-500 to-purple-500"
 						>
 							What Our Learners Say
 						</motion.h2>
@@ -175,7 +175,7 @@ export default function LandingPage() {
 											online learning. The interface is intuitive, and the
 											course content is top-notch.&quot;
 										</p>
-										<p className="text-sm sm:text-base font-semibold text-indigo-600 dark:text-indigo-400">
+										<p className="text-sm sm:text-base font-semibold text-aviatorjonah-600 dark:text-aviatorjonah-400">
 											- Sarah K., Software Developer
 										</p>
 									</CardContent>
@@ -222,7 +222,7 @@ export default function LandingPage() {
 				<div className="container mx-auto px-4 md:px-6">
 					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 						<div>
-							<h3 className="text-lg font-semibold text-indigo-600 dark:text-indigo-400 mb-4">
+							<h3 className="text-lg font-semibold text-aviatorjonah-600 dark:text-aviatorjonah-400 mb-4">
 								About Us
 							</h3>
 							<p className="text-sm text-neutral-600 dark:text-neutral-400">
@@ -231,7 +231,7 @@ export default function LandingPage() {
 							</p>
 						</div>
 						<div>
-							<h3 className="text-lg font-semibold text-indigo-600 dark:text-indigo-400 mb-4">
+							<h3 className="text-lg font-semibold text-aviatorjonah-600 dark:text-aviatorjonah-400 mb-4">
 								Quick Links
 							</h3>
 							<ul className="space-y-2">
@@ -239,7 +239,7 @@ export default function LandingPage() {
 									<li key={item}>
 										<Link
 											href={`/${item.toLowerCase()}`}
-											className="text-sm text-neutral-600 hover:text-indigo-600 dark:text-neutral-400 dark:hover:text-indigo-400 transition-colors"
+											className="text-sm text-neutral-600 hover:text-aviatorjonah-600 dark:text-neutral-400 dark:hover:text-aviatorjonah-400 transition-colors"
 										>
 											{item}
 										</Link>
@@ -248,7 +248,7 @@ export default function LandingPage() {
 							</ul>
 						</div>
 						<div>
-							<h3 className="text-lg font-semibold text-indigo-600 dark:text-indigo-400 mb-4">
+							<h3 className="text-lg font-semibold text-aviatorjonah-600 dark:text-aviatorjonah-400 mb-4">
 								Legal
 							</h3>
 							<ul className="space-y-2">
@@ -257,7 +257,7 @@ export default function LandingPage() {
 										<li key={item}>
 											<Link
 												href={`/${item.toLowerCase().replace(/ /g, "-")}`}
-												className="text-sm text-neutral-600 hover:text-indigo-600 dark:text-neutral-400 dark:hover:text-indigo-400 transition-colors"
+												className="text-sm text-neutral-600 hover:text-aviatorjonah-600 dark:text-neutral-400 dark:hover:text-aviatorjonah-400 transition-colors"
 											>
 												{item}
 											</Link>
@@ -267,7 +267,7 @@ export default function LandingPage() {
 							</ul>
 						</div>
 						<div>
-							<h3 className="text-lg font-semibold text-indigo-600 dark:text-indigo-400 mb-4">
+							<h3 className="text-lg font-semibold text-aviatorjonah-600 dark:text-aviatorjonah-400 mb-4">
 								Newsletter
 							</h3>
 							<p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
@@ -277,7 +277,7 @@ export default function LandingPage() {
 								<input
 									type="email"
 									placeholder="Your email"
-									className="flex-grow px-3 py-2 text-sm text-neutral-900 bg-white border border-neutral-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-neutral-700 dark:text-neutral-100 dark:border-neutral-600"
+									className="flex-grow px-3 py-2 text-sm text-neutral-900 bg-white border border-neutral-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-aviatorjonah-500 dark:bg-neutral-700 dark:text-neutral-100 dark:border-neutral-600"
 								/>
 								<Button type="submit" className="rounded-l-none">
 									Subscribe
