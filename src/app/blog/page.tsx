@@ -1,6 +1,13 @@
 import ArticleCard from "@/components/Blog/ArticleCard";
 import RecommendedArticles from "@/components/Blog/RecommendedArticles";
 import { client } from "@/utils/sanity/client";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: "AviatorJonah | Blog",
+	description:
+		"Explore the latest insights and stories from AviatorJonah's blog, covering a wide range of topics and interests.",
+};
 
 const POSTS_QUERY = `*[
   _type == "post" 

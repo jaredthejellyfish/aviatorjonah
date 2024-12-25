@@ -7,7 +7,27 @@ import { Button } from "@/components/ui/button";
 import { client } from "@/utils/sanity/client";
 import PlaceHolderImage from "@/public/placeholder.svg";
 import { PortableText } from "next-sanity";
-// Sample data (in a real app, this would come from your database)
+
+export async function generateMetadata({
+	params,
+}: { params: Promise<{ slug: string }> }) {
+	const slug = (await params).slug;
+	const article = await client.fetch<PostWithImageUrl>(
+		POST_QUERY,
+		{ slug },
+		options,
+	);
+
+	return {
+		title: `AviatorJonah | ${article.title}`,
+		description: article.excerpt,
+		openGraph: {
+			title: article.title,
+			description: article.excerpt,
+			images: [article.imageUrl],
+		},
+	};
+}
 
 const POST_QUERY = `*[
   _type == "post" 
@@ -103,7 +123,9 @@ export default async function ArticlePage({
 					</div>
 					<div className="p-8 ">
 						<div className="prose dark:prose-invert max-w-none prose-headings:text-primary prose-a:text-primary hover:prose-a:text-primary/80 prose-img:rounded-lg prose-pre:bg-neutral-100 dark:prose-pre:bg-neutral-900">
-						{Array.isArray(article.body) && <PortableText value={article.body} />}
+							{Array.isArray(article.body) && (
+								<PortableText value={article.body} />
+							)}
 						</div>
 					</div>
 				</article>
