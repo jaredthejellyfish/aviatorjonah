@@ -20,6 +20,7 @@ import { Progress } from "@/components/ui/progress";
 import CourseTable from "@/components/Dashboard/courses-table";
 import { getDashboardData } from "@/utils/helpers/getDashboardData";
 import { Metadata } from "next";
+import OrgDisplay from "@/components/OrgDisplay";
 
 export const dynamic = "force-dynamic";
 
@@ -40,6 +41,7 @@ export default async function CoursesDashboard() {
 
 	return (
 		<main className="container mx-auto px-4 py-8 space-y-8">
+			<OrgDisplay />
 			<header className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
 				<div>
 					<h1 className="text-4xl font-bold text-primary">
