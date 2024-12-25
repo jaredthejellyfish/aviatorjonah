@@ -172,7 +172,7 @@ async function CoursePage({ params }: Props) {
 					>
 						<div
 							dangerouslySetInnerHTML={{
-								__html: marked(content),
+								__html: await marked(content),
 							}}
 						/>
 					</ErrorBoundary>

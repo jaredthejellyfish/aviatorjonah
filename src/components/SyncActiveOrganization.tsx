@@ -10,10 +10,8 @@ export async function SyncActiveOrganization({}) {
 	const { sessionClaims } = await auth();
 
 	return (
-		<ErrorBoundary fallback={null}>
-			<SyncActiveOrganizationClient
-				membership={sessionClaims?.membership as Record<string, string>}
-			/>
-		</ErrorBoundary>
+		<SyncActiveOrganizationClient
+			membership={sessionClaims?.membership as Record<string, string>}
+		/>
 	);
 }

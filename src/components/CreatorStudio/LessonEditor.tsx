@@ -270,7 +270,8 @@ const LessonEditor: React.FC<LessonEditorProps> = ({
 	const parsedContent = useCallback(() => {
 		try {
 			const renderer = new marked.Renderer();
-			return { __html: marked(content, { renderer }) };
+			const html = marked(content, { renderer });
+			return { __html: html as string };
 		} catch (error) {
 			console.error("Markdown parsing error:", error);
 			return { __html: "<p>Error parsing markdown content</p>" };

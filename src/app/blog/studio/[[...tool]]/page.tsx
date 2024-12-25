@@ -14,6 +14,6 @@ export const dynamic = 'force-static'
 
 export { metadata, viewport } from 'next-sanity/studio'
 
-export default function StudioPage() {
+export default async function StudioPage() {
   return <NextStudio config={config} />
 }
