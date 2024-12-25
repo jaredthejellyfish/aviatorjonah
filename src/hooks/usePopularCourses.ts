@@ -12,5 +12,11 @@ export const usePopularCourses = (enabled: boolean = true) => {
 			return response.json() as Promise<Course[]>;
 		},
 		enabled,
+		staleTime: Infinity,
+		refetchOnMount: false,
+		refetchOnWindowFocus: false,
+		refetchOnReconnect: false,
+		refetchInterval: 1000 * 60 * 60 * 24, // 24 hours
+		refetchIntervalInBackground: false,
 	});
 };
