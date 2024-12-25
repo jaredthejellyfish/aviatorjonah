@@ -5,12 +5,17 @@ const isProtectedRoute = createRouteMatcher([
 	"/forum(.*)",
 	"/dashboard(.*)",
 	"/course(.*)",
+
 ]);
 
 const isCourseRoute = createRouteMatcher(["/courses(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {
 	const { userId } = await auth();
+
+	if (req.nextUrl.pathname !== "/coming-soon" && !userId) {
+		return NextResponse.redirect(new URL("/coming-soon", req.url));
+	}
 
 	if (isCourseRoute(req)) {
 		return NextResponse.next();
