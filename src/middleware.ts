@@ -13,7 +13,7 @@ const isCourseRoute = createRouteMatcher(["/courses(.*)"]);
 export default clerkMiddleware(async (auth, req) => {
 	const { userId } = await auth();
 
-	if (req.nextUrl.pathname !== "/coming-soon" && !userId) {
+	if (req.nextUrl.pathname !== "/coming-soon" && !userId && req.nextUrl.pathname !== "/earth.jpg") {
 		return NextResponse.redirect(new URL("/coming-soon", req.url));
 	}
 
