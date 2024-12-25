@@ -5,7 +5,6 @@ const isProtectedRoute = createRouteMatcher([
 	"/forum(.*)",
 	"/dashboard(.*)",
 	"/course(.*)",
-
 ]);
 
 const isCourseRoute = createRouteMatcher(["/courses(.*)"]);
