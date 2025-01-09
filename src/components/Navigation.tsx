@@ -12,7 +12,8 @@ import { ModeToggle } from "./ThemeToggle";
 import { Button } from "./ui/button";
 import { Squash as Hamburger } from "hamburger-react";
 import { usePathname } from "next/navigation";
-import ProtectClient from "./ProtectClient";
+import ProtectClient from "./ProtectClient"; 
+
 
 function Navigation() {
 	const [isOpen, setIsOpen] = useState(false);
@@ -56,11 +57,10 @@ function Navigation() {
 						<SignedIn>
 							<ProtectClient orgSlug="admins">
 								<Link
-									className={`text-sm font-medium transition-colors hidden sm:inline-block ${
-										isActivePath("/admin")
+									className={`text-sm font-medium transition-colors hidden sm:inline-block ${isActivePath("/admin")
 											? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
 											: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
-									}`}
+										}`}
 									href="/admin"
 								>
 									Admin
@@ -68,43 +68,39 @@ function Navigation() {
 							</ProtectClient>
 							<ProtectClient orgSlug={["content-creators", "admins"]}>
 								<Link
-									className={`text-sm font-medium transition-colors hidden sm:inline-block ${
-										isActivePath("/content-studio")
+									className={`text-sm font-medium transition-colors hidden sm:inline-block ${isActivePath("/content-studio")
 											? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
 											: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
-									}`}
+										}`}
 									href="/content-studio"
 								>
 									Content Studio
 								</Link>
 							</ProtectClient>
 							<Link
-								className={`text-sm font-medium transition-colors hidden sm:inline-block ${
-									isActivePath("/dashboard")
+								className={`text-sm font-medium transition-colors hidden sm:inline-block ${isActivePath("/dashboard")
 										? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
 										: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
-								}`}
+									}`}
 								href="/dashboard"
 							>
 								Dashboard
 							</Link>
 						</SignedIn>
 						<Link
-							className={`text-sm font-medium transition-colors hidden sm:inline-block ${
-								isActivePath("/courses")
+							className={`text-sm font-medium transition-colors hidden sm:inline-block ${isActivePath("/courses")
 									? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
 									: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
-							}`}
+								}`}
 							href="/courses"
 						>
 							Courses
 						</Link>
 						<Link
-							className={`text-sm font-medium transition-colors hidden sm:inline-block ${
-								isActivePath("/blog")
+							className={`text-sm font-medium transition-colors hidden sm:inline-block ${isActivePath("/blog")
 									? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
 									: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
-							}`}
+								}`}
 							href="/blog"
 						>
 							Blog
@@ -149,22 +145,20 @@ function Navigation() {
 						<div className="container mx-auto py-4 px-4">
 							<nav className="flex flex-col gap-6 bg-white dark:bg-neutral-900 rounded-lg p-6">
 								<Link
-									className={`text-base font-medium transition-colors ${
-										isActivePath("/courses")
+									className={`text-base font-medium transition-colors ${isActivePath("/courses")
 											? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
 											: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
-									}`}
+										}`}
 									href="/courses"
 									onClick={() => setIsOpen(false)}
 								>
 									Courses
 								</Link>
 								<Link
-									className={`text-base font-medium transition-colors ${
-										isActivePath("/blog")
+									className={`text-base font-medium transition-colors ${isActivePath("/blog")
 											? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
 											: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
-									}`}
+										}`}
 									href="/blog"
 									onClick={() => setIsOpen(false)}
 								>
@@ -172,11 +166,10 @@ function Navigation() {
 								</Link>
 								<SignedIn>
 									<Link
-										className={`text-base font-medium transition-colors ${
-											isActivePath("/dashboard")
+										className={`text-base font-medium transition-colors ${isActivePath("/dashboard")
 												? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
 												: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
-										}`}
+											}`}
 										href="/dashboard"
 										onClick={() => setIsOpen(false)}
 									>
@@ -185,11 +178,10 @@ function Navigation() {
 
 									<ProtectClient orgSlug="admins">
 										<Link
-											className={`text-base font-medium transition-colors ${
-												isActivePath("/admin")
+											className={`text-base font-medium transition-colors ${isActivePath("/admin")
 													? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
 													: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
-											}`}
+												}`}
 											href="/admin"
 											onClick={() => setIsOpen(false)}
 										>
@@ -198,11 +190,10 @@ function Navigation() {
 									</ProtectClient>
 									<ProtectClient orgSlug={["content-creators", "admins"]}>
 										<Link
-											className={`text-base font-medium transition-colors ${
-												isActivePath("/content-studio")
+											className={`text-base font-medium transition-colors ${isActivePath("/content-studio")
 													? "text-aviatorjonah-700 dark:text-aviatorjonah-400"
 													: "hover:text-aviatorjonah-700 dark:hover:text-aviatorjonah-400"
-											}`}
+												}`}
 											href="/content-studio"
 											onClick={() => setIsOpen(false)}
 										>
