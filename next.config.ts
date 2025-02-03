@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
 		reactCompiler: true,
 		optimizePackageImports: ["@radix-ui/react-*", "lucide-react"],
 	},
-	output: process.env.VERCEL ? 'standalone' : undefined,
+	output: !process.env.VERCEL ? 'standalone' : undefined,
 	images: {
 		remotePatterns: [
 			{
